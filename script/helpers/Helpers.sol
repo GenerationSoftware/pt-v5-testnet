@@ -42,7 +42,7 @@ abstract contract Helpers is Script {
   uint256 internal constant ONE_YEAR_IN_SECONDS = 31557600;
 
   address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
-  address internal constant SEPOLIA_DEFENDER_ADDRESS = 0x062bDEdfECFd229cd908371A5683e23224366856;
+  address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
   address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
 
   /* ============ Helpers ============ */
