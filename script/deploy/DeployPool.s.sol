@@ -65,12 +65,11 @@ contract DeployPool is Helpers {
         address(0),
         DRAW_PERIOD_SECONDS,
         firstDrawStartsAt, // drawStartedAt
+        sd1x18(0.9e18), // alpha
+        12,
         uint8(3), // minimum number of tiers
         100,
-        10,
-        10,
-        ud2x18(0.9e18), // claim threshold of 90%
-        sd1x18(0.9e18) // alpha
+        100
       )
     );
 

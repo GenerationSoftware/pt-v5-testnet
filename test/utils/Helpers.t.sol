@@ -32,7 +32,7 @@ contract Helpers is Test {
     address _user
   ) internal returns (uint256) {
     _underlyingAsset.approve(address(_vault), type(uint256).max);
-    return _vault.sponsor(_amount, _user);
+    return _vault.sponsor(_amount);
   }
 
   /* ============ Liquidate ============ */
@@ -60,7 +60,8 @@ contract Helpers is Test {
       _liquidationPair,
       _user,
       _yield,
-      maxPrizeTokenContributed
+      maxPrizeTokenContributed,
+      block.timestamp + 100
     );
   }
 
@@ -99,7 +100,8 @@ contract Helpers is Test {
       _tiers[0],
       _winners,
       _prizeIndices,
-      address(this)
+      address(this),
+      0
     );
 
     return _totalFees;

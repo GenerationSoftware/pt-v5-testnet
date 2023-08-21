@@ -110,12 +110,11 @@ contract ForkBaseSetup is Test {
         address(0),
         drawPeriodSeconds,
         drawStartsAt,
+        sd1x18(0.9e18), // alpha
+        12,
         uint8(3), // minimum number of tiers
         100,
-        10,
-        10,
-        ud2x18(0.9e18), // claim threshold of 90%
-        sd1x18(0.9e18) // alpha
+        100
       )
     );
 
@@ -160,8 +159,8 @@ contract ForkBaseSetup is Test {
       uint32(drawStartsAt),
       uint32(drawPeriodSeconds / 2),
       _decayConstant,
-      uint112(_virtualReserveIn),
-      uint112(_virtualReserveOut),
+      uint104(_virtualReserveIn),
+      uint104(_virtualReserveOut),
       _virtualReserveOut // just make it up
     );
 
