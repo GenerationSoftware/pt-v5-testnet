@@ -5,51 +5,56 @@ import {
   writeList,
 } from "../helpers/generateContractList";
 
-// const ethGoerliStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/5`;
-// const ethGoerliTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/5`;
-// const ethGoerliVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/5`;
+const ethGoerliDeploymentPaths = [
+  `${rootFolder}/broadcast/DeployL1RngAuction.s.sol/5`,
+];
+writeList(generateContractList(ethGoerliDeploymentPaths), "deployments/ethGoerli", "contracts");
 
-// const ethGoerliDeploymentPaths = [
-//   ethGoerliStableTokenDeploymentPath,
-//   ethGoerliTokenDeploymentPath,
-//   `${rootFolder}/broadcast/DeployPool.s.sol/5`,
-//   `${rootFolder}/broadcast/DeployYieldVault.s.sol/5`,
-//   ethGoerliVaultDeploymentPath,
+// const ethSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/11155111`;
+// const ethSepoliaTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/11155111`;
+// const ethSepoliaVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/11155111`;
+
+// const ethSepoliaDeploymentPaths = [
+//   ethSepoliaStableTokenDeploymentPath,
+//   ethSepoliaTokenDeploymentPath,
+//   `${rootFolder}/broadcast/DeployPool.s.sol/11155111`,
+//   `${rootFolder}/broadcast/DeployYieldVault.s.sol/11155111`,
+//   ethSepoliaVaultDeploymentPath,
 // ];
 
-// const ethGoerliTokenDeploymentPaths = [
-//   ethGoerliStableTokenDeploymentPath,
-//   ethGoerliTokenDeploymentPath,
+// const ethSepoliaTokenDeploymentPaths = [
+//   ethSepoliaStableTokenDeploymentPath,
+//   ethSepoliaTokenDeploymentPath,
 // ];
 
-// writeList(generateContractList(ethGoerliDeploymentPaths), "deployments/ethGoerli", "contracts");
+// writeList(generateContractList(ethSepoliaDeploymentPaths), "deployments/ethSepolia", "contracts");
 // writeList(
-//   generateVaultList(ethGoerliVaultDeploymentPath, ethGoerliTokenDeploymentPaths),
-//   "deployments/ethGoerli",
+//   generateVaultList(ethSepoliaVaultDeploymentPath, ethSepoliaTokenDeploymentPaths),
+//   "deployments/ethSepolia",
 //   "vaults"
 // );
 
-const ethSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/11155111`;
-const ethSepoliaTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/11155111`;
-const ethSepoliaVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/11155111`;
+const optimismGoerliStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/420`;
+const optimismGoerliTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/420`;
+const optimismGoerliVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/420`;
 
-const ethSepoliaDeploymentPaths = [
-  ethSepoliaStableTokenDeploymentPath,
-  ethSepoliaTokenDeploymentPath,
-  `${rootFolder}/broadcast/DeployPool.s.sol/11155111`,
-  `${rootFolder}/broadcast/DeployYieldVault.s.sol/11155111`,
-  ethSepoliaVaultDeploymentPath,
+const optimismGoerliDeploymentPaths = [
+  optimismGoerliStableTokenDeploymentPath,
+  optimismGoerliTokenDeploymentPath,
+  `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/420`,
+  `${rootFolder}/broadcast/DeployYieldVault.s.sol/420`,
+  optimismGoerliVaultDeploymentPath,
 ];
 
-const ethSepoliaTokenDeploymentPaths = [
-  ethSepoliaStableTokenDeploymentPath,
-  ethSepoliaTokenDeploymentPath,
+const optimismGoerliTokenDeploymentPaths = [
+  optimismGoerliStableTokenDeploymentPath,
+  optimismGoerliTokenDeploymentPath,
 ];
 
-writeList(generateContractList(ethSepoliaDeploymentPaths), "deployments/ethSepolia", "contracts");
+writeList(generateContractList(optimismGoerliDeploymentPaths), "deployments/optimismGoerli", "contracts");
 writeList(
-  generateVaultList(ethSepoliaVaultDeploymentPath, ethSepoliaTokenDeploymentPaths),
-  "deployments/ethSepolia",
+  generateVaultList(optimismGoerliVaultDeploymentPath, optimismGoerliTokenDeploymentPaths),
+  "deployments/optimismGoerli",
   "vaults"
 );
 
