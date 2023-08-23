@@ -20,11 +20,11 @@ address constant ERC5164_EXECUTOR_GOERLI_OPTIMISM = 0xc5165406dB791549f0D2423D14
 
 // Twab
 // nice round fraction of the draw period
-uint32 constant TWAB_PERIOD_LENGTH = 1 hours; 
+uint32 constant TWAB_PERIOD_LENGTH = 1 hours;
 
 // RngAuctions
 // two auctions should end at the latest halfway through the draw period
-uint64 constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4; 
+uint64 constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4;
 uint64 constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 4;
 
 // Chainlink VRF
@@ -32,23 +32,23 @@ uint32 constant CHAINLINK_CALLBACK_GAS_LIMIT = 1_000_000;
 uint16 constant CHAINLINK_REQUEST_CONFIRMATIONS = 3;
 
 library Constants {
-    function CLAIMER_MAX_FEE_PERCENT() internal view returns (UD2x18) {
-        return ud2x18(0.5e18);
-    }
+  function CLAIMER_MAX_FEE_PERCENT() internal pure returns (UD2x18) {
+    return ud2x18(0.5e18);
+  }
 
-    /// @notice Returns the timestamp of the start of tomorrow.
-    function firstDrawStartsAt() internal view returns (uint64) {
-        uint256 startOfTodayInDays = block.timestamp / 1 days;
-        uint256 startOfTomorrowInSeconds = (startOfTodayInDays + 1) * 1 days;
-        
-        if (startOfTomorrowInSeconds - block.timestamp < MIN_TIME_AHEAD) {
-            startOfTomorrowInSeconds += MIN_TIME_AHEAD;
-        }
-        return uint64(startOfTomorrowInSeconds);
-    }
+  /// @notice Returns the timestamp of the start of tomorrow.
+  function firstDrawStartsAt() internal view returns (uint64) {
+    uint256 startOfTodayInDays = block.timestamp / 1 days;
+    uint256 startOfTomorrowInSeconds = (startOfTodayInDays + 1) * 1 days;
 
-    /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
-    function auctionOffset() internal view returns (uint32) {
-        return uint32(firstDrawStartsAt() - 10 * DRAW_PERIOD_SECONDS);
+    if (startOfTomorrowInSeconds - block.timestamp < MIN_TIME_AHEAD) {
+      startOfTomorrowInSeconds += MIN_TIME_AHEAD;
     }
+    return uint64(startOfTomorrowInSeconds);
+  }
+
+  /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
+  function auctionOffset() internal view returns (uint32) {
+    return uint32(firstDrawStartsAt() - 10 * DRAW_PERIOD_SECONDS);
+  }
 }

@@ -122,7 +122,10 @@ contract ForkBaseSetup is Test {
 
     rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
 
-    chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(rng, IRngAuction(address(rngAuction)));
+    chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(
+      rng,
+      IRngAuction(address(rngAuction))
+    );
 
     prizePool = new PrizePool(
       ConstructorParams(

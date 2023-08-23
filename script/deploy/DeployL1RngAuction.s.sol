@@ -14,22 +14,14 @@ import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { 
-    Constants,
-    DRAW_PERIOD_SECONDS,
-    AUCTION_DURATION,
-    AUCTION_TARGET_SALE_TIME,
-    CHAINLINK_CALLBACK_GAS_LIMIT,
-    CHAINLINK_REQUEST_CONFIRMATIONS
-} from "./Constants.sol";
+import { Constants, DRAW_PERIOD_SECONDS, AUCTION_DURATION, AUCTION_TARGET_SALE_TIME, CHAINLINK_CALLBACK_GAS_LIMIT, CHAINLINK_REQUEST_CONFIRMATIONS } from "./Constants.sol";
 
 contract DeployL1RngAuction is Helpers {
-
   function run() public {
     vm.startBroadcast();
 
     console2.log("constructing rng stuff....");
-    
+
     ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
       address(this), // owner
       _getLinkToken(),
@@ -47,9 +39,8 @@ contract DeployL1RngAuction is Helpers {
       AUCTION_TARGET_SALE_TIME
     );
 
-    ChainlinkVRFV2DirectRngAuctionHelper chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
-
-    RngAuctionRelayerRemoteOwner rngAuctionRelayerDirect = new RngAuctionRelayerRemoteOwner(rngAuction);
+    new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
+    new RngAuctionRelayerRemoteOwner(rngAuction);
 
     vm.stopBroadcast();
   }

@@ -40,3 +40,6 @@
 [submodule "lib/pt-v5-twab-controller"]
 	path = lib/pt-v5-twab-controller
 	url = https://github.com/generationsoftware/pt-v5-twab-controller
+[submodule "lib/pt-v5-twab-delegator"]
+	path = lib/pt-v5-twab-delegator
+	url = https://github.com/GenerationSoftware/pt-v5-twab-delegator

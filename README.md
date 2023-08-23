@@ -96,7 +96,7 @@ First setup npm:
 
 ```
 nvm use
-yarn
+npm i
 ```
 
 ### Local

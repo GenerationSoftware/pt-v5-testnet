@@ -25,27 +25,17 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { 
-    Constants,
-    DRAW_PERIOD_SECONDS,
-    GRAND_PRIZE_PERIOD_DRAWS,
-    TIER_SHARES,
-    RESERVE_SHARES,
-    AUCTION_DURATION,
-    TWAB_PERIOD_LENGTH,
-    AUCTION_TARGET_SALE_TIME,
-    CLAIMER_MAX_FEE,
-    CLAIMER_MIN_FEE,
-    ERC5164_EXECUTOR_GOERLI_OPTIMISM
-} from "./Constants.sol";
+import { Constants, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE, ERC5164_EXECUTOR_GOERLI_OPTIMISM } from "./Constants.sol";
 
 contract DeployL2PrizePool is Helpers {
-
   function run() public {
     vm.startBroadcast();
 
     ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
-    TwabController twabController = new TwabController(TWAB_PERIOD_LENGTH, Constants.auctionOffset());
+    TwabController twabController = new TwabController(
+      TWAB_PERIOD_LENGTH,
+      Constants.auctionOffset()
+    );
 
     console2.log("constructing prize pool....");
 
@@ -66,7 +56,11 @@ contract DeployL2PrizePool is Helpers {
 
     console2.log("constructing auction....");
 
-    RemoteOwner remoteOwner = new RemoteOwner(5, ERC5164_EXECUTOR_GOERLI_OPTIMISM, address(_getL1RngAuctionRelayerRemote()));
+    RemoteOwner remoteOwner = new RemoteOwner(
+      5,
+      ERC5164_EXECUTOR_GOERLI_OPTIMISM,
+      address(_getL1RngAuctionRelayerRemote())
+    );
 
     RngRelayAuction rngRelayAuction = new RngRelayAuction(
       prizePool,
@@ -77,7 +71,13 @@ contract DeployL2PrizePool is Helpers {
 
     prizePool.setDrawManager(address(rngRelayAuction));
 
-    new Claimer(prizePool, CLAIMER_MIN_FEE, CLAIMER_MAX_FEE, DRAW_PERIOD_SECONDS, Constants.CLAIMER_MAX_FEE_PERCENT());
+    new Claimer(
+      prizePool,
+      CLAIMER_MIN_FEE,
+      CLAIMER_MAX_FEE,
+      DRAW_PERIOD_SECONDS,
+      Constants.CLAIMER_MAX_FEE_PERCENT()
+    );
 
     LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
     new LiquidationRouter(liquidationPairFactory);

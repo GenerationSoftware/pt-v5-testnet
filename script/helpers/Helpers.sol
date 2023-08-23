@@ -49,14 +49,17 @@ abstract contract Helpers is Script {
 
   address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
   address internal constant GOERLI_DEFENDER_ADDRESS_2 = 0xe6Cb4266474BBf065A822DFf46031bb16eB71264;
-  address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS = 0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
+  address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS =
+    0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
   address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
   address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
 
   string DEPLOY_POOL_SCRIPT;
 
   constructor() {
-    DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID ? "DeployL2PrizePool.s.sol" : "DeployPool.s.sol";
+    DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID
+      ? "DeployL2PrizePool.s.sol"
+      : "DeployPool.s.sol";
   }
 
   /* ============ Helpers ============ */
@@ -219,7 +222,7 @@ abstract contract Helpers is Script {
         string memory index = vm.toString(j);
 
         string memory _argumentPositionString = vm.toString(_argumentPosition);
-        
+
         if (
           _matches(
             abi.decode(
@@ -230,40 +233,33 @@ abstract contract Helpers is Script {
               (string)
             ),
             "CREATE"
-          )
-          &&
+          ) &&
           _matches(
             abi.decode(
-              stdJson.parseRaw(
-                jsonFile,
-                string.concat(".transactions[", index, "].contractName")
-              ),
+              stdJson.parseRaw(jsonFile, string.concat(".transactions[", index, "].contractName")),
               (string)
             ),
             _contractName
-          )
-          &&
+          ) &&
           _matches(
             abi.decode(
               stdJson.parseRaw(
                 jsonFile,
-                string.concat(
-                  ".transactions[",
-                  index,
-                  "].arguments[",
-                  _argumentPositionString,
-                  "]"
-                )
+                string.concat(".transactions[", index, "].arguments[", _argumentPositionString, "]")
               ),
               (string)
             ),
             _tokenSymbol
           )
         ) {
-          return abi.decode(
-            stdJson.parseRaw(jsonFile, string.concat(".transactions[", index, "].contractAddress")),
-            (address)
-          );
+          return
+            abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(".transactions[", index, "].contractAddress")
+              ),
+              (address)
+            );
         }
       }
     }
@@ -271,7 +267,7 @@ abstract contract Helpers is Script {
     revert(_errorMsg);
   }
 
-  function _matches(string memory a, string memory b) internal view returns (bool) {
+  function _matches(string memory a, string memory b) internal pure returns (bool) {
     return keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b)));
   }
 
@@ -279,7 +275,10 @@ abstract contract Helpers is Script {
     return _getDeployPathWithChainId(_deployPath, block.chainid);
   }
 
-  function _getDeployPathWithChainId(string memory _deployPath, uint256 chainId) internal view returns (string memory) {
+  function _getDeployPathWithChainId(
+    string memory _deployPath,
+    uint256 chainId
+  ) internal pure returns (string memory) {
     return string.concat("/broadcast/", _deployPath, "/", Strings.toString(chainId), "/");
   }
 
@@ -293,9 +292,14 @@ abstract contract Helpers is Script {
   }
 
   function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
-    return RngAuctionRelayer(
-      _getContractAddress("RngAuctionRelayerRemoteOwner", _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID), "rng-auction-relayer-not-found")
-    );
+    return
+      RngAuctionRelayer(
+        _getContractAddress(
+          "RngAuctionRelayerRemoteOwner",
+          _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+          "rng-auction-relayer-not-found"
+        )
+      );
   }
 
   function _getLiquidationPairFactory() internal returns (LiquidationPairFactory) {
@@ -368,37 +372,33 @@ abstract contract Helpers is Script {
       deployPath,
       "vault-not-found"
     );
-    return
-      VaultMintRate(
-        tokenAddress
-      );
+    return VaultMintRate(tokenAddress);
   }
 
   function _getYieldVault(string memory _tokenSymbol) internal returns (YieldVaultMintRate) {
     string memory deployPath = _getDeployPath("DeployYieldVault.s.sol");
     address tokenAddress = _getTokenAddress(
-        "YieldVaultMintRate",
-        _tokenSymbol,
-        2,
-        deployPath,
-        "yield-vault-not-found"
-      );
-    return
-      YieldVaultMintRate(
-        tokenAddress
-      );
+      "YieldVaultMintRate",
+      _tokenSymbol,
+      2,
+      deployPath,
+      "yield-vault-not-found"
+    );
+    return YieldVaultMintRate(tokenAddress);
   }
 
-  function _getLinkToken() internal returns (LinkTokenInterface) {
-    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
+  function _getLinkToken() internal view returns (LinkTokenInterface) {
+    if (block.chainid == GOERLI_CHAIN_ID) {
+      // Goerli Ethereum
       return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
     } else {
       revert("Link token address not set in `_getLinkToken` for this chain.");
     }
   }
 
-  function _getVrfV2Wrapper() internal returns (VRFV2WrapperInterface) {
-    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
+  function _getVrfV2Wrapper() internal view returns (VRFV2WrapperInterface) {
+    if (block.chainid == GOERLI_CHAIN_ID) {
+      // Goerli Ethereum
       return VRFV2WrapperInterface(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
     } else {
       revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");

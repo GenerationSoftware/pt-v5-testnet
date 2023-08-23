@@ -19,7 +19,7 @@ contract LiquidateIntegrationTest is IntegrationBaseSetup, Helpers {
     uint256 _amount = 1000e18;
 
     underlyingAsset.mint(address(this), _amount);
-    _sponsor(underlyingAsset, vault, _amount, address(this));
+    _sponsor(underlyingAsset, vault, _amount);
 
     uint256 _yield = 10e18;
     _accrueYield(underlyingAsset, yieldVault, _yield);
