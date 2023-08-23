@@ -16,16 +16,7 @@ import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFac
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
 import { VaultFactory } from "pt-v5-vault/VaultFactory.sol";
 
-import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
-import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
-
-import { IRngAuction } from "pt-v5-chainlink-vrf-v2-direct/interfaces/IRngAuction.sol";
-import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2Direct.sol";
-import { ChainlinkVRFV2DirectRngAuctionHelper } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
-
-import { RNGInterface } from "rng/RNGInterface.sol";
-import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
-import { RngAuctionRelayerDirect } from "pt-v5-draw-auction/RngAuctionRelayerDirect.sol";
+import { RemoteOwner } from "remote-owner/RemoteOwner.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
@@ -44,45 +35,17 @@ import {
     TWAB_PERIOD_LENGTH,
     AUCTION_TARGET_SALE_TIME,
     CLAIMER_MAX_FEE,
-    CLAIMER_MIN_FEE
+    CLAIMER_MIN_FEE,
+    ERC5164_EXECUTOR_GOERLI_OPTIMISM
 } from "./Constants.sol";
 
-contract DeployPool is Helpers {
+contract DeployL2PrizePool is Helpers {
 
   function run() public {
     vm.startBroadcast();
 
     ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
     TwabController twabController = new TwabController(TWAB_PERIOD_LENGTH, Constants.auctionOffset());
-
-    uint64 firstDrawStartsAt = uint64(block.timestamp);
-    uint64 auctionDuration = DRAW_PERIOD_SECONDS / 4;
-    uint64 auctionTargetSaleTime = auctionDuration / 2;
-
-    console2.log("constructing rng stuff....");
-
-    uint32 _chainlinkCallbackGasLimit = 1_000_000;
-    uint16 _chainlinkRequestConfirmations = 3;
-    ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
-      address(this), // owner
-      _getLinkToken(),
-      _getVrfV2Wrapper(),
-      _chainlinkCallbackGasLimit,
-      _chainlinkRequestConfirmations
-    );
-
-    RngAuction rngAuction = new RngAuction(
-      RNGInterface(chainlinkRng),
-      address(this),
-      DRAW_PERIOD_SECONDS,
-      firstDrawStartsAt,
-      AUCTION_DURATION,
-      AUCTION_TARGET_SALE_TIME
-    );
-
-    RngAuctionRelayerDirect rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
-
-    ChainlinkVRFV2DirectRngAuctionHelper chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
 
     console2.log("constructing prize pool....");
 
@@ -92,8 +55,8 @@ contract DeployPool is Helpers {
         twabController,
         address(0),
         DRAW_PERIOD_SECONDS,
-        firstDrawStartsAt, // drawStartedAt
-        sd1x18(0.9e18), // alpha
+        Constants.firstDrawStartsAt(), // drawStartedAt
+        sd1x18(0.3e18), // alpha
         GRAND_PRIZE_PERIOD_DRAWS,
         uint8(3), // minimum number of tiers
         TIER_SHARES,
@@ -103,11 +66,13 @@ contract DeployPool is Helpers {
 
     console2.log("constructing auction....");
 
+    RemoteOwner remoteOwner = new RemoteOwner(5, ERC5164_EXECUTOR_GOERLI_OPTIMISM, address(_getL1RngAuctionRelayerRemote()));
+
     RngRelayAuction rngRelayAuction = new RngRelayAuction(
       prizePool,
-      address(rngAuctionRelayerDirect),
-      auctionDuration,
-      auctionTargetSaleTime
+      address(remoteOwner),
+      AUCTION_DURATION,
+      AUCTION_TARGET_SALE_TIME
     );
 
     prizePool.setDrawManager(address(rngRelayAuction));

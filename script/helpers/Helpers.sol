@@ -10,6 +10,7 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
+import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";
@@ -21,6 +22,8 @@ import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol"
 import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
 
 // Testnet deployment paths
+uint256 constant GOERLI_CHAIN_ID = 5;
+uint256 constant OPTIMISM_GOERLI_CHAIN_ID = 420;
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
 string constant LOCAL_PATH = "/broadcast/Deploy.s.sol/31337";
 
@@ -47,6 +50,12 @@ abstract contract Helpers is Script {
   address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
   address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
   address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
+
+  string DEPLOY_POOL_SCRIPT;
+
+  constructor() {
+    DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID ? "DeployL2PrizePool.s.sol" : "DeployPool.s.sol";
+  }
 
   /* ============ Helpers ============ */
 
@@ -254,7 +263,11 @@ abstract contract Helpers is Script {
   }
 
   function _getDeployPath(string memory _deployPath) internal view returns (string memory) {
-    return string.concat("/broadcast/", _deployPath, "/", Strings.toString(block.chainid), "/");
+    return _getDeployPathWithChainId(_deployPath, block.chainid);
+  }
+
+  function _getDeployPathWithChainId(string memory _deployPath, uint256 chainId) internal view returns (string memory) {
+    return string.concat("/broadcast/", _deployPath, "/", Strings.toString(chainId), "/");
   }
 
   /* ============ Getters ============ */
@@ -262,8 +275,14 @@ abstract contract Helpers is Script {
   function _getClaimer() internal returns (Claimer) {
     return
       Claimer(
-        _getContractAddress("Claimer", _getDeployPath("DeployPool.s.sol"), "claimer-not-found")
+        _getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found")
       );
+  }
+
+  function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
+    return RngAuctionRelayer(
+      _getContractAddress("RngAuctionRelayerRemoteOwner", _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID), "rng-auction-relayer-not-found")
+    );
   }
 
   function _getLiquidationPairFactory() internal returns (LiquidationPairFactory) {
@@ -271,7 +290,7 @@ abstract contract Helpers is Script {
       LiquidationPairFactory(
         _getContractAddress(
           "LiquidationPairFactory",
-          _getDeployPath("DeployPool.s.sol"),
+          _getDeployPath(DEPLOY_POOL_SCRIPT),
           "liquidation-pair-factory-not-found"
         )
       );
@@ -291,7 +310,7 @@ abstract contract Helpers is Script {
   function _getPrizePool() internal returns (PrizePool) {
     return
       PrizePool(
-        _getContractAddress("PrizePool", _getDeployPath("DeployPool.s.sol"), "prize-pool-not-found")
+        _getContractAddress("PrizePool", _getDeployPath(DEPLOY_POOL_SCRIPT), "prize-pool-not-found")
       );
   }
 
@@ -311,7 +330,7 @@ abstract contract Helpers is Script {
       TwabController(
         _getContractAddress(
           "TwabController",
-          _getDeployPath("DeployPool.s.sol"),
+          _getDeployPath(DEPLOY_POOL_SCRIPT),
           "twab-controller-not-found"
         )
       );
@@ -354,18 +373,18 @@ abstract contract Helpers is Script {
   }
 
   function _getLinkToken() internal returns (LinkTokenInterface) {
-    if (block.chainid == 5) { // Goerli Ethereum
+    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
       return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
     } else {
-      revert "Link token address not set in `_getLinkToken` for this chain.";
+      revert("Link token address not set in `_getLinkToken` for this chain.");
     }
   }
 
   function _getVrfV2Wrapper() internal returns (VRFV2WrapperInterface) {
-    if (block.chainid == 5) { // Goerli Ethereum
+    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
       return VRFV2WrapperInterface(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
     } else {
-      revert "VRF V2 Wrapper address not set in `_getLinkToken` for this chain.";
+      revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
     }
   }
 }

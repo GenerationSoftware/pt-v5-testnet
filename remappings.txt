@@ -16,3 +16,4 @@ pt-v5-vault-mock/=lib/pt-v5-vault/test/contracts/mock/
 pt-v5-claimer/=lib/pt-v5-claimer/src/
 rng=lib/pt-v5-draw-auction/lib/pt-v5-rng-contracts/contracts/
 rng-contracts/=lib/pt-v5-draw-auction/lib/pt-v5-rng-contracts/contracts/
+remote-owner/=lib/pt-v5-draw-auction/lib/remote-owner/src/
