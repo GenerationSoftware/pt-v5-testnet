@@ -63,9 +63,9 @@ contract DeployVault is Helpers {
       uint32(_prizePool.firstDrawStartsAt()),
       _prizePool.drawPeriodSeconds() / 2,
       _decayConstant,
-      uint112(ONE_POOL),
-      uint112(_tokenOutPerPool),
-      uint112(_tokenOutPerPool) // Assume min is 1 POOL worth of the token
+      uint104(ONE_POOL),
+      uint104(_tokenOutPerPool),
+      uint104(_tokenOutPerPool) // Assume min is 1 POOL worth of the token
     );
   }
 

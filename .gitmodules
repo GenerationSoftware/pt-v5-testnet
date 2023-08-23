@@ -34,3 +34,9 @@
 [submodule "lib/pt-v5-claimer"]
 	path = lib/pt-v5-claimer
 	url = https://github.com/generationsoftware/pt-v5-claimer
+[submodule "lib/pt-v5-chainlink-vrf-v2-direct"]
+	path = lib/pt-v5-chainlink-vrf-v2-direct
+	url = https://github.com/GenerationSoftware/pt-v5-chainlink-vrf-v2-direct
+[submodule "lib/pt-v5-twab-controller"]
+	path = lib/pt-v5-twab-controller
+	url = https://github.com/generationsoftware/pt-v5-twab-controller

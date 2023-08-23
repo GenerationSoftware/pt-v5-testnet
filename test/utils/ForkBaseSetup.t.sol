@@ -3,8 +3,13 @@ pragma solidity 0.8.19;
 
 import "forge-std/Test.sol";
 import { IERC20, IERC4626 } from "openzeppelin/token/ERC20/extensions/ERC4626.sol";
+import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
+import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
 
-import { RNGBlockhash } from "rng/RNGBlockhash.sol";
+import { IRngAuction } from "pt-v5-chainlink-vrf-v2-direct/interfaces/IRngAuction.sol";
+import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2Direct.sol";
+import { ChainlinkVRFV2DirectRngAuctionHelper } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
+
 import { RNGInterface } from "rng/RNGInterface.sol";
 import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayerDirect } from "pt-v5-draw-auction/RngAuctionRelayerDirect.sol";
@@ -37,7 +42,10 @@ contract ForkBaseSetup is Test {
 
   address public constant SPONSORSHIP_ADDRESS = address(1);
 
-  RNGBlockhash public rng;
+  LinkTokenInterface public linkToken;
+  VRFV2WrapperInterface public vrfV2Wrapper;
+  ChainlinkVRFV2Direct public rng;
+  ChainlinkVRFV2DirectRngAuctionHelper public chainlinkRngAuctionHelper;
   RngAuction public rngAuction;
   RngAuctionRelayerDirect public rngAuctionRelayerDirect;
   RngRelayAuction public rngRelayAuction;
@@ -90,10 +98,21 @@ contract ForkBaseSetup is Test {
     uint64 auctionDuration = uint64(drawPeriodSeconds / 4);
     uint64 auctionTargetSaleTime = uint64(auctionDuration / 2);
 
-    rng = new RNGBlockhash();
+    linkToken = LinkTokenInterface(address(0x514910771AF9Ca656af840dff83E8264EcF986CA)); // LINK on Ethereum
+    vrfV2Wrapper = VRFV2WrapperInterface(address(0x5A861794B927983406fCE1D062e00b9368d97Df6)); // VRF V2 Wrapper on Ethereum
+
+    uint32 _chainlinkCallbackGasLimit = 1_000_000;
+    uint16 _chainlinkRequestConfirmations = 3;
+    rng = new ChainlinkVRFV2Direct(
+      address(this), // owner
+      linkToken,
+      vrfV2Wrapper,
+      _chainlinkCallbackGasLimit,
+      _chainlinkRequestConfirmations
+    );
 
     rngAuction = new RngAuction(
-      rng,
+      RNGInterface(rng),
       address(this),
       drawPeriodSeconds,
       drawStartsAt,
@@ -103,6 +122,8 @@ contract ForkBaseSetup is Test {
 
     rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
 
+    chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(rng, IRngAuction(address(rngAuction)));
+
     prizePool = new PrizePool(
       ConstructorParams(
         prizeToken,
@@ -110,12 +131,11 @@ contract ForkBaseSetup is Test {
         address(0),
         drawPeriodSeconds,
         drawStartsAt,
+        sd1x18(0.9e18), // alpha
+        12,
         uint8(3), // minimum number of tiers
         100,
-        10,
-        10,
-        ud2x18(0.9e18), // claim threshold of 90%
-        sd1x18(0.9e18) // alpha
+        100
       )
     );
 
@@ -160,8 +180,8 @@ contract ForkBaseSetup is Test {
       uint32(drawStartsAt),
       uint32(drawPeriodSeconds / 2),
       _decayConstant,
-      uint112(_virtualReserveIn),
-      uint112(_virtualReserveOut),
+      uint104(_virtualReserveIn),
+      uint104(_virtualReserveOut),
       _virtualReserveOut // just make it up
     );
 

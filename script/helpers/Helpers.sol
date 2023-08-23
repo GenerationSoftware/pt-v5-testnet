@@ -10,6 +10,7 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
+import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";
@@ -17,7 +18,12 @@ import { TokenFaucet } from "../../src/TokenFaucet.sol";
 import { VaultMintRate } from "../../src/VaultMintRate.sol";
 import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
+import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
+import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
+
 // Testnet deployment paths
+uint256 constant GOERLI_CHAIN_ID = 5;
+uint256 constant OPTIMISM_GOERLI_CHAIN_ID = 420;
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
 string constant LOCAL_PATH = "/broadcast/Deploy.s.sol/31337";
 
@@ -42,8 +48,16 @@ abstract contract Helpers is Script {
   uint256 internal constant ONE_YEAR_IN_SECONDS = 31557600;
 
   address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
+  address internal constant GOERLI_DEFENDER_ADDRESS_2 = 0xe6Cb4266474BBf065A822DFf46031bb16eB71264;
+  address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS = 0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
   address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
   address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
+
+  string DEPLOY_POOL_SCRIPT;
+
+  constructor() {
+    DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID ? "DeployL2PrizePool.s.sol" : "DeployPool.s.sol";
+  }
 
   /* ============ Helpers ============ */
 
@@ -79,7 +93,9 @@ abstract contract Helpers is Script {
   }
 
   function _tokenGrantMinterRoles(ERC20Mintable _token) internal {
-    _tokenGrantMinterRole(_token, address(0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A));
+    _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
+    _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
+    _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
     _tokenGrantMinterRole(_token, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
     _tokenGrantMinterRole(_token, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
     _tokenGrantMinterRole(_token, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
@@ -88,6 +104,7 @@ abstract contract Helpers is Script {
   function _yieldVaultGrantMinterRoles(YieldVaultMintRate _yieldVault) internal {
     if (block.chainid == 5) {
       _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS);
+      _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS_2);
     }
 
     if (block.chainid == 11155111) {
@@ -98,7 +115,10 @@ abstract contract Helpers is Script {
       _yieldVaultGrantMinterRole(_yieldVault, MUMBAI_DEFENDER_ADDRESS);
     }
 
-    _yieldVaultGrantMinterRole(_yieldVault, address(0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A));
+    if (block.chainid == 420) {
+      _yieldVaultGrantMinterRole(_yieldVault, OPTIMISM_GOERLI_DEFENDER_ADDRESS);
+    }
+
     _yieldVaultGrantMinterRole(_yieldVault, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
     _yieldVaultGrantMinterRole(_yieldVault, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
     _yieldVaultGrantMinterRole(_yieldVault, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
@@ -187,10 +207,9 @@ abstract contract Helpers is Script {
     string memory _errorMsg
   ) internal returns (address) {
     string[] memory filesName = _getDeploymentArtifacts(_artifactsPath);
-    uint256 filesNameLength = filesName.length;
 
     // Loop through deployment artifacts and find latest deployed `_contractName` address
-    for (uint256 i; i < filesNameLength; i++) {
+    for (uint256 i; i < filesName.length; i++) {
       string memory jsonFile = vm.readFile(
         string.concat(vm.projectRoot(), _artifactsPath, filesName[i])
       );
@@ -200,49 +219,51 @@ abstract contract Helpers is Script {
         string memory index = vm.toString(j);
 
         string memory _argumentPositionString = vm.toString(_argumentPosition);
-
+        
         if (
-          keccak256(
-            abi.encodePacked(
-              (
-                abi.decode(
-                  stdJson.parseRaw(
-                    jsonFile,
-                    string.concat(".transactions[", index, "].contractName")
-                  ),
-                  (string)
+          _matches(
+            abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(".transactions[", index, "].transactionType")
+              ),
+              (string)
+            ),
+            "CREATE"
+          )
+          &&
+          _matches(
+            abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(".transactions[", index, "].contractName")
+              ),
+              (string)
+            ),
+            _contractName
+          )
+          &&
+          _matches(
+            abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(
+                  ".transactions[",
+                  index,
+                  "].arguments[",
+                  _argumentPositionString,
+                  "]"
                 )
-              )
-            )
-          ) ==
-          keccak256(abi.encodePacked((_contractName))) &&
-          keccak256(
-            abi.encodePacked(
-              (
-                abi.decode(
-                  stdJson.parseRaw(
-                    jsonFile,
-                    string.concat(
-                      ".transactions[",
-                      index,
-                      "].arguments[",
-                      _argumentPositionString,
-                      "]"
-                    )
-                  ),
-                  (string)
-                )
-              )
-            )
-          ) ==
-          keccak256(abi.encodePacked((_tokenSymbol)))
+              ),
+              (string)
+            ),
+            _tokenSymbol
+          )
         ) {
-          address contractAddress = abi.decode(
+          return abi.decode(
             stdJson.parseRaw(jsonFile, string.concat(".transactions[", index, "].contractAddress")),
             (address)
           );
-
-          return contractAddress;
         }
       }
     }
@@ -250,8 +271,16 @@ abstract contract Helpers is Script {
     revert(_errorMsg);
   }
 
+  function _matches(string memory a, string memory b) internal view returns (bool) {
+    return keccak256(abi.encodePacked((a))) == keccak256(abi.encodePacked((b)));
+  }
+
   function _getDeployPath(string memory _deployPath) internal view returns (string memory) {
-    return string.concat("/broadcast/", _deployPath, "/", Strings.toString(block.chainid), "/");
+    return _getDeployPathWithChainId(_deployPath, block.chainid);
+  }
+
+  function _getDeployPathWithChainId(string memory _deployPath, uint256 chainId) internal view returns (string memory) {
+    return string.concat("/broadcast/", _deployPath, "/", Strings.toString(chainId), "/");
   }
 
   /* ============ Getters ============ */
@@ -259,8 +288,14 @@ abstract contract Helpers is Script {
   function _getClaimer() internal returns (Claimer) {
     return
       Claimer(
-        _getContractAddress("Claimer", _getDeployPath("DeployPool.s.sol"), "claimer-not-found")
+        _getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found")
       );
+  }
+
+  function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
+    return RngAuctionRelayer(
+      _getContractAddress("RngAuctionRelayerRemoteOwner", _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID), "rng-auction-relayer-not-found")
+    );
   }
 
   function _getLiquidationPairFactory() internal returns (LiquidationPairFactory) {
@@ -268,7 +303,7 @@ abstract contract Helpers is Script {
       LiquidationPairFactory(
         _getContractAddress(
           "LiquidationPairFactory",
-          _getDeployPath("DeployPool.s.sol"),
+          _getDeployPath(DEPLOY_POOL_SCRIPT),
           "liquidation-pair-factory-not-found"
         )
       );
@@ -288,7 +323,7 @@ abstract contract Helpers is Script {
   function _getPrizePool() internal returns (PrizePool) {
     return
       PrizePool(
-        _getContractAddress("PrizePool", _getDeployPath("DeployPool.s.sol"), "prize-pool-not-found")
+        _getContractAddress("PrizePool", _getDeployPath(DEPLOY_POOL_SCRIPT), "prize-pool-not-found")
       );
   }
 
@@ -308,7 +343,7 @@ abstract contract Helpers is Script {
       TwabController(
         _getContractAddress(
           "TwabController",
-          _getDeployPath("DeployPool.s.sol"),
+          _getDeployPath(DEPLOY_POOL_SCRIPT),
           "twab-controller-not-found"
         )
       );
@@ -325,28 +360,48 @@ abstract contract Helpers is Script {
   }
 
   function _getVault(string memory _tokenSymbol) internal returns (VaultMintRate) {
+    string memory deployPath = _getDeployPath("DeployVault.s.sol");
+    address tokenAddress = _getTokenAddress(
+      "VaultMintRate",
+      _tokenSymbol,
+      2,
+      deployPath,
+      "vault-not-found"
+    );
     return
       VaultMintRate(
-        _getTokenAddress(
-          "VaultMintRate",
-          _tokenSymbol,
-          2,
-          _getDeployPath("DeployVault.s.sol"),
-          "vault-not-found"
-        )
+        tokenAddress
       );
   }
 
   function _getYieldVault(string memory _tokenSymbol) internal returns (YieldVaultMintRate) {
+    string memory deployPath = _getDeployPath("DeployYieldVault.s.sol");
+    address tokenAddress = _getTokenAddress(
+        "YieldVaultMintRate",
+        _tokenSymbol,
+        2,
+        deployPath,
+        "yield-vault-not-found"
+      );
     return
       YieldVaultMintRate(
-        _getTokenAddress(
-          "YieldVaultMintRate",
-          _tokenSymbol,
-          2,
-          _getDeployPath("DeployYieldVault.s.sol"),
-          "yield-vault-not-found"
-        )
+        tokenAddress
       );
+  }
+
+  function _getLinkToken() internal returns (LinkTokenInterface) {
+    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
+      return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
+    } else {
+      revert("Link token address not set in `_getLinkToken` for this chain.");
+    }
+  }
+
+  function _getVrfV2Wrapper() internal returns (VRFV2WrapperInterface) {
+    if (block.chainid == GOERLI_CHAIN_ID) { // Goerli Ethereum
+      return VRFV2WrapperInterface(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
+    } else {
+      revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
+    }
   }
 }

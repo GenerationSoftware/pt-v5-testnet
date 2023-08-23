@@ -114,7 +114,11 @@ export const generateContractList = (deploymentPaths: string[]): ContractList =>
   const contractAddressToName = new Map<string, string>();
 
   const { transactions: stableTokenTransactions } = getBlob(deploymentPaths[0]);
-  let { transactions: tokenTransactions } = getBlob(deploymentPaths[1]);
+  let tokenTransactions = [];
+  if (deploymentPaths[1]) {
+    let { transactions } = getBlob(deploymentPaths[1]);
+    tokenTransactions = transactions;
+  }
 
   tokenTransactions = stableTokenTransactions.concat(tokenTransactions);
 
