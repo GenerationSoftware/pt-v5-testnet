@@ -17,6 +17,9 @@ import { TokenFaucet } from "../../src/TokenFaucet.sol";
 import { VaultMintRate } from "../../src/VaultMintRate.sol";
 import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
+import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
+import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
+
 // Testnet deployment paths
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
 string constant LOCAL_PATH = "/broadcast/Deploy.s.sol/31337";
@@ -348,5 +351,21 @@ abstract contract Helpers is Script {
           "yield-vault-not-found"
         )
       );
+  }
+
+  function _getLinkToken() internal returns (LinkTokenInterface) {
+    if (block.chainid == 5) { // Goerli Ethereum
+      return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
+    } else {
+      revert "Link token address not set in `_getLinkToken` for this chain.";
+    }
+  }
+
+  function _getVrfV2Wrapper() internal returns (VRFV2WrapperInterface) {
+    if (block.chainid == 5) { // Goerli Ethereum
+      return VRFV2WrapperInterface(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
+    } else {
+      revert "VRF V2 Wrapper address not set in `_getLinkToken` for this chain.";
+    }
   }
 }

@@ -16,7 +16,13 @@ import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFac
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
 import { VaultFactory } from "pt-v5-vault/VaultFactory.sol";
 
-import { RNGBlockhash } from "rng/RNGBlockhash.sol";
+import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
+import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
+
+import { IRngAuction } from "pt-v5-chainlink-vrf-v2-direct/interfaces/IRngAuction.sol";
+import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2Direct.sol";
+import { ChainlinkVRFV2DirectRngAuctionHelper } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
+
 import { RNGInterface } from "rng/RNGInterface.sol";
 import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayerDirect } from "pt-v5-draw-auction/RngAuctionRelayerDirect.sol";
@@ -43,10 +49,18 @@ contract DeployPool is Helpers {
 
     console2.log("constructing rng stuff....");
 
-    RNGBlockhash rng = new RNGBlockhash();
+    uint32 _chainlinkCallbackGasLimit = 1_000_000;
+    uint16 _chainlinkRequestConfirmations = 3;
+    ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
+      address(this), // owner
+      _getLinkToken(),
+      _getVrfV2Wrapper(),
+      _chainlinkCallbackGasLimit,
+      _chainlinkRequestConfirmations
+    );
 
     RngAuction rngAuction = new RngAuction(
-      rng,
+      RNGInterface(chainlinkRng),
       address(this),
       DRAW_PERIOD_SECONDS,
       firstDrawStartsAt,
@@ -55,6 +69,8 @@ contract DeployPool is Helpers {
     );
 
     RngAuctionRelayerDirect rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
+
+    ChainlinkVRFV2DirectRngAuctionHelper chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
 
     console2.log("constructing prize pool....");
 
