@@ -34,26 +34,17 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { 
-    Constants,
-    DRAW_PERIOD_SECONDS,
-    GRAND_PRIZE_PERIOD_DRAWS,
-    TIER_SHARES,
-    RESERVE_SHARES,
-    AUCTION_DURATION,
-    TWAB_PERIOD_LENGTH,
-    AUCTION_TARGET_SALE_TIME,
-    CLAIMER_MAX_FEE,
-    CLAIMER_MIN_FEE
-} from "./Constants.sol";
+import { Constants, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE } from "./Constants.sol";
 
 contract DeployPool is Helpers {
-
   function run() public {
     vm.startBroadcast();
 
     ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
-    TwabController twabController = new TwabController(TWAB_PERIOD_LENGTH, Constants.auctionOffset());
+    TwabController twabController = new TwabController(
+      TWAB_PERIOD_LENGTH,
+      Constants.auctionOffset()
+    );
 
     uint64 firstDrawStartsAt = uint64(block.timestamp);
     uint64 auctionDuration = DRAW_PERIOD_SECONDS / 4;
@@ -82,7 +73,7 @@ contract DeployPool is Helpers {
 
     RngAuctionRelayerDirect rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
 
-    ChainlinkVRFV2DirectRngAuctionHelper chainlinkRngAuctionHelper = new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
+    new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
 
     console2.log("constructing prize pool....");
 
@@ -112,7 +103,13 @@ contract DeployPool is Helpers {
 
     prizePool.setDrawManager(address(rngRelayAuction));
 
-    new Claimer(prizePool, CLAIMER_MIN_FEE, CLAIMER_MAX_FEE, DRAW_PERIOD_SECONDS, Constants.CLAIMER_MAX_FEE_PERCENT());
+    new Claimer(
+      prizePool,
+      CLAIMER_MIN_FEE,
+      CLAIMER_MAX_FEE,
+      DRAW_PERIOD_SECONDS,
+      Constants.CLAIMER_MAX_FEE_PERCENT()
+    );
 
     LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
     new LiquidationRouter(liquidationPairFactory);

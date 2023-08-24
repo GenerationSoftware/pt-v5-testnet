@@ -69,7 +69,7 @@ contract DepositMorphoForkTest is ForkBaseSetup, Helpers {
 
     uint256 _aTokenBalanceBefore = aToken.balanceOf(morphoPoolAddress);
     uint256 _variableDebtTokenBalanceBefore = variableDebtToken.balanceOf(morphoPoolAddress);
-    uint256 _shares = _sponsor(underlyingAsset, vault, _amount, alice);
+    uint256 _shares = _sponsor(underlyingAsset, vault, _amount);
 
     assertEq(vault.balanceOf(alice), _shares);
     assertApproxEqAbs(vault.convertToAssets(vault.balanceOf(alice)), _amount, 1000); // approximate to cover rounding in `convertToAssets` function

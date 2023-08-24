@@ -28,8 +28,7 @@ contract Helpers is Test {
   function _sponsor(
     IERC20 _underlyingAsset,
     Vault _vault,
-    uint256 _amount,
-    address _user
+    uint256 _amount
   ) internal returns (uint256) {
     _underlyingAsset.approve(address(_vault), type(uint256).max);
     return _vault.sponsor(_amount);

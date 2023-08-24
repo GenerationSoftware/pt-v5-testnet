@@ -40,7 +40,7 @@ contract DepositIntegrationTest is IntegrationBaseSetup, Helpers {
     uint256 _amount = 1000e18;
     underlyingAsset.mint(alice, _amount);
 
-    _sponsor(underlyingAsset, vault, _amount, alice);
+    _sponsor(underlyingAsset, vault, _amount);
 
     assertEq(vault.balanceOf(alice), _amount);
 

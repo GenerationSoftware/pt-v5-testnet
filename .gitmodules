@@ -9,10 +9,6 @@
 	path = lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
 	branch = release-v4.9
-[submodule "lib/prb-math"]
-	branch = v3
-	path = lib/prb-math
-	url = https://github.com/PaulRBerg/prb-math
 [submodule "lib/solidity-stringutils"]
 	path = lib/solidity-stringutils
 	url = https://github.com/Arachnid/solidity-stringutils
@@ -40,3 +36,6 @@
 [submodule "lib/pt-v5-twab-controller"]
 	path = lib/pt-v5-twab-controller
 	url = https://github.com/generationsoftware/pt-v5-twab-controller
+[submodule "lib/pt-v5-twab-delegator"]
+	path = lib/pt-v5-twab-delegator
+	url = https://github.com/GenerationSoftware/pt-v5-twab-delegator
