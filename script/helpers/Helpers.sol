@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.19;
 
+import "forge-std/console2.sol";
+
 import { Script } from "forge-std/Script.sol";
 import { stdJson } from "forge-std/StdJson.sol";
 import { strings } from "solidity-stringutils/strings.sol";
@@ -365,6 +367,7 @@ abstract contract Helpers is Script {
 
   function _getVault(string memory _tokenSymbol) internal returns (VaultMintRate) {
     string memory deployPath = _getDeployPath("DeployVault.s.sol");
+    console2.log("looking for", _tokenSymbol);
     address tokenAddress = _getTokenAddress(
       "VaultMintRate",
       _tokenSymbol,

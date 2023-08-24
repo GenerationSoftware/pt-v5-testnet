@@ -35,17 +35,17 @@ contract DeployTwabDelegator is Helpers {
     _deployTwabDelegator(_twabController, _getVault("PTDAIHYT"), " High Yield", "HY");
 
     /* USDC */
-    _deployTwabDelegator(_twabController, _getVault("PTUSDCLY"), " Low Yield", "LY");
-    _deployTwabDelegator(_twabController, _getVault("PTUSDCHY"), " High Yield", "HY");
+    _deployTwabDelegator(_twabController, _getVault("PTUSDCLYT"), " Low Yield", "LY");
+    _deployTwabDelegator(_twabController, _getVault("PTUSDCHYT"), " High Yield", "HY");
 
     /* gUSD */
-    _deployTwabDelegator(_twabController, _getVault("PTGUSDY"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PTGUSDT"), "", "");
 
     /* wBTC */
-    _deployTwabDelegator(_twabController, _getVault("PTWBTCY"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PTWBTCT"), "", "");
 
     /* wETH */
-    _deployTwabDelegator(_twabController, _getVault("PTWETHY"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PTWETHT"), "", "");
   }
 
   function run() public {

@@ -41,6 +41,7 @@ const optimismGoerliDeploymentPaths = [
   optimismGoerliTokenDeploymentPath,
   `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/420`,
   `${rootFolder}/broadcast/DeployYieldVault.s.sol/420`,
+  `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/420`,
   optimismGoerliVaultDeploymentPath,
 ];
 
