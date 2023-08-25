@@ -4,10 +4,6 @@ pragma solidity 0.8.19;
 import { UD2x18, ud2x18 } from "prb-math/UD2x18.sol";
 import { SD1x18, sd1x18 } from "prb-math/SD1x18.sol";
 
-// Claimer
-uint256 constant CLAIMER_MIN_FEE = 0.0001e18;
-uint256 constant CLAIMER_MAX_FEE = 1000e18;
-
 // Prize Pool
 uint8 constant TIER_SHARES = 100;
 uint8 constant RESERVE_SHARES = 100;
@@ -26,6 +22,12 @@ uint32 constant TWAB_PERIOD_LENGTH = 1 hours;
 // two auctions should end at the latest halfway through the draw period
 uint64 constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4;
 uint64 constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 4;
+
+// Claimer
+uint256 constant CLAIMER_MIN_FEE = 0.0001e18;
+uint256 constant CLAIMER_MAX_FEE = 1000e18;
+// Claims can begin after the rng auctions end
+uint256 constant CLAIM_PERIOD_SECONDS = DRAW_PERIOD_SECONDS - (AUCTION_DURATION * 2);
 
 // Chainlink VRF
 uint32 constant CHAINLINK_CALLBACK_GAS_LIMIT = 1_000_000;

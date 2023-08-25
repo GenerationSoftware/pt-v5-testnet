@@ -34,7 +34,7 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { Constants, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE } from "./Constants.sol";
+import { Constants, CLAIM_PERIOD_SECONDS, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE } from "./Constants.sol";
 
 contract DeployPool is Helpers {
   function run() public {
@@ -107,7 +107,7 @@ contract DeployPool is Helpers {
       prizePool,
       CLAIMER_MIN_FEE,
       CLAIMER_MAX_FEE,
-      DRAW_PERIOD_SECONDS,
+      CLAIM_PERIOD_SECONDS,
       Constants.CLAIMER_MAX_FEE_PERCENT()
     );
 
