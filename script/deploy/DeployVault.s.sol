@@ -11,6 +11,7 @@ import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSour
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
+import { VaultBooster } from "pt-v5-vault-boost/VaultBooster.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { VaultMintRate } from "../../src/VaultMintRate.sol";
@@ -49,6 +50,9 @@ contract DeployVault is Helpers {
     prizePool.contributePrizeTokens(address(vault), 100e18);
 
     vault.setLiquidationPair(_createPair(prizePool, vault, _tokenOutPerPool));
+
+    new VaultBooster(prizePool, address(vault), msg.sender);
+
   }
 
   function _createPair(

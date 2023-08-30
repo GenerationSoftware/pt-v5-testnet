@@ -48,3 +48,6 @@
 	path = lib/pt-v5-prize-pool
 	url = https://github.com/generationsoftware/pt-v5-prize-pool
 	branch = prod-deploy-1
+[submodule "lib/pt-v5-vault-boost"]
+	path = lib/pt-v5-vault-boost
+	url = https://github.com/generationsoftware/pt-v5-vault-boost
