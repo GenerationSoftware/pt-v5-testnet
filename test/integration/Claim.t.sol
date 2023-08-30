@@ -24,6 +24,9 @@ contract ClaimIntegrationTest is IntegrationBaseSetup, Helpers {
     underlyingAsset.mint(alice, _amount);
     _deposit(underlyingAsset, vault, _amount, alice);
 
+    // second period
+    vm.warp(drawStartsAt + drawPeriodSeconds + drawPeriodSeconds/8);
+
     vm.stopPrank();
 
     _accrueYield(underlyingAsset, yieldVault, _yield);
@@ -32,6 +35,8 @@ contract ClaimIntegrationTest is IntegrationBaseSetup, Helpers {
     vm.startPrank(alice);
 
     uint256 maxAmountOut = liquidationPair.maxAmountOut();
+
+    console2.log("maxAmountOut", maxAmountOut);
 
     _liquidate(liquidationRouter, liquidationPair, prizeToken, maxAmountOut, alice);
 

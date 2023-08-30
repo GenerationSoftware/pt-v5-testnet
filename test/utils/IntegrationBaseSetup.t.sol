@@ -49,6 +49,7 @@ contract IntegrationBaseSetup is Test {
 
   uint256 public winningRandomNumber = 123456;
   uint32 public drawPeriodSeconds = 1 days;
+  uint64 drawStartsAt;
   TwabController public twabController;
 
   /* ============ setUp ============ */
@@ -71,7 +72,7 @@ contract IntegrationBaseSetup is Test {
 
     twabController = new TwabController(1 days, uint32(block.timestamp));
 
-    uint64 drawStartsAt = uint64(block.timestamp);
+    drawStartsAt = uint64(block.timestamp);
 
     prizePool = new PrizePool(
       ConstructorParams(

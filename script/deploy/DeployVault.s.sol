@@ -44,6 +44,10 @@ contract DeployVault is Helpers {
       msg.sender
     );
 
+    ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
+    prizeToken.mint(address(prizePool), 100e18);
+    prizePool.contributePrizeTokens(address(vault), 100e18);
+
     vault.setLiquidationPair(_createPair(prizePool, vault, _tokenOutPerPool));
   }
 
