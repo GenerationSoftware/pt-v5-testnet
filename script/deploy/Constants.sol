@@ -16,7 +16,7 @@ address constant ERC5164_EXECUTOR_GOERLI_OPTIMISM = 0xc5165406dB791549f0D2423D14
 
 // Twab
 // nice round fraction of the draw period
-uint32 constant TWAB_PERIOD_LENGTH = 30 minutes;
+uint32 constant TWAB_PERIOD_LENGTH = 1 hours;
 
 // RngAuctions
 // two auctions should end at the latest halfway through the draw period
@@ -42,13 +42,7 @@ library Constants {
 
   /// @notice Returns the timestamp of the start of tomorrow.
   function firstDrawStartsAt() internal view returns (uint64) {
-    uint256 startOfTodayInDays = block.timestamp / 1 days;
-    uint256 startOfTomorrowInSeconds = (startOfTodayInDays + 1) * 1 days;
-
-    if (startOfTomorrowInSeconds - block.timestamp < MIN_TIME_AHEAD) {
-      startOfTomorrowInSeconds += MIN_TIME_AHEAD;
-    }
-    return uint64(startOfTomorrowInSeconds);
+    return 1693427400;
   }
 
   /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.

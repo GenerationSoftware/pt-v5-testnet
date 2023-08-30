@@ -31,7 +31,12 @@ contract DeployL2PrizePool is Helpers {
   function run() public {
     vm.startBroadcast();
 
+    console2.log("getting POOL....");
+
     ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
+
+    console2.log("constructing twab controller....");
+
     TwabController twabController = new TwabController(
       TWAB_PERIOD_LENGTH,
       Constants.auctionOffset()
@@ -75,7 +80,7 @@ contract DeployL2PrizePool is Helpers {
       prizePool,
       CLAIMER_MIN_FEE,
       CLAIMER_MAX_FEE,
-      DRAW_PERIOD_SECONDS,
+      (DRAW_PERIOD_SECONDS - (2*AUCTION_DURATION)) / 2,
       Constants.CLAIMER_MAX_FEE_PERCENT()
     );
 
