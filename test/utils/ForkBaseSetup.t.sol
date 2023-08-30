@@ -4,7 +4,7 @@ pragma solidity 0.8.19;
 import "forge-std/Test.sol";
 import { IERC20, IERC4626 } from "openzeppelin/token/ERC20/extensions/ERC4626.sol";
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
-import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
+import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
 
 import { IRngAuction } from "pt-v5-chainlink-vrf-v2-direct/interfaces/IRngAuction.sol";
 import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2Direct.sol";
@@ -43,7 +43,7 @@ contract ForkBaseSetup is Test {
   address public constant SPONSORSHIP_ADDRESS = address(1);
 
   LinkTokenInterface public linkToken;
-  VRFV2WrapperInterface public vrfV2Wrapper;
+  VRFV2Wrapper public vrfV2Wrapper;
   ChainlinkVRFV2Direct public rng;
   ChainlinkVRFV2DirectRngAuctionHelper public chainlinkRngAuctionHelper;
   RngAuction public rngAuction;
@@ -99,13 +99,12 @@ contract ForkBaseSetup is Test {
     uint64 auctionTargetSaleTime = uint64(auctionDuration / 2);
 
     linkToken = LinkTokenInterface(address(0x514910771AF9Ca656af840dff83E8264EcF986CA)); // LINK on Ethereum
-    vrfV2Wrapper = VRFV2WrapperInterface(address(0x5A861794B927983406fCE1D062e00b9368d97Df6)); // VRF V2 Wrapper on Ethereum
+    vrfV2Wrapper = VRFV2Wrapper(address(0x5A861794B927983406fCE1D062e00b9368d97Df6)); // VRF V2 Wrapper on Ethereum
 
     uint32 _chainlinkCallbackGasLimit = 1_000_000;
     uint16 _chainlinkRequestConfirmations = 3;
     rng = new ChainlinkVRFV2Direct(
       address(this), // owner
-      linkToken,
       vrfV2Wrapper,
       _chainlinkCallbackGasLimit,
       _chainlinkRequestConfirmations
@@ -131,7 +130,6 @@ contract ForkBaseSetup is Test {
       ConstructorParams(
         prizeToken,
         twabController,
-        address(0),
         drawPeriodSeconds,
         drawStartsAt,
         sd1x18(0.9e18), // alpha
@@ -146,7 +144,8 @@ contract ForkBaseSetup is Test {
       prizePool,
       address(rngAuctionRelayerDirect),
       auctionDuration,
-      auctionTargetSaleTime
+      auctionTargetSaleTime,
+      20_000e18
     );
 
     claimer = new Claimer(prizePool, 0.0001e18, 1000e18, drawPeriodSeconds, ud2x18(0.5e18));

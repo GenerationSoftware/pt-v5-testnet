@@ -25,7 +25,7 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { Constants, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE, ERC5164_EXECUTOR_GOERLI_OPTIMISM } from "./Constants.sol";
+import { Constants, MAX_AUCTION_REWARDS, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE, ERC5164_EXECUTOR_GOERLI_OPTIMISM } from "./Constants.sol";
 
 contract DeployL2PrizePool is Helpers {
   function run() public {
@@ -43,7 +43,6 @@ contract DeployL2PrizePool is Helpers {
       ConstructorParams(
         prizeToken,
         twabController,
-        address(0),
         DRAW_PERIOD_SECONDS,
         Constants.firstDrawStartsAt(), // drawStartedAt
         sd1x18(0.3e18), // alpha
@@ -66,7 +65,8 @@ contract DeployL2PrizePool is Helpers {
       prizePool,
       address(remoteOwner),
       AUCTION_DURATION,
-      AUCTION_TARGET_SALE_TIME
+      AUCTION_TARGET_SALE_TIME,
+      MAX_AUCTION_REWARDS
     );
 
     prizePool.setDrawManager(address(rngRelayAuction));

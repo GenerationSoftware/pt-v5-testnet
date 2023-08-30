@@ -3,7 +3,7 @@ pragma solidity 0.8.19;
 
 import { PrizePool, SD59x18 } from "pt-v5-prize-pool/PrizePool.sol";
 import { ud2x18 } from "prb-math/UD2x18.sol";
-import { SD59x18, convert } from "prb-math/SD59x18.sol";
+import { SD59x18, wrap, convert } from "prb-math/SD59x18.sol";
 import { sd1x18 } from "prb-math/SD1x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
@@ -52,9 +52,7 @@ contract DeployVault is Helpers {
     VaultMintRate _vault,
     uint128 _tokenOutPerPool
   ) internal returns (LiquidationPair pair) {
-    // this is approximately the maximum decay constant, as the CGDA formula requires computing e^(decayConstant * time).
-    // since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
-    SD59x18 _decayConstant = convert(130).div(convert(int(uint(_prizePool.drawPeriodSeconds()))));
+    SD59x18 _decayConstant = wrap(150000000000000);
     pair = _getLiquidationPairFactory().createPair(
       ILiquidationSource(_vault),
       address(_getToken("POOL", _tokenDeployPath)),

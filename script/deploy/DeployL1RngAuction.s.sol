@@ -24,7 +24,6 @@ contract DeployL1RngAuction is Helpers {
 
     ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
       address(this), // owner
-      _getLinkToken(),
       _getVrfV2Wrapper(),
       CHAINLINK_CALLBACK_GAS_LIMIT,
       CHAINLINK_REQUEST_CONFIRMATIONS

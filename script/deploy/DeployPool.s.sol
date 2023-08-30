@@ -34,7 +34,7 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { Constants, CLAIM_PERIOD_SECONDS, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE } from "./Constants.sol";
+import { Constants, MAX_AUCTION_REWARDS, CHAINLINK_REQUEST_CONFIRMATIONS, CHAINLINK_CALLBACK_GAS_LIMIT, CLAIM_PERIOD_SECONDS, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE } from "./Constants.sol";
 
 contract DeployPool is Helpers {
   function run() public {
@@ -46,20 +46,17 @@ contract DeployPool is Helpers {
       Constants.auctionOffset()
     );
 
-    uint64 firstDrawStartsAt = uint64(block.timestamp);
+    uint64 firstDrawStartsAt = uint64(block.timestamp + 15 minutes);
     uint64 auctionDuration = DRAW_PERIOD_SECONDS / 4;
     uint64 auctionTargetSaleTime = auctionDuration / 2;
 
     console2.log("constructing rng stuff....");
 
-    uint32 _chainlinkCallbackGasLimit = 1_000_000;
-    uint16 _chainlinkRequestConfirmations = 3;
     ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
       address(this), // owner
-      _getLinkToken(),
       _getVrfV2Wrapper(),
-      _chainlinkCallbackGasLimit,
-      _chainlinkRequestConfirmations
+      CHAINLINK_CALLBACK_GAS_LIMIT,
+      CHAINLINK_REQUEST_CONFIRMATIONS
     );
 
     RngAuction rngAuction = new RngAuction(
@@ -81,10 +78,9 @@ contract DeployPool is Helpers {
       ConstructorParams(
         prizeToken,
         twabController,
-        address(0),
         DRAW_PERIOD_SECONDS,
         firstDrawStartsAt, // drawStartedAt
-        sd1x18(0.9e18), // alpha
+        sd1x18(0.3e18), // alpha
         GRAND_PRIZE_PERIOD_DRAWS,
         uint8(3), // minimum number of tiers
         TIER_SHARES,
@@ -98,7 +94,8 @@ contract DeployPool is Helpers {
       prizePool,
       address(rngAuctionRelayerDirect),
       auctionDuration,
-      auctionTargetSaleTime
+      auctionTargetSaleTime,
+      MAX_AUCTION_REWARDS
     );
 
     prizePool.setDrawManager(address(rngRelayAuction));

@@ -37,25 +37,20 @@ contract VaultMintRate is Vault {
     )
   {}
 
-  function liquidate(
+  function transferTokensOut(
     address _sender,
     address _receiver,
-    address _tokenIn,
-    uint256 _amountIn,
     address _tokenOut,
-    uint256 _amountOut,
-    bytes memory _flashSwapData
-  ) public override returns (bool) {
+    uint256 _amountOut
+  ) public override returns (bytes memory) {
     YieldVaultMintRate(yieldVault()).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
     return
-      super.liquidate(
+      super.transferTokensOut(
         _sender,
         _receiver,
-        _tokenIn,
-        _amountIn,
         _tokenOut,
-        _amountOut,
-        _flashSwapData
+        _amountOut
       );
   }
+
 }

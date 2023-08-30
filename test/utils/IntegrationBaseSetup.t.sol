@@ -77,7 +77,6 @@ contract IntegrationBaseSetup is Test {
       ConstructorParams(
         prizeToken,
         twabController,
-        address(0),
         drawPeriodSeconds, // drawPeriodSeconds
         drawStartsAt, // drawStartedAt
         sd1x18(0.9e18), // alpha

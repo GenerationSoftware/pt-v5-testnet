@@ -21,7 +21,7 @@ import { VaultMintRate } from "../../src/VaultMintRate.sol";
 import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
-import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
+import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
 
 // Testnet deployment paths
 uint256 constant GOERLI_CHAIN_ID = 5;
@@ -399,10 +399,10 @@ abstract contract Helpers is Script {
     }
   }
 
-  function _getVrfV2Wrapper() internal view returns (VRFV2WrapperInterface) {
+  function _getVrfV2Wrapper() internal view returns (VRFV2Wrapper) {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
-      return VRFV2WrapperInterface(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
+      return VRFV2Wrapper(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
     } else {
       revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
     }
