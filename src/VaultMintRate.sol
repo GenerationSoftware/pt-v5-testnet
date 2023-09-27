@@ -20,14 +20,13 @@ contract VaultMintRate is Vault {
     PrizePool _prizePool,
     Claimer _claimer,
     address _yieldFeeRecipient,
-    uint256 _yieldFeePercentage,
+    uint32 _yieldFeePercentage,
     address _owner
   )
     Vault(
       _asset,
       _name,
       _symbol,
-      _twabController,
       _yieldVault,
       _prizePool,
       address(_claimer),

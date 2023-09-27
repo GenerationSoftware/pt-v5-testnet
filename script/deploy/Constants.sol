@@ -41,7 +41,7 @@ library Constants {
   }
 
   /// @notice Returns the timestamp of the start of tomorrow.
-  function firstDrawStartsAt() internal view returns (uint64) {
+  function firstDrawStartsAt() internal view returns (uint48) {
     return 1693427400;
   }
 

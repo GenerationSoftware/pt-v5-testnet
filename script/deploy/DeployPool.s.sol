@@ -9,7 +9,7 @@ import { PrizePool, ConstructorParams, SD59x18 } from "pt-v5-prize-pool/PrizePoo
 import { ud2x18 } from "prb-math/UD2x18.sol";
 import { sd1x18 } from "prb-math/SD1x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
-import { Claimer } from "pt-v5-claimer/Claimer.sol";
+import { ClaimerFactory } from "pt-v5-claimer/ClaimerFactory.sol";
 import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSource.sol";
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
@@ -46,7 +46,7 @@ contract DeployPool is Helpers {
       Constants.auctionOffset()
     );
 
-    uint64 firstDrawStartsAt = uint64(block.timestamp + 15 minutes);
+    uint48 firstDrawStartsAt = uint48(block.timestamp + 15 minutes);
     uint64 auctionDuration = DRAW_PERIOD_SECONDS / 4;
     uint64 auctionTargetSaleTime = auctionDuration / 2;
 
@@ -100,7 +100,8 @@ contract DeployPool is Helpers {
 
     prizePool.setDrawManager(address(rngRelayAuction));
 
-    new Claimer(
+    ClaimerFactory claimerFactory = new ClaimerFactory();
+    claimerFactory.createClaimer(
       prizePool,
       CLAIMER_MIN_FEE,
       CLAIMER_MAX_FEE,

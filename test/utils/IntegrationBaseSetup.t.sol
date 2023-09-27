@@ -49,7 +49,7 @@ contract IntegrationBaseSetup is Test {
 
   uint256 public winningRandomNumber = 123456;
   uint32 public drawPeriodSeconds = 1 days;
-  uint64 drawStartsAt;
+  uint48 drawStartsAt;
   TwabController public twabController;
 
   /* ============ setUp ============ */
@@ -72,7 +72,7 @@ contract IntegrationBaseSetup is Test {
 
     twabController = new TwabController(1 days, uint32(block.timestamp));
 
-    drawStartsAt = uint64(block.timestamp);
+    drawStartsAt = uint48(block.timestamp);
 
     prizePool = new PrizePool(
       ConstructorParams(
@@ -102,7 +102,6 @@ contract IntegrationBaseSetup is Test {
       underlyingAsset,
       vaultName,
       vaultSymbol,
-      twabController,
       yieldVault,
       prizePool,
       address(claimer),

@@ -94,7 +94,7 @@ contract ForkBaseSetup is Test {
 
     twabController = new TwabController(1 days, uint32(block.timestamp));
 
-    uint64 drawStartsAt = uint64(block.timestamp);
+    uint48 drawStartsAt = uint48(block.timestamp);
     uint64 auctionDuration = uint64(drawPeriodSeconds / 4);
     uint64 auctionTargetSaleTime = uint64(auctionDuration / 2);
 
@@ -154,7 +154,6 @@ contract ForkBaseSetup is Test {
       underlyingAsset,
       vaultName,
       vaultSymbol,
-      twabController,
       _yieldVault,
       prizePool,
       address(claimer),
