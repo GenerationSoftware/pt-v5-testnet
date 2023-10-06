@@ -29,8 +29,9 @@ import { Vault } from "pt-v5-vault/Vault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
 import { Utils } from "./Utils.t.sol";
+import { Helpers } from "../../script/helpers/Helpers.sol";
 
-contract ForkBaseSetup is Test {
+contract ForkBaseSetup is Helpers, Test {
   /* ============ Variables ============ */
   Utils internal utils;
 
@@ -68,7 +69,6 @@ contract ForkBaseSetup is Test {
   PrizePool public prizePool;
 
   uint256 public winningRandomNumber = 123456;
-  uint32 public drawPeriodSeconds = 1 days;
   TwabController public twabController;
 
   /* ============ setUp ============ */
@@ -95,29 +95,25 @@ contract ForkBaseSetup is Test {
     twabController = new TwabController(1 days, uint32(block.timestamp));
 
     uint48 drawStartsAt = uint48(block.timestamp);
-    uint64 auctionDuration = uint64(drawPeriodSeconds / 4);
-    uint64 auctionTargetSaleTime = uint64(auctionDuration / 2);
 
     linkToken = LinkTokenInterface(address(0x514910771AF9Ca656af840dff83E8264EcF986CA)); // LINK on Ethereum
     vrfV2Wrapper = VRFV2Wrapper(address(0x5A861794B927983406fCE1D062e00b9368d97Df6)); // VRF V2 Wrapper on Ethereum
 
-    uint32 _chainlinkCallbackGasLimit = 1_000_000;
-    uint16 _chainlinkRequestConfirmations = 3;
     rng = new ChainlinkVRFV2Direct(
       address(this), // owner
       vrfV2Wrapper,
-      _chainlinkCallbackGasLimit,
-      _chainlinkRequestConfirmations
+      CHAINLINK_CALLBACK_GAS_LIMIT,
+      CHAINLINK_REQUEST_CONFIRMATIONS
     );
 
     rngAuction = new RngAuction(
       RNGInterface(rng),
       address(this),
-      drawPeriodSeconds,
+      DRAW_PERIOD_SECONDS,
       drawStartsAt,
-      auctionDuration,
-      auctionTargetSaleTime,
-      UD2x18.wrap(0.5e18)
+      AUCTION_DURATION,
+      AUCTION_TARGET_SALE_TIME,
+      AUCTION_TARGET_FIRST_SALE_FRACTION
     );
 
     rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
@@ -131,7 +127,7 @@ contract ForkBaseSetup is Test {
       ConstructorParams(
         prizeToken,
         twabController,
-        drawPeriodSeconds,
+        DRAW_PERIOD_SECONDS,
         drawStartsAt,
         sd1x18(0.9e18), // alpha
         12,
@@ -143,14 +139,14 @@ contract ForkBaseSetup is Test {
 
     rngRelayAuction = new RngRelayAuction(
       prizePool,
-      auctionDuration,
-      auctionTargetSaleTime,
+      AUCTION_DURATION,
+      AUCTION_TARGET_SALE_TIME,
       address(rngAuctionRelayerDirect),
-      UD2x18.wrap(0.5e18),
-      20_000e18
+      AUCTION_TARGET_FIRST_SALE_FRACTION,
+      CHAINLINK_CALLBACK_GAS_LIMIT
     );
 
-    claimer = new Claimer(prizePool, 0.0001e18, 1000e18, drawPeriodSeconds, ud2x18(0.5e18));
+    claimer = new Claimer(prizePool, 0.0001e18, 1000e18, DRAW_PERIOD_SECONDS, ud2x18(0.5e18));
 
     vault = new Vault(
       underlyingAsset,
@@ -174,14 +170,14 @@ contract ForkBaseSetup is Test {
 
     // this is approximately the maximum decay constant, as the CGDA formula requires computing e^(decayConstant * time).
     // since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
-    SD59x18 _decayConstant = convert(130).div(convert(int(uint(drawPeriodSeconds))));
+    SD59x18 _decayConstant = convert(130).div(convert(int(uint(DRAW_PERIOD_SECONDS))));
     liquidationPair = liquidationPairFactory.createPair(
       ILiquidationSource(vault),
       address(prizeToken),
       address(vault),
-      drawPeriodSeconds,
+      DRAW_PERIOD_SECONDS,
       uint32(drawStartsAt),
-      uint32(drawPeriodSeconds / 2),
+      uint32(DRAW_PERIOD_SECONDS / 2),
       _decayConstant,
       uint104(_virtualReserveIn),
       uint104(_virtualReserveOut),

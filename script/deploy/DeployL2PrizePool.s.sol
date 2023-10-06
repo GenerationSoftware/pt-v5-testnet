@@ -25,21 +25,19 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { Constants, MAX_AUCTION_REWARDS, DRAW_PERIOD_SECONDS, GRAND_PRIZE_PERIOD_DRAWS, TIER_SHARES, RESERVE_SHARES, AUCTION_DURATION, TWAB_PERIOD_LENGTH, AUCTION_TARGET_SALE_TIME, CLAIMER_MAX_FEE, CLAIMER_MIN_FEE, ERC5164_EXECUTOR_GOERLI_OPTIMISM } from "./Constants.sol";
-
 contract DeployL2PrizePool is Helpers {
   function run() public {
     vm.startBroadcast();
 
     console2.log("getting POOL....");
 
-    ERC20Mintable prizeToken = _getToken("POOL", _tokenDeployPath);
+    ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
 
     console2.log("constructing twab controller....");
 
     TwabController twabController = new TwabController(
       TWAB_PERIOD_LENGTH,
-      Constants.auctionOffset()
+      _getAuctionOffset() // use auction offset since it's set in the past
     );
 
     console2.log("constructing prize pool....");
@@ -49,10 +47,10 @@ contract DeployL2PrizePool is Helpers {
         prizeToken,
         twabController,
         DRAW_PERIOD_SECONDS,
-        Constants.firstDrawStartsAt(), // drawStartedAt
-        sd1x18(0.3e18), // alpha
+        _getFirstDrawStartsAt(),
+        _getContributionsSmoothing(),
         GRAND_PRIZE_PERIOD_DRAWS,
-        uint8(3), // minimum number of tiers
+        MIN_NUMBER_OF_TIERS,
         TIER_SHARES,
         RESERVE_SHARES
       )
@@ -61,7 +59,7 @@ contract DeployL2PrizePool is Helpers {
     console2.log("constructing auction....");
 
     RemoteOwner remoteOwner = new RemoteOwner(
-      5,
+      GOERLI_CHAIN_ID,
       ERC5164_EXECUTOR_GOERLI_OPTIMISM,
       address(_getL1RngAuctionRelayerRemote())
     );
@@ -71,8 +69,8 @@ contract DeployL2PrizePool is Helpers {
       AUCTION_DURATION,
       AUCTION_TARGET_SALE_TIME,
       address(remoteOwner),
-      UD2x18.wrap(0.5e18),
-      MAX_AUCTION_REWARDS
+      AUCTION_TARGET_FIRST_SALE_FRACTION,
+      AUCTION_MAX_REWARD
     );
 
     prizePool.setDrawManager(address(rngRelayAuction));
@@ -82,8 +80,8 @@ contract DeployL2PrizePool is Helpers {
       prizePool,
       CLAIMER_MIN_FEE,
       CLAIMER_MAX_FEE,
-      (DRAW_PERIOD_SECONDS - (2*AUCTION_DURATION)) / 2,
-      Constants.CLAIMER_MAX_FEE_PERCENT()
+      _getClaimerTimeToReachMaxFee(),
+      CLAIMER_MAX_FEE_PERCENT
     );
 
     LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();

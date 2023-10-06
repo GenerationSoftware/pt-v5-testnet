@@ -23,38 +23,18 @@ import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
 import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
 
+import { Constants } from "../deploy/Constants.sol";
+
 // Testnet deployment paths
-uint256 constant GOERLI_CHAIN_ID = 5;
-uint256 constant OPTIMISM_GOERLI_CHAIN_ID = 420;
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
 string constant LOCAL_PATH = "/broadcast/Deploy.s.sol/31337";
 
-abstract contract Helpers is Script {
+abstract contract Helpers is Constants, Script {
   using strings for *;
   using stdJson for string;
 
   /* ============ Constants ============ */
-  uint8 internal constant DEFAULT_TOKEN_DECIMAL = 18;
-  uint8 internal constant USDC_TOKEN_DECIMAL = 6;
-  uint8 internal constant GUSD_TOKEN_DECIMAL = 2;
-  uint8 internal constant WBTC_TOKEN_DECIMAL = 8;
-
-  uint256 internal constant DAI_PRICE = 100000000;
-  uint256 internal constant USDC_PRICE = 100000000;
-  uint256 internal constant GUSD_PRICE = 100000000;
-  uint256 internal constant POOL_PRICE = 100000000;
-  uint256 internal constant WBTC_PRICE = 2488023943815;
-  uint256 internal constant ETH_PRICE = 166876925050;
-  uint256 internal constant PRIZE_TOKEN_PRICE = 1e18;
-
   uint256 internal constant ONE_YEAR_IN_SECONDS = 31557600;
-
-  address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
-  address internal constant GOERLI_DEFENDER_ADDRESS_2 = 0xe6Cb4266474BBf065A822DFf46031bb16eB71264;
-  address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS =
-    0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
-  address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
-  address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
 
   string DEPLOY_POOL_SCRIPT;
 
@@ -79,14 +59,14 @@ abstract contract Helpers is Script {
 
   /**
    * @notice Get exchange rate for liquidation pair `virtualReserveOut`.
-   * @param _tokenPrice Price of the token represented in 8 decimals
+   * @param _tokenPrice Price of the token represented in MARKET_RATE_DECIMALS decimals
    * @param _decimalOffset Offset between the prize token decimals and the token decimals
    */
   function _getExchangeRate(
     uint256 _tokenPrice,
     uint8 _decimalOffset
-  ) internal pure returns (uint128) {
-    return uint128((PRIZE_TOKEN_PRICE * 1e8) / (_tokenPrice * (10 ** _decimalOffset)));
+  ) internal view returns (uint128) {
+    return uint128((ONE_PRIZE_TOKEN_IN_USD_E8 * (10 ** MARKET_RATE_DECIMALS)) / (_tokenPrice * (10 ** _decimalOffset)));
   }
 
   function _tokenGrantMinterRole(ERC20Mintable _token, address _grantee) internal {
@@ -393,7 +373,7 @@ abstract contract Helpers is Script {
   function _getLinkToken() internal view returns (LinkTokenInterface) {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
-      return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
+      return LinkTokenInterface(GOERLI_LINK_ADDRESS);
     } else {
       revert("Link token address not set in `_getLinkToken` for this chain.");
     }
@@ -402,7 +382,7 @@ abstract contract Helpers is Script {
   function _getVrfV2Wrapper() internal view returns (VRFV2Wrapper) {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
-      return VRFV2Wrapper(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
+      return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
     } else {
       revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
     }

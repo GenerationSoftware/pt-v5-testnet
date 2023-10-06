@@ -10,15 +10,15 @@ contract SetStableTokenRole is Helpers {
   function run() public {
     vm.startBroadcast();
     /* DAI */
-    ERC20Mintable dai = _getToken("DAI", _stableTokenDeployPath);
+    ERC20Mintable dai = _getToken(DAI_SYMBOL, _stableTokenDeployPath);
     _tokenGrantMinterRoles(dai);
 
     /* USDC */
-    ERC20Mintable usdc = _getToken("USDC", _stableTokenDeployPath);
+    ERC20Mintable usdc = _getToken(USDC_SYMBOL, _stableTokenDeployPath);
     _tokenGrantMinterRoles(usdc);
 
     /* gUSD */
-    ERC20Mintable gUSD = _getToken("GUSD", _stableTokenDeployPath);
+    ERC20Mintable gUSD = _getToken(GUSD_SYMBOL, _stableTokenDeployPath);
     _tokenGrantMinterRoles(gUSD);
     vm.stopBroadcast();
   }

@@ -14,8 +14,6 @@ import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-import { Constants, DRAW_PERIOD_SECONDS, AUCTION_DURATION, AUCTION_TARGET_SALE_TIME, CHAINLINK_CALLBACK_GAS_LIMIT, CHAINLINK_REQUEST_CONFIRMATIONS } from "./Constants.sol";
-
 contract DeployL1RngAuction is Helpers {
   function run() public {
     vm.startBroadcast();
@@ -33,10 +31,10 @@ contract DeployL1RngAuction is Helpers {
       RNGInterface(chainlinkRng),
       address(this),
       DRAW_PERIOD_SECONDS,
-      Constants.auctionOffset(),
+      _getAuctionOffset(),
       AUCTION_DURATION,
       AUCTION_TARGET_SALE_TIME,
-      UD2x18.wrap(0.5e18)
+      AUCTION_TARGET_FIRST_SALE_FRACTION
     );
 
     new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
