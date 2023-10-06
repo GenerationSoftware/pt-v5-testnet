@@ -8,7 +8,7 @@ import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRF
 import { ChainlinkVRFV2DirectRngAuctionHelper } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
 
 import { RNGInterface } from "rng/RNGInterface.sol";
-import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
+import { RngAuction, UD2x18 } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayerRemoteOwner } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwner.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
@@ -35,7 +35,8 @@ contract DeployL1RngAuction is Helpers {
       DRAW_PERIOD_SECONDS,
       Constants.auctionOffset(),
       AUCTION_DURATION,
-      AUCTION_TARGET_SALE_TIME
+      AUCTION_TARGET_SALE_TIME,
+      UD2x18.wrap(0.5e18)
     );
 
     new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));

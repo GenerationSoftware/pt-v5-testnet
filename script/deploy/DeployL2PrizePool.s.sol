@@ -17,7 +17,7 @@ import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
 import { VaultFactory } from "pt-v5-vault/VaultFactory.sol";
 
 import { RemoteOwner } from "remote-owner/RemoteOwner.sol";
-import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
+import { RngRelayAuction, UD2x18 } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { VaultMintRate } from "../../src/VaultMintRate.sol";
@@ -68,9 +68,10 @@ contract DeployL2PrizePool is Helpers {
 
     RngRelayAuction rngRelayAuction = new RngRelayAuction(
       prizePool,
-      address(remoteOwner),
       AUCTION_DURATION,
       AUCTION_TARGET_SALE_TIME,
+      address(remoteOwner),
+      UD2x18.wrap(0.5e18),
       MAX_AUCTION_REWARDS
     );
 

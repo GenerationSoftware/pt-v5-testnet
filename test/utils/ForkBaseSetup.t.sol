@@ -11,7 +11,7 @@ import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRF
 import { ChainlinkVRFV2DirectRngAuctionHelper } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
 
 import { RNGInterface } from "rng/RNGInterface.sol";
-import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
+import { RngAuction, UD2x18 } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayerDirect } from "pt-v5-draw-auction/RngAuctionRelayerDirect.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
@@ -116,7 +116,8 @@ contract ForkBaseSetup is Test {
       drawPeriodSeconds,
       drawStartsAt,
       auctionDuration,
-      auctionTargetSaleTime
+      auctionTargetSaleTime,
+      UD2x18.wrap(0.5e18)
     );
 
     rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
@@ -142,9 +143,10 @@ contract ForkBaseSetup is Test {
 
     rngRelayAuction = new RngRelayAuction(
       prizePool,
-      address(rngAuctionRelayerDirect),
       auctionDuration,
       auctionTargetSaleTime,
+      address(rngAuctionRelayerDirect),
+      UD2x18.wrap(0.5e18),
       20_000e18
     );
 
@@ -186,6 +188,6 @@ contract ForkBaseSetup is Test {
       _virtualReserveOut // just make it up
     );
 
-    vault.setLiquidationPair(liquidationPair);
+    vault.setLiquidationPair(address(liquidationPair));
   }
 }

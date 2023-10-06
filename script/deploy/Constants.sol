@@ -41,12 +41,12 @@ library Constants {
   }
 
   /// @notice Returns the timestamp of the start of tomorrow.
-  function firstDrawStartsAt() internal view returns (uint48) {
+  function firstDrawStartsAt() internal pure returns (uint48) {
     return 1693427400;
   }
 
   /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
-  function auctionOffset() internal view returns (uint32) {
+  function auctionOffset() internal pure returns (uint32) {
     return uint32(firstDrawStartsAt() - 10 * DRAW_PERIOD_SECONDS);
   }
 }

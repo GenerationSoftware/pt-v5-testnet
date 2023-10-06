@@ -36,7 +36,6 @@ contract DeployVault is Helpers {
       _underlyingAsset,
       string.concat("PoolTogether ", _underlyingAsset.name(), _nameSuffix, " Prize Token"),
       string.concat("PT", _underlyingAsset.symbol(), _symbolSuffix, "T"),
-      _getTwabController(),
       _yieldVault,
       prizePool,
       _getClaimer(),
@@ -49,7 +48,7 @@ contract DeployVault is Helpers {
     prizeToken.mint(address(prizePool), 100e18);
     prizePool.contributePrizeTokens(address(vault), 100e18);
 
-    vault.setLiquidationPair(_createPair(prizePool, vault, _tokenOutPerPool));
+    vault.setLiquidationPair(address(_createPair(prizePool, vault, _tokenOutPerPool)));
 
     new VaultBooster(prizePool, address(vault), msg.sender);
 
@@ -66,7 +65,7 @@ contract DeployVault is Helpers {
       address(_getToken("POOL", _tokenDeployPath)),
       address(_vault),
       _prizePool.drawPeriodSeconds(),
-      uint32(_prizePool.firstDrawStartsAt()),
+      uint32(_prizePool.firstDrawOpensAt()),
       _prizePool.drawPeriodSeconds() / 2,
       _decayConstant,
       uint104(ONE_POOL),

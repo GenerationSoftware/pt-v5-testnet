@@ -30,6 +30,8 @@ contract LiquidateIntegrationTest is IntegrationBaseSetup, Helpers {
 
     vm.warp(block.timestamp + 36 hours);
 
+    uint24 openDrawId = prizePool.getOpenDrawId();
+
     uint256 maxAmountOut = liquidationPair.maxAmountOut();
 
     (uint256 _alicePrizeTokenBalanceBefore, uint256 _prizeTokenContributed) = _liquidate(
@@ -40,17 +42,18 @@ contract LiquidateIntegrationTest is IntegrationBaseSetup, Helpers {
       alice
     );
 
-    assertEq(prizeToken.balanceOf(address(prizePool)), _prizeTokenContributed);
-    assertEq(prizeToken.balanceOf(alice), _alicePrizeTokenBalanceBefore - _prizeTokenContributed);
+    assertEq(prizeToken.balanceOf(address(prizePool)), _prizeTokenContributed, "prize pool balance");
+    assertEq(prizeToken.balanceOf(alice), _alicePrizeTokenBalanceBefore - _prizeTokenContributed, "alice balance");
 
-    // Because of the yield smooting, only 10% of the prize tokens contributed can be awarded.
+    // Because of the yield smoothing, only 10% of the prize tokens contributed can be awarded.
     assertEq(
-      prizePool.getContributedBetween(address(vault), 1, 1),
-      (_prizeTokenContributed * 10) / 100
+      prizePool.getContributedBetween(address(vault), openDrawId, openDrawId),
+      (_prizeTokenContributed * 10) / 100,
+      "contributed between"
     );
 
-    assertEq(IERC20(vault).balanceOf(alice), maxAmountOut);
-    assertEq(vault.balanceOf(alice), maxAmountOut);
+    assertEq(IERC20(vault).balanceOf(alice), maxAmountOut, "alice vault balance ERC20");
+    assertEq(vault.balanceOf(alice), maxAmountOut, "alice vault balance");
 
     vm.stopPrank();
   }
