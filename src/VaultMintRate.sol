@@ -11,7 +11,6 @@ import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { YieldVaultMintRate } from "./YieldVaultMintRate.sol";
 
 contract VaultMintRate is Vault {
-
   IERC4626 private immutable _yieldVault;
 
   constructor(
@@ -60,5 +59,4 @@ contract VaultMintRate is Vault {
   //       _amountOut
   //     );
   // }
-
 }

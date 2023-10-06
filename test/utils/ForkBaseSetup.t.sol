@@ -2,6 +2,8 @@
 pragma solidity 0.8.19;
 
 import "forge-std/Test.sol";
+import { console2 } from "forge-std/console2.sol";
+
 import { IERC20, IERC4626 } from "openzeppelin/token/ERC20/extensions/ERC4626.sol";
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
 import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
@@ -92,7 +94,7 @@ contract ForkBaseSetup is Helpers, Test {
     prizeTokenAddress = address(0x0cEC1A9154Ff802e7934Fc916Ed7Ca50bDE6844e); // POOL token on Ethereum
     prizeToken = IERC20(prizeTokenAddress);
 
-    twabController = new TwabController(1 days, uint32(block.timestamp));
+    twabController = new TwabController(TWAB_PERIOD_LENGTH, uint32(block.timestamp));
 
     uint48 drawStartsAt = uint48(block.timestamp);
 

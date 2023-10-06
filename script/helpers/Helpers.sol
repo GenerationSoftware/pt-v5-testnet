@@ -66,7 +66,7 @@ abstract contract Helpers is Constants, Script {
     uint256 _tokenPrice,
     uint8 _decimalOffset
   ) internal view returns (uint128) {
-    return uint128((ONE_PRIZE_TOKEN_IN_USD_E8 * (10 ** MARKET_RATE_DECIMALS)) / (_tokenPrice * (10 ** _decimalOffset)));
+    return uint128((1e18 * (10 ** MARKET_RATE_DECIMALS)) / (_tokenPrice * (10 ** _decimalOffset)));
   }
 
   function _tokenGrantMinterRole(ERC20Mintable _token, address _grantee) internal {
@@ -114,8 +114,8 @@ abstract contract Helpers is Constants, Script {
   ) internal returns (string[] memory) {
     string[] memory inputs = new string[](4);
     inputs[0] = "ls";
-    inputs[1] = "-m";
-    inputs[2] = "-r";
+    inputs[1] = "-r";
+    inputs[2] = "-1";
     inputs[3] = string.concat(vm.projectRoot(), _deploymentArtifactsPath);
     bytes memory res = vm.ffi(inputs);
 
@@ -128,12 +128,15 @@ abstract contract Helpers is Constants, Script {
     if (!sWithoutDirPrefix.empty()) s = sWithoutDirPrefix;
 
     // Remove newline and push into array
-    strings.slice memory delim = ", ".toSlice();
-    strings.slice memory sliceNewline = "\n".toSlice();
+    strings.slice memory delim = "\n".toSlice();
     string[] memory filesName = new string[](s.count(delim) + 1);
 
     for (uint256 i = 0; i < filesName.length; i++) {
-      filesName[i] = s.split(delim).beyond(sliceNewline).toString();
+      filesName[i] = string.concat(
+        "run",
+        s.split(delim).beyond("run".toSlice()).until(".json".toSlice()).toString(),
+        ".json"
+      );
     }
 
     return filesName;
@@ -151,9 +154,9 @@ abstract contract Helpers is Constants, Script {
     for (uint256 i; i < filesNameLength; i++) {
       string memory filePath = string.concat(vm.projectRoot(), _artifactsPath, filesName[i]);
       string memory jsonFile = vm.readFile(filePath);
-      bytes[] memory rawTxs = abi.decode(vm.parseJson(jsonFile, ".transactions"), (bytes[]));
-
-      uint256 transactionsLength = rawTxs.length;
+      uint256 transactionsLength = abi
+        .decode(vm.parseJson(jsonFile, ".transactions"), (bytes[]))
+        .length;
 
       for (uint256 j; j < transactionsLength; j++) {
         string memory contractName = abi.decode(
@@ -177,6 +180,56 @@ abstract contract Helpers is Constants, Script {
           );
 
           return contractAddress;
+        }
+
+        // check factory creations
+        if (
+          keccak256(abi.encodePacked(contractName)) ==
+          keccak256(abi.encodePacked(_contractName, "Factory"))
+        ) {
+          console2.log("Checking factory...");
+          string memory factoryTransactionType = abi.decode(
+            stdJson.parseRaw(
+              jsonFile,
+              string.concat(".transactions[", vm.toString(j), "]", ".transactionType")
+            ),
+            (string)
+          );
+          if (
+            keccak256(abi.encodePacked(factoryTransactionType)) ==
+            keccak256(abi.encodePacked("CALL"))
+          ) {
+            string memory transactionType = abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(
+                  ".transactions[",
+                  vm.toString(j),
+                  "].additionalContracts[0].transactionType"
+                )
+              ),
+              (string)
+            );
+            console2.log("Additional contract found!");
+            if (
+              keccak256(abi.encodePacked(transactionType)) == keccak256(abi.encodePacked("CREATE"))
+            ) {
+              address contractAddress = abi.decode(
+                stdJson.parseRaw(
+                  jsonFile,
+                  string.concat(
+                    ".transactions[",
+                    vm.toString(j),
+                    "].additionalContracts",
+                    "[0].address"
+                  )
+                ),
+                (address)
+              );
+
+              return contractAddress;
+            }
+          }
         }
       }
     }
@@ -374,6 +427,8 @@ abstract contract Helpers is Constants, Script {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
       return LinkTokenInterface(GOERLI_LINK_ADDRESS);
+    } else if (block.chainid == 31337) {
+      return LinkTokenInterface(address(GOERLI_LINK_ADDRESS)); // bogus localhost address
     } else {
       revert("Link token address not set in `_getLinkToken` for this chain.");
     }
@@ -383,6 +438,8 @@ abstract contract Helpers is Constants, Script {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
       return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
+    } else if (block.chainid == 31337) {
+      return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS)); // bogus localhost address
     } else {
       revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
     }

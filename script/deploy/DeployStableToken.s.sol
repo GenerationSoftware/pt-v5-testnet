@@ -31,7 +31,12 @@ contract DeployStableToken is Helpers {
     usdc.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, USDC_TOKEN_DECIMAL));
 
     /* gUSD */
-    ERC20Mintable gUSD = new ERC20Mintable("Gemini Dollar", GUSD_SYMBOL, GUSD_TOKEN_DECIMAL, msg.sender);
+    ERC20Mintable gUSD = new ERC20Mintable(
+      "Gemini Dollar",
+      GUSD_SYMBOL,
+      GUSD_TOKEN_DECIMAL,
+      msg.sender
+    );
     gUSD.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, GUSD_TOKEN_DECIMAL));
   }
 

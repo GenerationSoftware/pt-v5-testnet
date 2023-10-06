@@ -47,7 +47,7 @@ contract DeployPool is Helpers {
     console2.log("constructing rng stuff....");
 
     ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
-      address(this), // owner
+      msg.sender, // owner
       _getVrfV2Wrapper(),
       CHAINLINK_CALLBACK_GAS_LIMIT,
       CHAINLINK_REQUEST_CONFIRMATIONS
@@ -55,7 +55,7 @@ contract DeployPool is Helpers {
 
     RngAuction rngAuction = new RngAuction(
       RNGInterface(chainlinkRng),
-      address(this),
+      msg.sender,
       DRAW_PERIOD_SECONDS,
       _getFirstDrawStartsAt(),
       AUCTION_DURATION,

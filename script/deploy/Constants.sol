@@ -5,10 +5,9 @@ import { console2 } from "forge-std/console2.sol";
 
 import { UD2x18, ud2x18 } from "prb-math/UD2x18.sol";
 import { SD1x18, sd1x18 } from "prb-math/SD1x18.sol";
-import { SD59x18 } from "prb-math/SD59x18.sol";
+import { SD59x18, convert } from "prb-math/SD59x18.sol";
 
 abstract contract Constants {
-
   // Addresses
   // Defender
   address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
@@ -20,10 +19,12 @@ abstract contract Constants {
 
   // Chainlink
   address internal constant GOERLI_LINK_ADDRESS = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
-  address internal constant GOERLI_VRFV2_WRAPPER_ADDRESS = 0x708701a1DfF4f478de54383E49a627eD4852C816;
+  address internal constant GOERLI_VRFV2_WRAPPER_ADDRESS =
+    0x708701a1DfF4f478de54383E49a627eD4852C816;
 
   // MessageExecutor
-  address internal constant ERC5164_EXECUTOR_GOERLI_OPTIMISM = 0xc5165406dB791549f0D2423D1483c1EA10A3A206;
+  address internal constant ERC5164_EXECUTOR_GOERLI_OPTIMISM =
+    0xc5165406dB791549f0D2423D1483c1EA10A3A206;
 
   // Chain IDs
   uint256 constant GOERLI_CHAIN_ID = 5;
@@ -37,7 +38,7 @@ abstract contract Constants {
   // Claimer
   uint256 internal constant CLAIMER_MIN_FEE = 0.0001e18;
   uint256 internal constant CLAIMER_MAX_FEE = 10000e18;
-  UD2x18 constant CLAIMER_MAX_FEE_PERCENT = UD2x18.wrap(0.1e18);
+  UD2x18 constant CLAIMER_MAX_FEE_PERCENT = UD2x18.wrap(0.1e18); // 10%
 
   function _getClaimerTimeToReachMaxFee() internal pure returns (uint256) {
     return (DRAW_PERIOD_SECONDS - (2 * AUCTION_DURATION)) / 2;
@@ -57,14 +58,13 @@ abstract contract Constants {
    *      Since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
    */
   function _getDecayConstant() internal pure returns (SD59x18) {
-    return SD59x18.wrap(0.000030092592592592e18);
+    return SD59x18.wrap(134e18).div(convert(int256(uint256(DRAW_PERIOD_SECONDS * 50))));
   }
 
   // Prize Pool
-  uint32 internal constant DRAW_PERIOD_SECONDS = 1 days;
-  uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 365; // Once a year for daily draws
+  uint32 internal constant DRAW_PERIOD_SECONDS = 1 days / 4;
+  uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 14; // Twice a week (4 draws a day)
   uint8 internal constant MIN_NUMBER_OF_TIERS = 3;
-  uint256 internal constant MIN_TIME_AHEAD = DRAW_PERIOD_SECONDS;
   uint8 internal constant RESERVE_SHARES = 100;
   uint8 internal constant TIER_SHARES = 100;
 
@@ -77,20 +77,20 @@ abstract contract Constants {
   function _getFirstDrawStartsAt() internal view returns (uint48) {
     if (block.timestamp < 1693594800) revert("block timestamp doesn't seem right"); // make sure we're not on some relative script time
     uint48 secondsInDay = 1 days;
-    uint48 firstDrawStartsAt = uint48(block.timestamp / secondsInDay + 1) * secondsInDay + (19 * 60 * 60); // next day at 7:00:00 PM UTC
+    uint48 firstDrawStartsAt = uint48(block.timestamp / secondsInDay + 1) * secondsInDay; // next day at 0:00:00 PM UTC
     console2.log("first draw starts at:", firstDrawStartsAt);
     return firstDrawStartsAt;
   }
 
   // RngAuctions
-  uint64 internal constant AUCTION_DURATION = 6 hours;
-  uint64 internal constant AUCTION_TARGET_SALE_TIME = 1 hours;
+  uint64 internal constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4;
+  uint64 internal constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 3; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
   uint256 internal constant AUCTION_MAX_REWARD = 10000e18;
   UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0.5e18); // 50%
 
   /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
   function _getAuctionOffset() internal view returns (uint32) {
-    return uint32(_getFirstDrawStartsAt() - 3 days);
+    return uint32(_getFirstDrawStartsAt() - DRAW_PERIOD_SECONDS * 10);
   }
 
   // Twab
@@ -129,5 +129,4 @@ abstract contract Constants {
   // Vault
   uint32 internal constant YIELD_FEE_PERCENTAGE = 0; // 0%
   address internal constant YIELD_FEE_RECIPIENT = address(0);
-
 }

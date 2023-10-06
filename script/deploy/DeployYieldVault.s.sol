@@ -19,7 +19,7 @@ contract DeployYieldVault is Helpers {
       new YieldVaultMintRate(
         _underlyingAsset,
         string.concat("Prize Yield Vault ", _underlyingAssetSymbol, " ", _nameSuffix),
-        string.concat("yvP", _underlyingAssetSymbol, _symbolSuffix),
+        string.concat("yv", _underlyingAssetSymbol, _symbolSuffix),
         msg.sender
       );
   }

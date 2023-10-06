@@ -42,8 +42,16 @@ contract LiquidateIntegrationTest is IntegrationBaseSetup, Helpers {
       alice
     );
 
-    assertEq(prizeToken.balanceOf(address(prizePool)), _prizeTokenContributed, "prize pool balance");
-    assertEq(prizeToken.balanceOf(alice), _alicePrizeTokenBalanceBefore - _prizeTokenContributed, "alice balance");
+    assertEq(
+      prizeToken.balanceOf(address(prizePool)),
+      _prizeTokenContributed,
+      "prize pool balance"
+    );
+    assertEq(
+      prizeToken.balanceOf(alice),
+      _alicePrizeTokenBalanceBefore - _prizeTokenContributed,
+      "alice balance"
+    );
 
     // Because of the yield smoothing, only 10% of the prize tokens contributed can be awarded.
     assertEq(

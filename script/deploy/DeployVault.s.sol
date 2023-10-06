@@ -20,7 +20,6 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 import { Helpers } from "../helpers/Helpers.sol";
 
 contract DeployVault is Helpers {
-
   function _deployVault(
     YieldVaultMintRate _yieldVault,
     string memory _nameSuffix,
@@ -50,7 +49,6 @@ contract DeployVault is Helpers {
     vault.setLiquidationPair(address(_createPair(prizePool, vault, _tokenOutPerPool)));
 
     new VaultBooster(prizePool, address(vault), msg.sender);
-
   }
 
   function _createPair(
@@ -58,15 +56,14 @@ contract DeployVault is Helpers {
     VaultMintRate _vault,
     uint128 _tokenOutPerPool
   ) internal returns (LiquidationPair pair) {
-    SD59x18 _decayConstant = wrap(150000000000000);
     pair = _getLiquidationPairFactory().createPair(
       ILiquidationSource(_vault),
       address(_getToken(POOL_SYMBOL, _tokenDeployPath)),
       address(_vault),
       _prizePool.drawPeriodSeconds(),
       uint32(_prizePool.firstDrawOpensAt()),
-      _prizePool.drawPeriodSeconds() / 2,
-      _decayConstant,
+      _getTargetFirstSaleTime(_prizePool.drawPeriodSeconds()),
+      _getDecayConstant(),
       uint104(ONE_POOL),
       uint104(_tokenOutPerPool),
       uint104(_tokenOutPerPool) // Assume min is 1 POOL worth of the token
@@ -82,19 +79,28 @@ contract DeployVault is Helpers {
     _deployVault(_getYieldVault("yvDAI-HY"), " High Yield", "-HY", daiPerPool);
 
     /* USDC */
-    uint128 usdcPerPool = _getExchangeRate(ONE_USDC_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - USDC_TOKEN_DECIMAL);
+    uint128 usdcPerPool = _getExchangeRate(
+      ONE_USDC_IN_USD_E8,
+      DEFAULT_TOKEN_DECIMAL - USDC_TOKEN_DECIMAL
+    );
 
     _deployVault(_getYieldVault("yvUSDC-LY"), " Low Yield", "-LY", usdcPerPool);
 
     _deployVault(_getYieldVault("yvUSDC-HY"), " High Yield", "-HY", usdcPerPool);
 
     /* gUSD */
-    uint128 gusdPerPool = _getExchangeRate(ONE_GUSD_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - GUSD_TOKEN_DECIMAL);
+    uint128 gusdPerPool = _getExchangeRate(
+      ONE_GUSD_IN_USD_E8,
+      DEFAULT_TOKEN_DECIMAL - GUSD_TOKEN_DECIMAL
+    );
 
     _deployVault(_getYieldVault("yvGUSD"), "", "", gusdPerPool);
 
     /* wBTC */
-    uint128 wBtcPerPool = _getExchangeRate(ONE_WBTC_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - WBTC_TOKEN_DECIMAL);
+    uint128 wBtcPerPool = _getExchangeRate(
+      ONE_WBTC_IN_USD_E8,
+      DEFAULT_TOKEN_DECIMAL - WBTC_TOKEN_DECIMAL
+    );
 
     _deployVault(_getYieldVault("yvWBTC"), "", "", wBtcPerPool);
 

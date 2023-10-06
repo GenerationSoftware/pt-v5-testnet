@@ -12,7 +12,12 @@ contract DeployToken is Helpers {
     address _tokenFaucetAddress = address(_getTokenFaucet());
 
     /* wBTC */
-    ERC20Mintable wBTC = new ERC20Mintable("Wrapped BTC", WBTC_SYMBOL, WBTC_TOKEN_DECIMAL, msg.sender);
+    ERC20Mintable wBTC = new ERC20Mintable(
+      "Wrapped BTC",
+      WBTC_SYMBOL,
+      WBTC_TOKEN_DECIMAL,
+      msg.sender
+    );
     wBTC.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, WBTC_TOKEN_DECIMAL));
 
     /* wETH */
