@@ -12,6 +12,7 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
+import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
@@ -323,6 +324,17 @@ abstract contract Helpers is Constants, Script {
     return
       Claimer(
         _getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found")
+      );
+  }
+
+  function _getL1RngAuction() internal returns (RngAuction) {
+    return
+      RngAuction(
+        _getContractAddress(
+          "RngAuction",
+          _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+          "rng-auction-not-found"
+        )
       );
   }
 

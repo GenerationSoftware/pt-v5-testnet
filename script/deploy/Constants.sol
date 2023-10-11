@@ -24,7 +24,7 @@ abstract contract Constants {
 
   // MessageExecutor
   address internal constant ERC5164_EXECUTOR_GOERLI_OPTIMISM =
-    0xc5165406dB791549f0D2423D1483c1EA10A3A206;
+    0x59Ba766ff229c21b97184647292706039aF63dA1;
 
   // Chain IDs
   uint256 constant GOERLI_CHAIN_ID = 5;
