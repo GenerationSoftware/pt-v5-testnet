@@ -1177,6 +1177,11 @@
         },
         {
           "inputs": [],
+          "name": "GasLimitIsZero",
+          "type": "error"
+        },
+        {
+          "inputs": [],
           "name": "MessageDispatcherIsZeroAddress",
           "type": "error"
         },
@@ -1229,7 +1234,7 @@
           "inputs": [
             {
               "indexed": false,
-              "internalType": "contract IMessageDispatcher",
+              "internalType": "contract IMessageDispatcherOptimism",
               "name": "messageDispatcher",
               "type": "address"
             },
@@ -1270,7 +1275,7 @@
         {
           "inputs": [
             {
-              "internalType": "contract IMessageDispatcher",
+              "internalType": "contract IMessageDispatcherOptimism",
               "name": "_messageDispatcher",
               "type": "address"
             },
@@ -1293,6 +1298,11 @@
               "internalType": "address",
               "name": "_rewardRecipient",
               "type": "address"
+            },
+            {
+              "internalType": "uint32",
+              "name": "_gasLimit",
+              "type": "uint32"
             }
           ],
           "name": "relay",
