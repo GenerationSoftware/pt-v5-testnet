@@ -32,7 +32,7 @@ abstract contract Constants {
 
   // Deploy parameters
   // Chainlink VRF
-  uint32 internal constant CHAINLINK_CALLBACK_GAS_LIMIT = 50_000;
+  uint32 internal constant CHAINLINK_CALLBACK_GAS_LIMIT = 42_000;
   uint16 internal constant CHAINLINK_REQUEST_CONFIRMATIONS = 3;
 
   // Claimer

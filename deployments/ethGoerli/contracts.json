@@ -9,7 +9,7 @@
   "contracts": [
     {
       "chainId": 5,
-      "address": "0x200cda25E6d3C956C4A0ed1B612831598C682d6e",
+      "address": "0x6B17EE3a95BcCd605340454c5919e693Ef8EfF0E",
       "version": {
         "major": 1,
         "minor": 0,
@@ -1039,7 +1039,7 @@
     },
     {
       "chainId": 5,
-      "address": "0x08D7529ABb35aF1cC4712aCD7Ad6198718EcFc5A",
+      "address": "0xa577C58435e0334B5039f5e71cCb4a45641c3495",
       "version": {
         "major": 1,
         "minor": 0,
