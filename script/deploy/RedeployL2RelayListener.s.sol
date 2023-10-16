@@ -25,44 +25,26 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-contract DeployL2PrizePool is Helpers {
+contract RedeployL2RelayListener is Helpers {
   function run() public {
     vm.startBroadcast();
 
-    console2.log("getting POOL....");
+    PrizePool prizePool = _getPrizePool();
 
-    ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
+    console2.log("re-deploying remote owner....");
 
-    console2.log("constructing twab controller....");
-
-    TwabController twabController = new TwabController(
-      TWAB_PERIOD_LENGTH,
-      _getAuctionOffset() // use auction offset since it's set in the past
+    address newRelayerAddress = _getContractAddress(
+      "RngAuctionRelayerRemoteOwner",
+      _getDeployPathWithChainId("RedeployL1Relayer.s.sol", GOERLI_CHAIN_ID),
+      "new-rng-relayer-not-found"
     );
-
-    console2.log("constructing prize pool....");
-
-    PrizePool prizePool = new PrizePool(
-      ConstructorParams(
-        prizeToken,
-        twabController,
-        DRAW_PERIOD_SECONDS,
-        _getFirstDrawStartsAt(),
-        _getContributionsSmoothing(),
-        GRAND_PRIZE_PERIOD_DRAWS,
-        MIN_NUMBER_OF_TIERS,
-        TIER_SHARES,
-        RESERVE_SHARES
-      )
-    );
-
-    console2.log("constructing auction....");
-
     RemoteOwner remoteOwner = new RemoteOwner(
       GOERLI_CHAIN_ID,
       ERC5164_EXECUTOR_GOERLI_OPTIMISM,
-      address(_getL1RngAuctionRelayerRemote())
+      newRelayerAddress
     );
+
+    console2.log("re-deploying relay auction....");
 
     RngRelayAuction rngRelayAuction = new RngRelayAuction(
       prizePool,
@@ -73,21 +55,9 @@ contract DeployL2PrizePool is Helpers {
       AUCTION_MAX_REWARD
     );
 
-    prizePool.setDrawManager(address(rngRelayAuction));
-
-    ClaimerFactory claimerFactory = new ClaimerFactory();
-    claimerFactory.createClaimer(
-      prizePool,
-      CLAIMER_MIN_FEE,
-      CLAIMER_MAX_FEE,
-      _getClaimerTimeToReachMaxFee(),
-      CLAIMER_MAX_FEE_PERCENT
-    );
-
-    LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
-    new LiquidationRouter(liquidationPairFactory);
-
-    new VaultFactory();
+    // Uncomment to set relay auction as new draw manager right away:
+    // console2.log("setting draw manager....");
+    // prizePool.setDrawManager(address(rngRelayAuction));
 
     vm.stopBroadcast();
   }

@@ -13,39 +13,38 @@ contract DeployYieldVault is Helpers {
     string memory _nameSuffix,
     string memory _symbolSuffix
   ) internal returns (YieldVaultMintRate) {
-    string memory _underlyingAssetName = _underlyingAsset.name();
     string memory _underlyingAssetSymbol = _underlyingAsset.symbol();
 
     return
       new YieldVaultMintRate(
         _underlyingAsset,
-        string.concat("PoolTogether ", _underlyingAssetName, " ", _nameSuffix, " Yield"),
-        string.concat("PT", _underlyingAssetSymbol, _symbolSuffix, "Y"),
+        string.concat("Prize Yield Vault ", _underlyingAssetSymbol, " ", _nameSuffix),
+        string.concat("yv", _underlyingAssetSymbol, _symbolSuffix),
         msg.sender
       );
   }
 
   function _deployYieldVaults() internal {
     /* DAI */
-    ERC20Mintable dai = _getToken("DAI", _stableTokenDeployPath);
-    _deployYieldVault(dai, "Low", "L");
-    _deployYieldVault(dai, "High", "H");
+    ERC20Mintable dai = _getToken(DAI_SYMBOL, _stableTokenDeployPath);
+    _deployYieldVault(dai, "Low Yield", "-LY");
+    _deployYieldVault(dai, "High Yield", "-HY");
 
     /* USDC */
-    ERC20Mintable usdc = _getToken("USDC", _stableTokenDeployPath);
-    _deployYieldVault(usdc, "Low", "L");
-    _deployYieldVault(usdc, "High", "H");
+    ERC20Mintable usdc = _getToken(USDC_SYMBOL, _stableTokenDeployPath);
+    _deployYieldVault(usdc, "Low Yield", "-LY");
+    _deployYieldVault(usdc, "High Yield", "-HY");
 
     /* gUSD */
-    ERC20Mintable gUSD = _getToken("GUSD", _stableTokenDeployPath);
+    ERC20Mintable gUSD = _getToken(GUSD_SYMBOL, _stableTokenDeployPath);
     _deployYieldVault(gUSD, "", "");
 
     /* wBTC */
-    ERC20Mintable wBTC = _getToken("WBTC", _tokenDeployPath);
+    ERC20Mintable wBTC = _getToken(WBTC_SYMBOL, _tokenDeployPath);
     _deployYieldVault(wBTC, "", "");
 
     /* wETH */
-    ERC20Mintable wETH = _getToken("WETH", _tokenDeployPath);
+    ERC20Mintable wETH = _getToken(WETH_SYMBOL, _tokenDeployPath);
     _deployYieldVault(wETH, "", "");
   }
 

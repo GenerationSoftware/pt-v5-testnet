@@ -12,13 +12,18 @@ contract DeployToken is Helpers {
     address _tokenFaucetAddress = address(_getTokenFaucet());
 
     /* wBTC */
-    ERC20Mintable wBTC = new ERC20Mintable("Wrapped BTC", "WBTC", WBTC_TOKEN_DECIMAL, msg.sender);
+    ERC20Mintable wBTC = new ERC20Mintable(
+      "Wrapped BTC",
+      WBTC_SYMBOL,
+      WBTC_TOKEN_DECIMAL,
+      msg.sender
+    );
     wBTC.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, WBTC_TOKEN_DECIMAL));
 
     /* wETH */
     ERC20Mintable wETH = new ERC20Mintable(
       "Wrapped Ether",
-      "WETH",
+      WETH_SYMBOL,
       DEFAULT_TOKEN_DECIMAL,
       msg.sender
     );
@@ -27,7 +32,7 @@ contract DeployToken is Helpers {
 
     ERC20Mintable prizeToken = new ERC20Mintable(
       "PoolTogether",
-      "POOL",
+      POOL_SYMBOL,
       DEFAULT_TOKEN_DECIMAL,
       msg.sender
     );

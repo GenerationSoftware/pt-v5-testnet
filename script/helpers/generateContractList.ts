@@ -156,6 +156,8 @@ export const generateContractList = (deploymentPaths: string[]): ContractList =>
           contractAddress = createdContract.address;
           if (contractName === "LiquidationPairFactory") {
             contractName = "LiquidationPair";
+          } else if (contractName === "ClaimerFactory") {
+            contractName = "Claimer";
           }
         }
 

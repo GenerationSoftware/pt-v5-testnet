@@ -11,7 +11,7 @@ contract DeployStableToken is Helpers {
   function _deployTokens() internal {
     uint256 _mintAmount = 100_000_000;
 
-    new MarketRate(8, msg.sender);
+    new MarketRate(MARKET_RATE_DECIMALS, msg.sender);
 
     TokenFaucet tokenFaucet = new TokenFaucet();
     address _tokenFaucetAddress = address(tokenFaucet);
@@ -19,7 +19,7 @@ contract DeployStableToken is Helpers {
     /* DAI */
     ERC20Mintable dai = new ERC20Mintable(
       "Dai Stablecoin",
-      "DAI",
+      DAI_SYMBOL,
       DEFAULT_TOKEN_DECIMAL,
       msg.sender
     );
@@ -27,11 +27,16 @@ contract DeployStableToken is Helpers {
     dai.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, DEFAULT_TOKEN_DECIMAL));
 
     /* USDC */
-    ERC20Mintable usdc = new ERC20Mintable("USD Coin", "USDC", USDC_TOKEN_DECIMAL, msg.sender);
+    ERC20Mintable usdc = new ERC20Mintable("USD Coin", USDC_SYMBOL, USDC_TOKEN_DECIMAL, msg.sender);
     usdc.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, USDC_TOKEN_DECIMAL));
 
     /* gUSD */
-    ERC20Mintable gUSD = new ERC20Mintable("Gemini dollar", "GUSD", GUSD_TOKEN_DECIMAL, msg.sender);
+    ERC20Mintable gUSD = new ERC20Mintable(
+      "Gemini Dollar",
+      GUSD_SYMBOL,
+      GUSD_TOKEN_DECIMAL,
+      msg.sender
+    );
     gUSD.mint(_tokenFaucetAddress, _toDecimals(_mintAmount, GUSD_TOKEN_DECIMAL));
   }
 

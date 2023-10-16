@@ -131,7 +131,7 @@ contract IntegrationBaseSetup is Test {
       _virtualReserveOut // just make it up
     );
 
-    vault.setLiquidationPair(liquidationPair);
+    vault.setLiquidationPair(address(liquidationPair));
 
     liquidationRouter = new LiquidationRouter(liquidationPairFactory);
   }

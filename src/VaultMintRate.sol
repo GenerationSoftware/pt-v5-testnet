@@ -11,12 +11,13 @@ import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { YieldVaultMintRate } from "./YieldVaultMintRate.sol";
 
 contract VaultMintRate is Vault {
+  IERC4626 private immutable _yieldVault;
+
   constructor(
     IERC20 _asset,
     string memory _name,
     string memory _symbol,
-    TwabController _twabController,
-    IERC4626 _yieldVault,
+    IERC4626 yieldVault_,
     PrizePool _prizePool,
     Claimer _claimer,
     address _yieldFeeRecipient,
@@ -27,29 +28,35 @@ contract VaultMintRate is Vault {
       _asset,
       _name,
       _symbol,
-      _yieldVault,
+      yieldVault_,
       _prizePool,
       address(_claimer),
       _yieldFeeRecipient,
       _yieldFeePercentage,
       _owner
     )
-  {}
-
-  function transferTokensOut(
-    address _sender,
-    address _receiver,
-    address _tokenOut,
-    uint256 _amountOut
-  ) public override returns (bytes memory) {
-    YieldVaultMintRate(yieldVault()).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
-    return
-      super.transferTokensOut(
-        _sender,
-        _receiver,
-        _tokenOut,
-        _amountOut
-      );
+  {
+    _yieldVault = yieldVault_;
   }
 
+  function _mint(address _receiver, uint256 _shares) internal virtual override {
+    YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
+    super._mint(_receiver, _shares);
+  }
+
+  // function transferTokensOut(
+  //   address _sender,
+  //   address _receiver,
+  //   address _tokenOut,
+  //   uint256 _amountOut
+  // ) public override returns (bytes memory) {
+  //   YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
+  //   return
+  //     super.transferTokensOut(
+  //       _sender,
+  //       _receiver,
+  //       _tokenOut,
+  //       _amountOut
+  //     );
+  // }
 }

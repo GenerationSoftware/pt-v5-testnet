@@ -12,6 +12,7 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
+import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
@@ -23,38 +24,18 @@ import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
 import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
 
+import { Constants } from "../deploy/Constants.sol";
+
 // Testnet deployment paths
-uint256 constant GOERLI_CHAIN_ID = 5;
-uint256 constant OPTIMISM_GOERLI_CHAIN_ID = 420;
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
 string constant LOCAL_PATH = "/broadcast/Deploy.s.sol/31337";
 
-abstract contract Helpers is Script {
+abstract contract Helpers is Constants, Script {
   using strings for *;
   using stdJson for string;
 
   /* ============ Constants ============ */
-  uint8 internal constant DEFAULT_TOKEN_DECIMAL = 18;
-  uint8 internal constant USDC_TOKEN_DECIMAL = 6;
-  uint8 internal constant GUSD_TOKEN_DECIMAL = 2;
-  uint8 internal constant WBTC_TOKEN_DECIMAL = 8;
-
-  uint256 internal constant DAI_PRICE = 100000000;
-  uint256 internal constant USDC_PRICE = 100000000;
-  uint256 internal constant GUSD_PRICE = 100000000;
-  uint256 internal constant POOL_PRICE = 100000000;
-  uint256 internal constant WBTC_PRICE = 2488023943815;
-  uint256 internal constant ETH_PRICE = 166876925050;
-  uint256 internal constant PRIZE_TOKEN_PRICE = 1e18;
-
   uint256 internal constant ONE_YEAR_IN_SECONDS = 31557600;
-
-  address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
-  address internal constant GOERLI_DEFENDER_ADDRESS_2 = 0xe6Cb4266474BBf065A822DFf46031bb16eB71264;
-  address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS =
-    0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
-  address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
-  address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
 
   string DEPLOY_POOL_SCRIPT;
 
@@ -79,14 +60,14 @@ abstract contract Helpers is Script {
 
   /**
    * @notice Get exchange rate for liquidation pair `virtualReserveOut`.
-   * @param _tokenPrice Price of the token represented in 8 decimals
+   * @param _tokenPrice Price of the token represented in MARKET_RATE_DECIMALS decimals
    * @param _decimalOffset Offset between the prize token decimals and the token decimals
    */
   function _getExchangeRate(
     uint256 _tokenPrice,
     uint8 _decimalOffset
-  ) internal pure returns (uint128) {
-    return uint128((PRIZE_TOKEN_PRICE * 1e8) / (_tokenPrice * (10 ** _decimalOffset)));
+  ) internal view returns (uint128) {
+    return uint128((1e18 * (10 ** MARKET_RATE_DECIMALS)) / (_tokenPrice * (10 ** _decimalOffset)));
   }
 
   function _tokenGrantMinterRole(ERC20Mintable _token, address _grantee) internal {
@@ -134,8 +115,8 @@ abstract contract Helpers is Script {
   ) internal returns (string[] memory) {
     string[] memory inputs = new string[](4);
     inputs[0] = "ls";
-    inputs[1] = "-m";
-    inputs[2] = "-r";
+    inputs[1] = "-r";
+    inputs[2] = "-1";
     inputs[3] = string.concat(vm.projectRoot(), _deploymentArtifactsPath);
     bytes memory res = vm.ffi(inputs);
 
@@ -148,12 +129,15 @@ abstract contract Helpers is Script {
     if (!sWithoutDirPrefix.empty()) s = sWithoutDirPrefix;
 
     // Remove newline and push into array
-    strings.slice memory delim = ", ".toSlice();
-    strings.slice memory sliceNewline = "\n".toSlice();
+    strings.slice memory delim = "\n".toSlice();
     string[] memory filesName = new string[](s.count(delim) + 1);
 
     for (uint256 i = 0; i < filesName.length; i++) {
-      filesName[i] = s.split(delim).beyond(sliceNewline).toString();
+      filesName[i] = string.concat(
+        "run",
+        s.split(delim).beyond("run".toSlice()).until(".json".toSlice()).toString(),
+        ".json"
+      );
     }
 
     return filesName;
@@ -171,9 +155,9 @@ abstract contract Helpers is Script {
     for (uint256 i; i < filesNameLength; i++) {
       string memory filePath = string.concat(vm.projectRoot(), _artifactsPath, filesName[i]);
       string memory jsonFile = vm.readFile(filePath);
-      bytes[] memory rawTxs = abi.decode(vm.parseJson(jsonFile, ".transactions"), (bytes[]));
-
-      uint256 transactionsLength = rawTxs.length;
+      uint256 transactionsLength = abi
+        .decode(vm.parseJson(jsonFile, ".transactions"), (bytes[]))
+        .length;
 
       for (uint256 j; j < transactionsLength; j++) {
         string memory contractName = abi.decode(
@@ -197,6 +181,56 @@ abstract contract Helpers is Script {
           );
 
           return contractAddress;
+        }
+
+        // check factory creations
+        if (
+          keccak256(abi.encodePacked(contractName)) ==
+          keccak256(abi.encodePacked(_contractName, "Factory"))
+        ) {
+          console2.log("Checking factory...");
+          string memory factoryTransactionType = abi.decode(
+            stdJson.parseRaw(
+              jsonFile,
+              string.concat(".transactions[", vm.toString(j), "]", ".transactionType")
+            ),
+            (string)
+          );
+          if (
+            keccak256(abi.encodePacked(factoryTransactionType)) ==
+            keccak256(abi.encodePacked("CALL"))
+          ) {
+            string memory transactionType = abi.decode(
+              stdJson.parseRaw(
+                jsonFile,
+                string.concat(
+                  ".transactions[",
+                  vm.toString(j),
+                  "].additionalContracts[0].transactionType"
+                )
+              ),
+              (string)
+            );
+            console2.log("Additional contract found!");
+            if (
+              keccak256(abi.encodePacked(transactionType)) == keccak256(abi.encodePacked("CREATE"))
+            ) {
+              address contractAddress = abi.decode(
+                stdJson.parseRaw(
+                  jsonFile,
+                  string.concat(
+                    ".transactions[",
+                    vm.toString(j),
+                    "].additionalContracts",
+                    "[0].address"
+                  )
+                ),
+                (address)
+              );
+
+              return contractAddress;
+            }
+          }
         }
       }
     }
@@ -290,6 +324,17 @@ abstract contract Helpers is Script {
     return
       Claimer(
         _getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found")
+      );
+  }
+
+  function _getL1RngAuction() internal returns (RngAuction) {
+    return
+      RngAuction(
+        _getContractAddress(
+          "RngAuction",
+          _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+          "rng-auction-not-found"
+        )
       );
   }
 
@@ -393,7 +438,9 @@ abstract contract Helpers is Script {
   function _getLinkToken() internal view returns (LinkTokenInterface) {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
-      return LinkTokenInterface(address(0x326C977E6efc84E512bB9C30f76E30c160eD06FB));
+      return LinkTokenInterface(GOERLI_LINK_ADDRESS);
+    } else if (block.chainid == 31337) {
+      return LinkTokenInterface(address(GOERLI_LINK_ADDRESS)); // bogus localhost address
     } else {
       revert("Link token address not set in `_getLinkToken` for this chain.");
     }
@@ -402,7 +449,9 @@ abstract contract Helpers is Script {
   function _getVrfV2Wrapper() internal view returns (VRFV2Wrapper) {
     if (block.chainid == GOERLI_CHAIN_ID) {
       // Goerli Ethereum
-      return VRFV2Wrapper(address(0x708701a1DfF4f478de54383E49a627eD4852C816));
+      return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
+    } else if (block.chainid == 31337) {
+      return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS)); // bogus localhost address
     } else {
       revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
     }

@@ -44,7 +44,7 @@ contract LiquidateMorphoForkTest is ForkBaseSetup, Helpers {
     uint256 _amount = 10_000_000e6;
     deal(underlyingAssetAddress, address(this), _amount);
 
-    uint256 _shares = _deposit(underlyingAsset, vault, _amount, address(this));
+    _deposit(underlyingAsset, vault, _amount, address(this));
 
     uint256 _vaultBalanceBefore = yieldVault.convertToAssets(yieldVault.balanceOf(address(vault)));
     // uint256 _vaultBalanceBefore = vault.convertToAssets(vault.balanceOf(address(address(this))));
@@ -54,7 +54,7 @@ contract LiquidateMorphoForkTest is ForkBaseSetup, Helpers {
     console2.log("_aTokenBalanceBefore", _aTokenBalanceBefore);
 
     console2.log("block.number before", block.number);
-    utils.mineBlocks(drawPeriodSeconds / 12); // Assuming 1 block every 12 seconds
+    utils.mineBlocks(DRAW_PERIOD_SECONDS / 12); // Assuming 1 block every 12 seconds
     console2.log("block.number after", block.number);
 
     /**

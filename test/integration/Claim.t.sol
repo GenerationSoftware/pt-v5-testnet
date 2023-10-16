@@ -25,7 +25,7 @@ contract ClaimIntegrationTest is IntegrationBaseSetup, Helpers {
     _deposit(underlyingAsset, vault, _amount, alice);
 
     // second period
-    vm.warp(drawStartsAt + drawPeriodSeconds + drawPeriodSeconds/8);
+    vm.warp(drawStartsAt + drawPeriodSeconds + drawPeriodSeconds / 8);
 
     vm.stopPrank();
 

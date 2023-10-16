@@ -12,21 +12,21 @@ import { Helpers } from "../helpers/Helpers.sol";
 contract SetVaultRole is Helpers {
   function _setVaultsRole() internal {
     /* DAI */
-    _yieldVaultGrantMinterRole(_getYieldVault("PTDAILY"), address(_getVault("PTDAILYT")));
-    _yieldVaultGrantMinterRole(_getYieldVault("PTDAIHY"), address(_getVault("PTDAIHYT")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvDAI-LY"), address(_getVault("PDAI-LY-T")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvDAI-HY"), address(_getVault("PDAI-HY-T")));
 
     // /* USDC */
-    _yieldVaultGrantMinterRole(_getYieldVault("PTUSDCLY"), address(_getVault("PTUSDCLYT")));
-    _yieldVaultGrantMinterRole(_getYieldVault("PTUSDCHY"), address(_getVault("PTUSDCHYT")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvUSDC-LY"), address(_getVault("PUSDC-LY-T")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvUSDC-HY"), address(_getVault("PUSDC-HY-T")));
 
     // /* gUSD */
-    _yieldVaultGrantMinterRole(_getYieldVault("PTGUSDY"), address(_getVault("PTGUSDT")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvGUSD"), address(_getVault("PGUSD-T")));
 
     // /* wBTC */
-    _yieldVaultGrantMinterRole(_getYieldVault("PTWBTCY"), address(_getVault("PTWBTCT")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvWBTC"), address(_getVault("PWBTC-T")));
 
     // /* wETH */
-    _yieldVaultGrantMinterRole(_getYieldVault("PTWETHY"), address(_getVault("PTWETHT")));
+    _yieldVaultGrantMinterRole(_getYieldVault("yvWETH"), address(_getVault("PWETH-T")));
   }
 
   function run() public {

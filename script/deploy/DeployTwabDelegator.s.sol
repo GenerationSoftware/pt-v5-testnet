@@ -20,8 +20,8 @@ contract DeployTwabDelegator is Helpers {
     ERC20 _underlyingAsset = ERC20(_vault.asset());
 
     new TwabDelegator(
-      string.concat("PoolTogether Staked ", _underlyingAsset.name(), _nameSuffix, " Prize Token"),
-      string.concat("stkPT", _underlyingAsset.symbol(), _symbolSuffix, "T"),
+      string.concat("Staked Prize ", _underlyingAsset.symbol(), _nameSuffix),
+      string.concat("stkP", _underlyingAsset.symbol(), _symbolSuffix, "-T"),
       _twabController,
       _vault
     );
@@ -31,21 +31,21 @@ contract DeployTwabDelegator is Helpers {
     TwabController _twabController = _getTwabController();
 
     /* DAI */
-    _deployTwabDelegator(_twabController, _getVault("PTDAILYT"), " Low Yield", "LY");
-    _deployTwabDelegator(_twabController, _getVault("PTDAIHYT"), " High Yield", "HY");
+    _deployTwabDelegator(_twabController, _getVault("PDAI-LY-T"), " Low Yield", "LY");
+    _deployTwabDelegator(_twabController, _getVault("PDAI-HY-T"), " High Yield", "HY");
 
     /* USDC */
-    _deployTwabDelegator(_twabController, _getVault("PTUSDCLYT"), " Low Yield", "LY");
-    _deployTwabDelegator(_twabController, _getVault("PTUSDCHYT"), " High Yield", "HY");
+    _deployTwabDelegator(_twabController, _getVault("PUSDC-LY-T"), " Low Yield", "LY");
+    _deployTwabDelegator(_twabController, _getVault("PUSDC-HY-T"), " High Yield", "HY");
 
     /* gUSD */
-    _deployTwabDelegator(_twabController, _getVault("PTGUSDT"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PGUSD-T"), "", "");
 
     /* wBTC */
-    _deployTwabDelegator(_twabController, _getVault("PTWBTCT"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PWBTC-T"), "", "");
 
     /* wETH */
-    _deployTwabDelegator(_twabController, _getVault("PTWETHT"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("PWETH-T"), "", "");
   }
 
   function run() public {
