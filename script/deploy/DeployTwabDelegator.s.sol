@@ -31,21 +31,21 @@ contract DeployTwabDelegator is Helpers {
     TwabController _twabController = _getTwabController();
 
     /* DAI */
-    _deployTwabDelegator(_twabController, _getVault("PDAI-LY-T"), " Low Yield", "LY");
-    _deployTwabDelegator(_twabController, _getVault("PDAI-HY-T"), " High Yield", "HY");
+    _deployTwabDelegator(_twabController, _getVault("pDAI-LY-T"), " Low Yield", "LY");
+    _deployTwabDelegator(_twabController, _getVault("pDAI-HY-T"), " High Yield", "HY");
 
     /* USDC */
-    _deployTwabDelegator(_twabController, _getVault("PUSDC-LY-T"), " Low Yield", "LY");
-    _deployTwabDelegator(_twabController, _getVault("PUSDC-HY-T"), " High Yield", "HY");
+    _deployTwabDelegator(_twabController, _getVault("pUSDC-LY-T"), " Low Yield", "LY");
+    _deployTwabDelegator(_twabController, _getVault("pUSDC-HY-T"), " High Yield", "HY");
 
     /* gUSD */
-    _deployTwabDelegator(_twabController, _getVault("PGUSD-T"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("pGUSD-T"), "", "");
 
     /* wBTC */
-    _deployTwabDelegator(_twabController, _getVault("PWBTC-T"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("pWBTC-T"), "", "");
 
     /* wETH */
-    _deployTwabDelegator(_twabController, _getVault("PWETH-T"), "", "");
+    _deployTwabDelegator(_twabController, _getVault("pWETH-T"), "", "");
   }
 
   function run() public {

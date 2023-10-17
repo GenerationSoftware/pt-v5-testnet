@@ -33,7 +33,7 @@ contract DeployVault is Helpers {
     vault = new VaultMintRate(
       _underlyingAsset,
       string.concat("Prize ", _underlyingAsset.symbol(), _nameSuffix),
-      string.concat("P", _underlyingAsset.symbol(), _symbolSuffix, "-T"),
+      string.concat("p", _underlyingAsset.symbol(), _symbolSuffix, "-T"),
       _yieldVault,
       prizePool,
       _getClaimer(),
@@ -60,7 +60,7 @@ contract DeployVault is Helpers {
       ILiquidationSource(_vault),
       address(_getToken(POOL_SYMBOL, _tokenDeployPath)),
       address(_vault),
-      _prizePool.drawPeriodSeconds(),
+      uint32(_prizePool.drawPeriodSeconds()),
       uint32(_prizePool.firstDrawOpensAt()),
       _getTargetFirstSaleTime(_prizePool.drawPeriodSeconds()),
       _getDecayConstant(),
