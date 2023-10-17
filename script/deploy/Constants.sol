@@ -32,7 +32,7 @@ abstract contract Constants {
 
   // Deploy parameters
   // Chainlink VRF
-  uint32 internal constant CHAINLINK_CALLBACK_GAS_LIMIT = 42_000;
+  uint32 internal constant CHAINLINK_CALLBACK_GAS_LIMIT = 60_000;
   uint16 internal constant CHAINLINK_REQUEST_CONFIRMATIONS = 3;
 
   // Claimer
@@ -48,8 +48,8 @@ abstract contract Constants {
   uint104 internal constant ONE_POOL = 1e18;
 
   /// @notice The target first sale time for an LP
-  function _getTargetFirstSaleTime(uint32 _drawPeriodSeconds) internal pure returns (uint32) {
-    return _drawPeriodSeconds / 2;
+  function _getTargetFirstSaleTime(uint48 _drawPeriodSeconds) internal pure returns (uint32) {
+    return uint32(_drawPeriodSeconds / 2);
   }
 
   /**
@@ -65,7 +65,7 @@ abstract contract Constants {
   uint32 internal constant DRAW_PERIOD_SECONDS = 1 days / 4;
   uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 14; // Twice a week (4 draws a day)
   uint8 internal constant MIN_NUMBER_OF_TIERS = 3;
-  uint8 internal constant RESERVE_SHARES = 100;
+  uint8 internal constant RESERVE_SHARES = 80;
   uint8 internal constant TIER_SHARES = 100;
 
   function _getContributionsSmoothing() internal pure returns (SD1x18) {
@@ -84,9 +84,9 @@ abstract contract Constants {
 
   // RngAuctions
   uint64 internal constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4;
-  uint64 internal constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 3; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
+  uint64 internal constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 2; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
   uint256 internal constant AUCTION_MAX_REWARD = 10000e18;
-  UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0.5e18); // 50%
+  UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0); // 0%
 
   /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
   function _getAuctionOffset() internal view returns (uint32) {
@@ -110,12 +110,6 @@ abstract contract Constants {
   string internal constant GUSD_SYMBOL = "GUSD";
   string internal constant DAI_SYMBOL = "DAI";
   string internal constant WBTC_SYMBOL = "WBTC";
-
-  string internal constant PRIZE_USDC_NAME = "Prize USDC";
-  string internal constant PRIZE_USDC_SYMBOL = "PUSDC";
-
-  string internal constant PRIZE_WETH_NAME = "Prize WETH";
-  string internal constant PRIZE_WETH_SYMBOL = "PWETH";
 
   // Token prices in USD
   uint8 MARKET_RATE_DECIMALS = 8;

@@ -76,7 +76,7 @@ contract Helpers is Test {
     uint32[] memory _userPrizeIndices,
     uint8[] memory _tiers
   ) internal returns (uint256) {
-    uint32 _drawPeriodSeconds = _prizePool.drawPeriodSeconds();
+    uint48 _drawPeriodSeconds = _prizePool.drawPeriodSeconds();
 
     vm.warp(
       _drawPeriodSeconds /
