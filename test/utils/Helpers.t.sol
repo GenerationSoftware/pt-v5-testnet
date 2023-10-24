@@ -14,91 +14,87 @@ import { Vault } from "pt-v5-vault/Vault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
 contract Helpers is Test {
-  /* ============ Deposit ============ */
-  function _deposit(
-    IERC20 _underlyingAsset,
-    IERC4626 _vault,
-    uint256 _amount,
-    address _user
-  ) internal returns (uint256) {
-    _underlyingAsset.approve(address(_vault), type(uint256).max);
-    return _vault.deposit(_amount, _user);
-  }
+    /* ============ Deposit ============ */
+    function _deposit(
+        IERC20 _underlyingAsset,
+        IERC4626 _vault,
+        uint256 _amount,
+        address _user
+    ) internal returns (uint256) {
+        _underlyingAsset.approve(address(_vault), type(uint256).max);
+        return _vault.deposit(_amount, _user);
+    }
 
-  function _sponsor(
-    IERC20 _underlyingAsset,
-    Vault _vault,
-    uint256 _amount
-  ) internal returns (uint256) {
-    _underlyingAsset.approve(address(_vault), type(uint256).max);
-    return _vault.sponsor(_amount);
-  }
+    function _sponsor(IERC20 _underlyingAsset, Vault _vault, uint256 _amount) internal returns (uint256) {
+        _underlyingAsset.approve(address(_vault), type(uint256).max);
+        return _vault.sponsor(_amount);
+    }
 
-  /* ============ Liquidate ============ */
-  function _accrueYield(ERC20Mock _underlyingAsset, IERC4626 _yieldVault, uint256 _yield) internal {
-    _underlyingAsset.mint(address(_yieldVault), _yield);
-  }
+    /* ============ Liquidate ============ */
+    function _accrueYield(ERC20Mock _underlyingAsset, IERC4626 _yieldVault, uint256 _yield) internal {
+        _underlyingAsset.mint(address(_yieldVault), _yield);
+    }
 
-  function _liquidate(
-    LiquidationRouter _liquidationRouter,
-    LiquidationPair _liquidationPair,
-    IERC20 _prizeToken,
-    uint256 _yield,
-    address _user
-  ) internal returns (uint256 userPrizeTokenBalanceBeforeSwap, uint256 prizeTokenContributed) {
-    uint256 maxPrizeTokenContributed = _liquidationPair.computeExactAmountIn(_yield);
+    function _liquidate(
+        LiquidationRouter _liquidationRouter,
+        LiquidationPair _liquidationPair,
+        IERC20 _prizeToken,
+        uint256 _yield,
+        address _user
+    ) internal returns (uint256 userPrizeTokenBalanceBeforeSwap, uint256 prizeTokenContributed) {
+        uint256 maxPrizeTokenContributed = _liquidationPair.computeExactAmountIn(_yield);
 
-    _prizeToken.approve(address(_liquidationRouter), maxPrizeTokenContributed);
+        _prizeToken.approve(address(_liquidationRouter), maxPrizeTokenContributed);
 
-    userPrizeTokenBalanceBeforeSwap = _prizeToken.balanceOf(_user);
+        userPrizeTokenBalanceBeforeSwap = _prizeToken.balanceOf(_user);
 
-    prizeTokenContributed = _liquidationRouter.swapExactAmountOut(
-      _liquidationPair,
-      _user,
-      _yield,
-      maxPrizeTokenContributed,
-      block.timestamp + 100
-    );
-  }
+        prizeTokenContributed = _liquidationRouter.swapExactAmountOut(
+            _liquidationPair,
+            _user,
+            _yield,
+            maxPrizeTokenContributed,
+            block.timestamp + 100
+        );
+    }
 
-  /* ============ Award ============ */
-  function _award(PrizePool _prizePool, uint256 _winningRandomNumber) internal {
-    vm.warp(_prizePool.drawClosesAt(_prizePool.getOpenDrawId()));
-    _prizePool.awardDraw(_winningRandomNumber);
-  }
+    /* ============ Award ============ */
+    function _award(PrizePool _prizePool, uint256 _winningRandomNumber) internal {
+        vm.warp(_prizePool.drawClosesAt(_prizePool.getOpenDrawId()));
+        _prizePool.awardDraw(_winningRandomNumber);
+    }
 
-  /* ============ Claim ============ */
-  function _claim(
-    Claimer _claimer,
-    Vault _vault,
-    PrizePool _prizePool,
-    address _user,
-    uint32[] memory _userPrizeIndices,
-    uint8[] memory _tiers
-  ) internal returns (uint256) {
-    uint48 _drawPeriodSeconds = _prizePool.drawPeriodSeconds();
+    /* ============ Claim ============ */
+    function _claim(
+        Claimer _claimer,
+        Vault _vault,
+        PrizePool _prizePool,
+        address _user,
+        uint32[] memory _userPrizeIndices,
+        uint8[] memory _tiers
+    ) internal returns (uint256) {
+        uint48 _drawPeriodSeconds = _prizePool.drawPeriodSeconds();
 
-    vm.warp(
-      _drawPeriodSeconds /
-        _prizePool.estimatedPrizeCount() +
-        _prizePool.drawClosesAt(_prizePool.getLastAwardedDrawId()) +
-        10
-    );
+        vm.warp(
+            _drawPeriodSeconds /
+                _prizePool.estimatedPrizeCount() +
+                _prizePool.drawClosesAt(_prizePool.getLastAwardedDrawId()) +
+                10
+        );
 
-    address[] memory _winners = new address[](1);
-    _winners[0] = _user;
-    uint32[][] memory _prizeIndices = new uint32[][](1);
-    _prizeIndices[0] = _userPrizeIndices;
+        address[] memory _winners = new address[](1);
+        _winners[0] = _user;
+        uint32[][] memory _prizeIndices = new uint32[][](1);
+        _prizeIndices[0] = _userPrizeIndices;
 
-    uint256 _totalFees = _claimer.claimPrizes(
-      Vault(address(_vault)),
-      _tiers[0],
-      _winners,
-      _prizeIndices,
-      address(this),
-      0
-    );
+        uint256 _totalFees = _claimer.claimPrizes(
+            Vault(address(_vault)),
+            _tiers[0],
+            _winners,
+            _prizeIndices,
+            address(this),
+            0
+        );
 
-    return _totalFees;
-  }
+        return _totalFees;
+    }
 }

@@ -5,8 +5,14 @@ import {
   writeList,
 } from "../helpers/generateContractList";
 
-const ethGoerliDeploymentPaths = [`${rootFolder}/broadcast/DeployL1RngAuction.s.sol/5`];
-writeList(generateContractList(ethGoerliDeploymentPaths), "deployments/ethGoerli", "contracts");
+const ethGoerliDeploymentPaths = [
+  `${rootFolder}/broadcast/DeployL1RngAuction.s.sol/5`,
+];
+writeList(
+  generateContractList(ethGoerliDeploymentPaths),
+  "deployments/ethGoerli",
+  "contracts"
+);
 
 // const ethSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/11155111`;
 // const ethSepoliaTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/11155111`;
@@ -56,7 +62,10 @@ writeList(
   "contracts"
 );
 writeList(
-  generateVaultList(optimismGoerliVaultDeploymentPath, optimismGoerliTokenDeploymentPaths),
+  generateVaultList(
+    optimismGoerliVaultDeploymentPath,
+    optimismGoerliTokenDeploymentPaths
+  ),
   "deployments/optimismGoerli",
   "vaults"
 );

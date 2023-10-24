@@ -19,7 +19,11 @@ const deploymentPaths = [
 
 const tokenDeploymentPaths = [stableTokenDeploymentPath, tokenDeploymentPath];
 
-writeList(generateContractList(deploymentPaths), "deployments/local", "contracts");
+writeList(
+  generateContractList(deploymentPaths),
+  "deployments/local",
+  "contracts"
+);
 writeList(
   generateVaultList(vaultDeploymentPath, tokenDeploymentPaths),
   "deployments/local",

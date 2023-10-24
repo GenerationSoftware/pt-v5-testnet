@@ -26,69 +26,69 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 import { Helpers } from "../helpers/Helpers.sol";
 
 contract DeployL2PrizePool is Helpers {
-  function run() public {
-    vm.startBroadcast();
+    function run() public {
+        vm.startBroadcast();
 
-    console2.log("getting POOL....");
+        console2.log("getting POOL....");
 
-    ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
+        ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
 
-    console2.log("constructing twab controller....");
+        console2.log("constructing twab controller....");
 
-    TwabController twabController = new TwabController(
-      TWAB_PERIOD_LENGTH,
-      _getAuctionOffset() // use auction offset since it's set in the past
-    );
+        TwabController twabController = new TwabController(
+            TWAB_PERIOD_LENGTH,
+            _getAuctionOffset() // use auction offset since it's set in the past
+        );
 
-    console2.log("constructing prize pool....");
+        console2.log("constructing prize pool....");
 
-    PrizePool prizePool = new PrizePool(
-      ConstructorParams(
-        prizeToken,
-        twabController,
-        DRAW_PERIOD_SECONDS,
-        _getFirstDrawStartsAt(),
-        _getContributionsSmoothing(),
-        GRAND_PRIZE_PERIOD_DRAWS,
-        MIN_NUMBER_OF_TIERS,
-        TIER_SHARES,
-        RESERVE_SHARES
-      )
-    );
+        PrizePool prizePool = new PrizePool(
+            ConstructorParams(
+                prizeToken,
+                twabController,
+                DRAW_PERIOD_SECONDS,
+                _getFirstDrawStartsAt(),
+                _getContributionsSmoothing(),
+                GRAND_PRIZE_PERIOD_DRAWS,
+                MIN_NUMBER_OF_TIERS,
+                TIER_SHARES,
+                RESERVE_SHARES
+            )
+        );
 
-    console2.log("constructing auction....");
+        console2.log("constructing auction....");
 
-    RemoteOwner remoteOwner = new RemoteOwner(
-      GOERLI_CHAIN_ID,
-      ERC5164_EXECUTOR_GOERLI_OPTIMISM,
-      address(_getL1RngAuctionRelayerRemote())
-    );
+        RemoteOwner remoteOwner = new RemoteOwner(
+            GOERLI_CHAIN_ID,
+            ERC5164_EXECUTOR_GOERLI_OPTIMISM,
+            address(_getL1RngAuctionRelayerRemote())
+        );
 
-    RngRelayAuction rngRelayAuction = new RngRelayAuction(
-      prizePool,
-      AUCTION_DURATION,
-      AUCTION_TARGET_SALE_TIME,
-      address(remoteOwner),
-      AUCTION_TARGET_FIRST_SALE_FRACTION,
-      AUCTION_MAX_REWARD
-    );
+        RngRelayAuction rngRelayAuction = new RngRelayAuction(
+            prizePool,
+            AUCTION_DURATION,
+            AUCTION_TARGET_SALE_TIME,
+            address(remoteOwner),
+            AUCTION_TARGET_FIRST_SALE_FRACTION,
+            AUCTION_MAX_REWARD
+        );
 
-    prizePool.setDrawManager(address(rngRelayAuction));
+        prizePool.setDrawManager(address(rngRelayAuction));
 
-    ClaimerFactory claimerFactory = new ClaimerFactory();
-    claimerFactory.createClaimer(
-      prizePool,
-      CLAIMER_MIN_FEE,
-      CLAIMER_MAX_FEE,
-      _getClaimerTimeToReachMaxFee(),
-      CLAIMER_MAX_FEE_PERCENT
-    );
+        ClaimerFactory claimerFactory = new ClaimerFactory();
+        claimerFactory.createClaimer(
+            prizePool,
+            CLAIMER_MIN_FEE,
+            CLAIMER_MAX_FEE,
+            _getClaimerTimeToReachMaxFee(),
+            CLAIMER_MAX_FEE_PERCENT
+        );
 
-    LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
-    new LiquidationRouter(liquidationPairFactory);
+        LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
+        new LiquidationRouter(liquidationPairFactory);
 
-    new VaultFactory();
+        new VaultFactory();
 
-    vm.stopBroadcast();
-  }
+        vm.stopBroadcast();
+    }
 }
