@@ -38,6 +38,41 @@ writeList(
 //   "vaults"
 // );
 
+// Arbitrum
+const arbitrumGoerliStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/421613`;
+const arbitrumGoerliTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/421613`;
+const arbitrumGoerliVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/421613`;
+
+const arbitrumGoerliDeploymentPaths = [
+  arbitrumGoerliStableTokenDeploymentPath,
+  arbitrumGoerliTokenDeploymentPath,
+  `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/421613`,
+  `${rootFolder}/broadcast/DeployYieldVault.s.sol/421613`,
+  `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/421613`,
+  arbitrumGoerliVaultDeploymentPath,
+];
+
+const arbitrumGoerliTokenDeploymentPaths = [
+  arbitrumGoerliStableTokenDeploymentPath,
+  arbitrumGoerliTokenDeploymentPath,
+];
+
+writeList(
+  generateContractList(arbitrumGoerliDeploymentPaths),
+  "deployments/arbitrumGoerli",
+  "contracts"
+);
+
+writeList(
+  generateVaultList(
+    arbitrumGoerliVaultDeploymentPath,
+    arbitrumGoerliTokenDeploymentPaths
+  ),
+  "deployments/arbitrumGoerli",
+  "vaults"
+);
+
+// Optimism
 const optimismGoerliStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/420`;
 const optimismGoerliTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/420`;
 const optimismGoerliVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/420`;
@@ -61,6 +96,7 @@ writeList(
   "deployments/optimismGoerli",
   "contracts"
 );
+
 writeList(
   generateVaultList(
     optimismGoerliVaultDeploymentPath,

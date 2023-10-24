@@ -127,6 +127,18 @@ Then configure the contracts: `npm run deploy:config-contracts:ethSepolia`
 
 Then configure the contracts: `npm run deploy:config-contracts:ethGoerli`
 
+#### Arbitrum Goerli
+
+`npm run deploy:contracts:arbitrumGoerli`
+
+Then configure the contracts: `npm run deploy:config-contracts:arbitrumGoerli`
+
+#### Optimism Goerli
+
+`npm run deploy:contracts:optimismGoerli`
+
+Then configure the contracts: `npm run deploy:config-contracts:optimismGoerli`
+
 #### Polygon Mumbai
 
 `npm run deploy:contracts:mumbai`

@@ -58,11 +58,23 @@ contract DeployL2PrizePool is Helpers {
 
         console2.log("constructing auction....");
 
-        RemoteOwner remoteOwner = new RemoteOwner(
-            GOERLI_CHAIN_ID,
-            ERC5164_EXECUTOR_GOERLI_OPTIMISM,
-            address(_getL1RngAuctionRelayerRemote())
-        );
+        RemoteOwner remoteOwner;
+
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(
+                GOERLI_CHAIN_ID,
+                ERC5164_EXECUTOR_GOERLI_ARBITRUM,
+                address(_getL1RngAuctionRelayerRemote())
+            );
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(
+                GOERLI_CHAIN_ID,
+                ERC5164_EXECUTOR_GOERLI_OPTIMISM,
+                address(_getL1RngAuctionRelayerRemote())
+            );
+        }
+
+        require(address(remoteOwner) != address(0), "remoteOwner-not-zero-address");
 
         RngRelayAuction rngRelayAuction = new RngRelayAuction(
             prizePool,

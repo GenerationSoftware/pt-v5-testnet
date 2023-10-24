@@ -40,7 +40,11 @@ abstract contract Helpers is Constants, Script {
     string DEPLOY_POOL_SCRIPT;
 
     constructor() {
-        DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID ? "DeployL2PrizePool.s.sol" : "DeployPool.s.sol";
+        if (block.chainid == GOERLI_CHAIN_ID) {
+            DEPLOY_POOL_SCRIPT = "DeployPool.s.sol";
+        } else if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            DEPLOY_POOL_SCRIPT = "DeployL2PrizePool.s.sol";
+        }
     }
 
     /* ============ Helpers ============ */
@@ -76,6 +80,7 @@ abstract contract Helpers is Constants, Script {
     function _tokenGrantMinterRoles(ERC20Mintable _token) internal {
         _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
         _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
+        _tokenGrantMinterRole(_token, address(ARBITRUM_GOERLI_DEFENDER_ADDRESS));
         _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
         _tokenGrantMinterRole(_token, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
         _tokenGrantMinterRole(_token, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
@@ -83,7 +88,7 @@ abstract contract Helpers is Constants, Script {
     }
 
     function _yieldVaultGrantMinterRoles(YieldVaultMintRate _yieldVault) internal {
-        if (block.chainid == 5) {
+        if (block.chainid == GOERLI_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS);
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS_2);
         }
@@ -96,7 +101,11 @@ abstract contract Helpers is Constants, Script {
             _yieldVaultGrantMinterRole(_yieldVault, MUMBAI_DEFENDER_ADDRESS);
         }
 
-        if (block.chainid == 420) {
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            _yieldVaultGrantMinterRole(_yieldVault, ARBITRUM_GOERLI_DEFENDER_ADDRESS);
+        }
+
+        if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, OPTIMISM_GOERLI_DEFENDER_ADDRESS);
         }
 
