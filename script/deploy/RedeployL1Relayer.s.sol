@@ -11,7 +11,7 @@ import {
 
 import { RNGInterface } from "rng/RNGInterface.sol";
 import { RngAuction, UD2x18 } from "pt-v5-draw-auction/RngAuction.sol";
-import { RngAuctionRelayerRemoteOwner } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwner.sol";
+import { RngAuctionRelayerRemoteOwnerOptimism } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwnerOptimism.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
@@ -24,9 +24,9 @@ contract RedeployL1Relayer is Helpers {
 
         RngAuction rngAuction = _getL1RngAuction();
 
-        RngAuctionRelayerRemoteOwner newRelayer = new RngAuctionRelayerRemoteOwner(rngAuction);
+        RngAuctionRelayerRemoteOwnerOptimism newRelayer = new RngAuctionRelayerRemoteOwnerOptimism(rngAuction);
 
-        console2.log("RngAuctionRelayerRemoteOwner address: ", address(newRelayer));
+        console2.log("RngAuctionRelayerRemoteOwnerOptimism address: ", address(newRelayer));
 
         vm.stopBroadcast();
     }

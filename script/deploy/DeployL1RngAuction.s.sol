@@ -11,7 +11,8 @@ import {
 
 import { RNGInterface } from "rng/RNGInterface.sol";
 import { RngAuction, UD2x18 } from "pt-v5-draw-auction/RngAuction.sol";
-import { RngAuctionRelayerRemoteOwner } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwner.sol";
+import { RngAuctionRelayerRemoteOwnerArbitrum } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwnerArbitrum.sol";
+import { RngAuctionRelayerRemoteOwnerOptimism } from "pt-v5-draw-auction/RngAuctionRelayerRemoteOwnerOptimism.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
@@ -40,7 +41,8 @@ contract DeployL1RngAuction is Helpers {
         );
 
         new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
-        new RngAuctionRelayerRemoteOwner(rngAuction);
+        new RngAuctionRelayerRemoteOwnerArbitrum(rngAuction);
+        new RngAuctionRelayerRemoteOwnerOptimism(rngAuction);
 
         vm.stopBroadcast();
     }

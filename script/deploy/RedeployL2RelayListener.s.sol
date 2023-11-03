@@ -42,7 +42,7 @@ contract RedeployL2RelayListener is Helpers {
 
         console2.log("re-deploying relay auction....");
 
-        RngRelayAuction rngRelayAuction = new RngRelayAuction(
+        new RngRelayAuction(
             prizePool,
             AUCTION_DURATION,
             AUCTION_TARGET_SALE_TIME,
