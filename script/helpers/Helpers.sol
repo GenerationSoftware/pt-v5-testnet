@@ -304,23 +304,45 @@ abstract contract Helpers is Constants, Script {
         return Claimer(_getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found"));
     }
 
+    function _getL1ChainId() internal view returns (uint256) {
+        // Check if we are on L1
+        if (block.chainid == GOERLI_CHAIN_ID) return GOERLI_CHAIN_ID;
+        if (block.chainid == SEPOLIA_CHAIN_ID) return SEPOLIA_CHAIN_ID;
+
+        // Get associated L1 chain ID from L2 chain ID
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            return GOERLI_CHAIN_ID;
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            return SEPOLIA_CHAIN_ID;
+        }
+
+        revert("Failed to determine L1 chain ID");
+    }
+
     function _getL1RngAuction() internal returns (RngAuction) {
         return
             RngAuction(
                 _getContractAddress(
                     "RngAuction",
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", _getL1ChainId()),
                     "rng-auction-not-found"
                 )
             );
     }
 
     function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
+        string memory contractName;
+        uint256 chainIdL1 = _getL1ChainId();
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            contractName = "RngAuctionRelayerRemoteOwnerArbitrum";
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            contractName = "RngAuctionRelayerRemoteOwnerOptimism";
+        }
         return
             RngAuctionRelayer(
                 _getContractAddress(
-                    "RngAuctionRelayerRemoteOwner",
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+                    contractName,
+                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", chainIdL1),
                     "rng-auction-relayer-not-found"
                 )
             );
@@ -389,6 +411,9 @@ abstract contract Helpers is Constants, Script {
         if (block.chainid == GOERLI_CHAIN_ID) {
             // Goerli Ethereum
             return LinkTokenInterface(GOERLI_LINK_ADDRESS);
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            // Sepolia Ethereum
+            return LinkTokenInterface(SEPOLIA_LINK_ADDRESS);
         } else if (block.chainid == 31337) {
             return LinkTokenInterface(address(GOERLI_LINK_ADDRESS)); // bogus localhost address
         } else {
@@ -400,6 +425,9 @@ abstract contract Helpers is Constants, Script {
         if (block.chainid == GOERLI_CHAIN_ID) {
             // Goerli Ethereum
             return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            // Sepolia Ethereum
+            return VRFV2Wrapper(address(SEPOLIA_VRFV2_WRAPPER_ADDRESS));
         } else if (block.chainid == 31337) {
             return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS)); // bogus localhost address
         } else {

@@ -59,19 +59,16 @@ contract DeployL2PrizePool is Helpers {
         console2.log("constructing auction....");
 
         RemoteOwner remoteOwner;
+        address _rngAuctionRemoteOwner = address(_getL1RngAuctionRelayerRemote());
 
         if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
-            remoteOwner = new RemoteOwner(
-                GOERLI_CHAIN_ID,
-                ERC5164_EXECUTOR_GOERLI_ARBITRUM,
-                address(_getL1RngAuctionRelayerRemote())
-            );
+            remoteOwner = new RemoteOwner(GOERLI_CHAIN_ID, ERC5164_EXECUTOR_GOERLI_ARBITRUM, _rngAuctionRemoteOwner);
         } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
-            remoteOwner = new RemoteOwner(
-                GOERLI_CHAIN_ID,
-                ERC5164_EXECUTOR_GOERLI_OPTIMISM,
-                address(_getL1RngAuctionRelayerRemote())
-            );
+            remoteOwner = new RemoteOwner(GOERLI_CHAIN_ID, ERC5164_EXECUTOR_GOERLI_OPTIMISM, _rngAuctionRemoteOwner);
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(SEPOLIA_CHAIN_ID, ERC5164_EXECUTOR_SEPOLIA_ARBITRUM, _rngAuctionRemoteOwner);
+        } else if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(SEPOLIA_CHAIN_ID, ERC5164_EXECUTOR_SEPOLIA_OPTIMISM, _rngAuctionRemoteOwner);
         }
 
         require(address(remoteOwner) != address(0), "remoteOwner-not-zero-address");
