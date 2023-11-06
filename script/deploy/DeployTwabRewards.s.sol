@@ -9,15 +9,14 @@ import { TwabRewards } from "pt-v5-twab-rewards/TwabRewards.sol";
 import { Helpers } from "../helpers/Helpers.sol";
 
 contract DeployTwabRewards is Helpers {
+    function _deployTwabRewards() internal {
+        TwabController _twabController = _getTwabController();
+        new TwabRewards(_twabController);
+    }
 
-  function _deployTwabRewards() internal {
-    TwabController _twabController = _getTwabController();
-    new TwabRewards(_twabController);
-  }
-
-  function run() public {
-    vm.startBroadcast();
-    _deployTwabRewards();
-    vm.stopBroadcast();
-  }
+    function run() public {
+        vm.startBroadcast();
+        _deployTwabRewards();
+        vm.stopBroadcast();
+    }
 }
