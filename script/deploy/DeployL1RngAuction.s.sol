@@ -41,8 +41,6 @@ contract DeployL1RngAuction is Helpers {
         );
 
         new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
-        new RngAuctionRelayerRemoteOwnerArbitrum(rngAuction);
-        new RngAuctionRelayerRemoteOwnerOptimism(rngAuction);
 
         vm.stopBroadcast();
     }
