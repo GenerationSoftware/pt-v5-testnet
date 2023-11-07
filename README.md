@@ -121,29 +121,17 @@ Use one of the following commands to deploy on the testnet of your choice.
 
 Then configure the contracts: `npm run deploy:config-contracts:ethSepolia`
 
-#### Ethereum Goerli
+#### Arbitrum Sepolia
 
-`npm run deploy:contracts:ethGoerli`
+`npm run deploy:contracts:arbitrumSepolia`
 
-Then configure the contracts: `npm run deploy:config-contracts:ethGoerli`
+Then configure the contracts: `npm run deploy:config-contracts:arbitrumSepolia`
 
-#### Arbitrum Goerli
+#### Optimism Sepolia
 
-`npm run deploy:contracts:arbitrumGoerli`
+`npm run deploy:contracts:optimismSepolia`
 
-Then configure the contracts: `npm run deploy:config-contracts:arbitrumGoerli`
-
-#### Optimism Goerli
-
-`npm run deploy:contracts:optimismGoerli`
-
-Then configure the contracts: `npm run deploy:config-contracts:optimismGoerli`
-
-#### Polygon Mumbai
-
-`npm run deploy:contracts:mumbai`
-
-Then configure the contracts: `npm run deploy:config-contracts:mumbai`
+Then configure the contracts: `npm run deploy:config-contracts:optimismSepolia`
 
 ### Contract List
 
