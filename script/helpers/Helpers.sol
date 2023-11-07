@@ -40,9 +40,14 @@ abstract contract Helpers is Constants, Script {
     string DEPLOY_POOL_SCRIPT;
 
     constructor() {
-        if (block.chainid == GOERLI_CHAIN_ID) {
+        if (block.chainid == GOERLI_CHAIN_ID || block.chainid == SEPOLIA_CHAIN_ID) {
             DEPLOY_POOL_SCRIPT = "DeployPool.s.sol";
-        } else if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+        } else if (
+            block.chainid == ARBITRUM_GOERLI_CHAIN_ID ||
+            block.chainid == OPTIMISM_GOERLI_CHAIN_ID ||
+            block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID ||
+            block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID
+        ) {
             DEPLOY_POOL_SCRIPT = "DeployL2PrizePool.s.sol";
         }
     }
