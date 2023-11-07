@@ -19,7 +19,7 @@
 [submodule "lib/pt-v5-draw-auction"]
 	path = lib/pt-v5-draw-auction
 	url = https://github.com/generationsoftware/pt-v5-draw-auction
-	branch = gen-824-launch-testnet-on-arbitrum
+	branch = prod-testnet-4
 [submodule "lib/pt-v5-vault"]
 	path = lib/pt-v5-vault
 	url = https://github.com/generationsoftware/pt-v5-vault
