@@ -83,13 +83,26 @@ abstract contract Helpers is Constants, Script {
     }
 
     function _tokenGrantMinterRoles(ERC20Mintable _token) internal {
-        _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
-        _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
-        _tokenGrantMinterRole(_token, address(ARBITRUM_GOERLI_DEFENDER_ADDRESS));
-        _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
+        if (block.chainid == GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
+            _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(SEPOLIA_DEFENDER_ADDRESS));
+        } else if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(ARBITRUM_GOERLI_DEFENDER_ADDRESS));
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            // _tokenGrantMinterRole(_token, address(ARBITRUM_SEPOLIA_DEFENDER_ADDRESS));
+        } else if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            // _tokenGrantMinterRole(_token, address(OPTIMISM_SEPOLIA_DEFENDER_ADDRESS));
+        }
+
+        // EOAs
         _tokenGrantMinterRole(_token, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
         _tokenGrantMinterRole(_token, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
         _tokenGrantMinterRole(_token, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
+        _tokenGrantMinterRole(_token, address(0x49ca801A80e31B1ef929eAB13Ab3FBbAe7A55e8F)); // Bot
     }
 
     function _yieldVaultGrantMinterRoles(YieldVaultMintRate _yieldVault) internal {
@@ -98,7 +111,7 @@ abstract contract Helpers is Constants, Script {
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS_2);
         }
 
-        if (block.chainid == 11155111) {
+        if (block.chainid == SEPOLIA_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, SEPOLIA_DEFENDER_ADDRESS);
         }
 
@@ -114,9 +127,18 @@ abstract contract Helpers is Constants, Script {
             _yieldVaultGrantMinterRole(_yieldVault, OPTIMISM_GOERLI_DEFENDER_ADDRESS);
         }
 
+        if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            // _yieldVaultGrantMinterRole(_yieldVault, address(ARBITRUM_SEPOLIA_DEFENDER_ADDRESS));
+        }
+
+        if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            // _yieldVaultGrantMinterRole(_yieldVault, address(OPTIMISM_SEPOLIA_DEFENDER_ADDRESS));
+        }
+
         _yieldVaultGrantMinterRole(_yieldVault, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
         _yieldVaultGrantMinterRole(_yieldVault, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
         _yieldVaultGrantMinterRole(_yieldVault, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
+        _yieldVaultGrantMinterRole(_yieldVault, address(0x49ca801A80e31B1ef929eAB13Ab3FBbAe7A55e8F)); // Bot
     }
 
     function _getDeploymentArtifacts(string memory _deploymentArtifactsPath) internal returns (string[] memory) {
