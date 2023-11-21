@@ -1156,7 +1156,7 @@
     },
     {
       "chainId": 11155111,
-      "address": "0x149e3B3Bd69f1Cfc1B42b6A6a152a42E38cEeBf1",
+      "address": "0xAFD0a893845cb2c278D6629c78fFA7ad403077Bf",
       "version": {
         "major": 1,
         "minor": 0,
@@ -1333,7 +1333,7 @@
               "type": "bytes32"
             }
           ],
-          "stateMutability": "nonpayable",
+          "stateMutability": "payable",
           "type": "function"
         },
         {

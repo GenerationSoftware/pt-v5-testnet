@@ -359,17 +359,20 @@ abstract contract Helpers is Constants, Script {
 
     function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
         string memory contractName;
+        string memory deployPath;
         uint256 chainIdL1 = _getL1ChainId();
         if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
             contractName = "RngAuctionRelayerRemoteOwnerArbitrum";
+            deployPath = "DeployL1RelayerArbitrum.s.sol";
         } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
             contractName = "RngAuctionRelayerRemoteOwnerOptimism";
+            deployPath = "DeployL1RelayerOptimism.s.sol";
         }
         return
             RngAuctionRelayer(
                 _getContractAddress(
                     contractName,
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", chainIdL1),
+                    _getDeployPathWithChainId(deployPath, chainIdL1),
                     "rng-auction-relayer-not-found"
                 )
             );
