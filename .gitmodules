@@ -19,7 +19,7 @@
 [submodule "lib/pt-v5-draw-auction"]
 	path = lib/pt-v5-draw-auction
 	url = https://github.com/generationsoftware/pt-v5-draw-auction
-	branch = gen-933-update-rng-relay-contract-to-be-payable-so-it-can-pass-ether
+	branch = prod-testnet-3
 [submodule "lib/pt-v5-vault"]
 	path = lib/pt-v5-vault
 	url = https://github.com/generationsoftware/pt-v5-vault
