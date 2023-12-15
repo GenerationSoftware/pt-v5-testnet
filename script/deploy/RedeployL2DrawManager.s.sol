@@ -25,22 +25,30 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-contract RedeployL2RelayListener is Helpers {
+contract RedeployL2DrawManager is Helpers {
     function run() public {
         vm.startBroadcast();
 
+        console2.log("getting prize pool....");
+
         PrizePool prizePool = _getPrizePool();
 
-        console2.log("re-deploying remote owner....");
+        console2.log("constructing auction....");
 
-        address newRelayerAddress = _getContractAddress(
-            "RngAuctionRelayerRemoteOwner",
-            _getDeployPathWithChainId("RedeployL1Relayer.s.sol", GOERLI_CHAIN_ID),
-            "new-rng-relayer-not-found"
-        );
-        RemoteOwner remoteOwner = new RemoteOwner(GOERLI_CHAIN_ID, ERC5164_EXECUTOR_GOERLI_OPTIMISM, newRelayerAddress);
+        RemoteOwner remoteOwner;
+        address _rngAuctionRemoteOwner = address(_getL1RngAuctionRelayerRemote());
 
-        console2.log("re-deploying relay auction....");
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(GOERLI_CHAIN_ID, ERC5164_EXECUTOR_GOERLI_ARBITRUM, _rngAuctionRemoteOwner);
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(GOERLI_CHAIN_ID, ERC5164_EXECUTOR_GOERLI_OPTIMISM, _rngAuctionRemoteOwner);
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(SEPOLIA_CHAIN_ID, ERC5164_EXECUTOR_SEPOLIA_ARBITRUM, _rngAuctionRemoteOwner);
+        } else if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            remoteOwner = new RemoteOwner(SEPOLIA_CHAIN_ID, ERC5164_EXECUTOR_SEPOLIA_OPTIMISM, _rngAuctionRemoteOwner);
+        }
+
+        require(address(remoteOwner) != address(0), "remoteOwner-not-zero-address");
 
         RngRelayAuction rngRelayAuction = new RngRelayAuction(
             prizePool,
@@ -51,9 +59,7 @@ contract RedeployL2RelayListener is Helpers {
             AUCTION_MAX_REWARD
         );
 
-        // Uncomment to set relay auction as new draw manager right away:
-        // console2.log("setting draw manager....");
-        // prizePool.setDrawManager(address(rngRelayAuction));
+        prizePool.setDrawManager(address(rngRelayAuction));
 
         vm.stopBroadcast();
     }

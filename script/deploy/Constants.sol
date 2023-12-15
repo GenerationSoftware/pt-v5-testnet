@@ -12,6 +12,7 @@ abstract contract Constants {
     // Defender
     address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
     address internal constant GOERLI_DEFENDER_ADDRESS_2 = 0xe6Cb4266474BBf065A822DFf46031bb16eB71264;
+    address internal constant ARBITRUM_GOERLI_DEFENDER_ADDRESS = 0xfACeB34EB896d5391ec3211011bD4192C817af8A;
     address internal constant OPTIMISM_GOERLI_DEFENDER_ADDRESS = 0x0B97aEd3d637469721400Ea7B8CD5D8DF83116F4;
     address internal constant SEPOLIA_DEFENDER_ADDRESS = 0xbD764675C2Ffb3E580D3f9c92B0c84c526fe818A;
     address internal constant MUMBAI_DEFENDER_ADDRESS = 0xbCE45a1C2c1eFF18E77f217A62a44f885b26099f;
@@ -19,13 +20,22 @@ abstract contract Constants {
     // Chainlink
     address internal constant GOERLI_LINK_ADDRESS = 0x326C977E6efc84E512bB9C30f76E30c160eD06FB;
     address internal constant GOERLI_VRFV2_WRAPPER_ADDRESS = 0x708701a1DfF4f478de54383E49a627eD4852C816;
+    address internal constant SEPOLIA_LINK_ADDRESS = 0x779877A7B0D9E8603169DdbD7836e478b4624789;
+    address internal constant SEPOLIA_VRFV2_WRAPPER_ADDRESS = 0xab18414CD93297B0d12ac29E63Ca20f515b3DB46;
 
     // MessageExecutor
+    address internal constant ERC5164_EXECUTOR_GOERLI_ARBITRUM = 0xe7Ab52219631882f778120c1f19D6086ED390bE1;
     address internal constant ERC5164_EXECUTOR_GOERLI_OPTIMISM = 0x59Ba766ff229c21b97184647292706039aF63dA1;
+    address internal constant ERC5164_EXECUTOR_SEPOLIA_ARBITRUM = 0x2B3E6b5c9a6Bdb0e595896C9093fce013490abbD;
+    address internal constant ERC5164_EXECUTOR_SEPOLIA_OPTIMISM = 0x6A501383A61ebFBc143Fc4BD41A2356bA71A6964;
 
     // Chain IDs
     uint256 constant GOERLI_CHAIN_ID = 5;
+    uint256 constant SEPOLIA_CHAIN_ID = 11155111;
+    uint256 constant ARBITRUM_GOERLI_CHAIN_ID = 421613;
     uint256 constant OPTIMISM_GOERLI_CHAIN_ID = 420;
+    uint256 constant ARBITRUM_SEPOLIA_CHAIN_ID = 421614;
+    uint256 constant OPTIMISM_SEPOLIA_CHAIN_ID = 11155420;
 
     // Deploy parameters
     // Chainlink VRF

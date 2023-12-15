@@ -1,6 +1,7 @@
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
-openzeppelin/=lib/openzeppelin-contracts/contracts/
+openzeppelin-contracts/=lib/openzeppelin-contracts/contracts
+openzeppelin-contracts/contracts/=lib/openzeppelin-contracts/contracts/
 prb-math/=lib/pt-v5-cgda-liquidator/lib/prb-math/src/
 solidity-stringutils/=lib/solidity-stringutils/src/
 chainlink/=lib/pt-v5-chainlink-vrf-v2-direct/lib/chainlink/contracts/src/v0.8/
@@ -11,6 +12,8 @@ pt-v5-cgda-liquidator/=lib/pt-v5-cgda-liquidator/src/
 pt-v5-liquidator-interfaces/=lib/pt-v5-cgda-liquidator/lib/pt-v5-liquidator-interfaces/src/interfaces/
 pt-v5-prize-pool/=lib/pt-v5-prize-pool/src/
 pt-v5-twab-controller/=lib/pt-v5-twab-controller/src/
+pt-v5-twab-delegator/=lib/pt-v5-twab-delegator/src/
+pt-v5-twab-rewards/=lib/pt-v5-twab-rewards/src/
 pt-v5-vault/=lib/pt-v5-vault/src/
 pt-v5-vault-mock/=lib/pt-v5-vault/test/contracts/mock/
 pt-v5-claimer/=lib/pt-v5-claimer/src/

@@ -15,17 +15,17 @@ contract SetVaultRole is Helpers {
         _yieldVaultGrantMinterRole(_getYieldVault("yvDAI-LY"), address(_getVault("pDAI-LY-T")));
         _yieldVaultGrantMinterRole(_getYieldVault("yvDAI-HY"), address(_getVault("pDAI-HY-T")));
 
-        // /* USDC */
+        /* USDC */
         _yieldVaultGrantMinterRole(_getYieldVault("yvUSDC-LY"), address(_getVault("pUSDC-LY-T")));
         _yieldVaultGrantMinterRole(_getYieldVault("yvUSDC-HY"), address(_getVault("pUSDC-HY-T")));
 
-        // /* gUSD */
+        /* gUSD */
         _yieldVaultGrantMinterRole(_getYieldVault("yvGUSD"), address(_getVault("pGUSD-T")));
 
-        // /* wBTC */
+        /* wBTC */
         _yieldVaultGrantMinterRole(_getYieldVault("yvWBTC"), address(_getVault("pWBTC-T")));
 
-        // /* wETH */
+        /* wETH */
         _yieldVaultGrantMinterRole(_getYieldVault("yvWETH"), address(_getVault("pWETH-T")));
     }
 

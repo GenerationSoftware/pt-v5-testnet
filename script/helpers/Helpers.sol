@@ -40,7 +40,16 @@ abstract contract Helpers is Constants, Script {
     string DEPLOY_POOL_SCRIPT;
 
     constructor() {
-        DEPLOY_POOL_SCRIPT = block.chainid == OPTIMISM_GOERLI_CHAIN_ID ? "DeployL2PrizePool.s.sol" : "DeployPool.s.sol";
+        if (block.chainid == GOERLI_CHAIN_ID || block.chainid == SEPOLIA_CHAIN_ID) {
+            DEPLOY_POOL_SCRIPT = "DeployPool.s.sol";
+        } else if (
+            block.chainid == ARBITRUM_GOERLI_CHAIN_ID ||
+            block.chainid == OPTIMISM_GOERLI_CHAIN_ID ||
+            block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID ||
+            block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID
+        ) {
+            DEPLOY_POOL_SCRIPT = "DeployL2PrizePool.s.sol";
+        }
     }
 
     /* ============ Helpers ============ */
@@ -74,21 +83,35 @@ abstract contract Helpers is Constants, Script {
     }
 
     function _tokenGrantMinterRoles(ERC20Mintable _token) internal {
-        _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
-        _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
-        _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
+        if (block.chainid == GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS));
+            _tokenGrantMinterRole(_token, address(GOERLI_DEFENDER_ADDRESS_2));
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(SEPOLIA_DEFENDER_ADDRESS));
+        } else if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(ARBITRUM_GOERLI_DEFENDER_ADDRESS));
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            _tokenGrantMinterRole(_token, address(OPTIMISM_GOERLI_DEFENDER_ADDRESS));
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            // _tokenGrantMinterRole(_token, address(ARBITRUM_SEPOLIA_DEFENDER_ADDRESS));
+        } else if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            // _tokenGrantMinterRole(_token, address(OPTIMISM_SEPOLIA_DEFENDER_ADDRESS));
+        }
+
+        // EOAs
         _tokenGrantMinterRole(_token, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
         _tokenGrantMinterRole(_token, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
         _tokenGrantMinterRole(_token, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
+        _tokenGrantMinterRole(_token, address(0x49ca801A80e31B1ef929eAB13Ab3FBbAe7A55e8F)); // Bot
     }
 
     function _yieldVaultGrantMinterRoles(YieldVaultMintRate _yieldVault) internal {
-        if (block.chainid == 5) {
+        if (block.chainid == GOERLI_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS);
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS_2);
         }
 
-        if (block.chainid == 11155111) {
+        if (block.chainid == SEPOLIA_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, SEPOLIA_DEFENDER_ADDRESS);
         }
 
@@ -96,13 +119,26 @@ abstract contract Helpers is Constants, Script {
             _yieldVaultGrantMinterRole(_yieldVault, MUMBAI_DEFENDER_ADDRESS);
         }
 
-        if (block.chainid == 420) {
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID) {
+            _yieldVaultGrantMinterRole(_yieldVault, ARBITRUM_GOERLI_DEFENDER_ADDRESS);
+        }
+
+        if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, OPTIMISM_GOERLI_DEFENDER_ADDRESS);
+        }
+
+        if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            // _yieldVaultGrantMinterRole(_yieldVault, address(ARBITRUM_SEPOLIA_DEFENDER_ADDRESS));
+        }
+
+        if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            // _yieldVaultGrantMinterRole(_yieldVault, address(OPTIMISM_SEPOLIA_DEFENDER_ADDRESS));
         }
 
         _yieldVaultGrantMinterRole(_yieldVault, address(0x5E6CC2397EcB33e6041C15360E17c777555A5E63));
         _yieldVaultGrantMinterRole(_yieldVault, address(0xA57D294c3a11fB542D524062aE4C5100E0E373Ec));
         _yieldVaultGrantMinterRole(_yieldVault, address(0x27fcf06DcFFdDB6Ec5F62D466987e863ec6aE6A0));
+        _yieldVaultGrantMinterRole(_yieldVault, address(0x49ca801A80e31B1ef929eAB13Ab3FBbAe7A55e8F)); // Bot
     }
 
     function _getDeploymentArtifacts(string memory _deploymentArtifactsPath) internal returns (string[] memory) {
@@ -295,23 +331,48 @@ abstract contract Helpers is Constants, Script {
         return Claimer(_getContractAddress("Claimer", _getDeployPath(DEPLOY_POOL_SCRIPT), "claimer-not-found"));
     }
 
+    function _getL1ChainId() internal view returns (uint256) {
+        // Check if we are on L1
+        if (block.chainid == GOERLI_CHAIN_ID) return GOERLI_CHAIN_ID;
+        if (block.chainid == SEPOLIA_CHAIN_ID) return SEPOLIA_CHAIN_ID;
+
+        // Get associated L1 chain ID from L2 chain ID
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            return GOERLI_CHAIN_ID;
+        } else if (block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            return SEPOLIA_CHAIN_ID;
+        }
+
+        revert("Failed to determine L1 chain ID");
+    }
+
     function _getL1RngAuction() internal returns (RngAuction) {
         return
             RngAuction(
                 _getContractAddress(
                     "RngAuction",
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", _getL1ChainId()),
                     "rng-auction-not-found"
                 )
             );
     }
 
     function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
+        string memory contractName;
+        string memory deployPath;
+        uint256 chainIdL1 = _getL1ChainId();
+        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
+            contractName = "RngAuctionRelayerRemoteOwnerArbitrum";
+            deployPath = "DeployL1RelayerArbitrum.s.sol";
+        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
+            contractName = "RngAuctionRelayerRemoteOwnerOptimism";
+            deployPath = "DeployL1RelayerOptimism.s.sol";
+        }
         return
             RngAuctionRelayer(
                 _getContractAddress(
-                    "RngAuctionRelayerRemoteOwner",
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", GOERLI_CHAIN_ID),
+                    contractName,
+                    _getDeployPathWithChainId(deployPath, chainIdL1),
                     "rng-auction-relayer-not-found"
                 )
             );
@@ -380,6 +441,9 @@ abstract contract Helpers is Constants, Script {
         if (block.chainid == GOERLI_CHAIN_ID) {
             // Goerli Ethereum
             return LinkTokenInterface(GOERLI_LINK_ADDRESS);
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            // Sepolia Ethereum
+            return LinkTokenInterface(SEPOLIA_LINK_ADDRESS);
         } else if (block.chainid == 31337) {
             return LinkTokenInterface(address(GOERLI_LINK_ADDRESS)); // bogus localhost address
         } else {
@@ -391,6 +455,9 @@ abstract contract Helpers is Constants, Script {
         if (block.chainid == GOERLI_CHAIN_ID) {
             // Goerli Ethereum
             return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            // Sepolia Ethereum
+            return VRFV2Wrapper(address(SEPOLIA_VRFV2_WRAPPER_ADDRESS));
         } else if (block.chainid == 31337) {
             return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS)); // bogus localhost address
         } else {
