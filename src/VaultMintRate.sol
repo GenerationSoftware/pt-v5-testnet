@@ -5,7 +5,7 @@ import { IERC4626, IERC20 } from "openzeppelin/mocks/ERC4626Mock.sol";
 
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
-import { Vault } from "pt-v5-vault/Vault.sol";
+import { VaultV2 as Vault } from "pt-v5-vault/Vault.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 
 import { YieldVaultMintRate } from "./YieldVaultMintRate.sol";

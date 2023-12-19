@@ -14,7 +14,7 @@ import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSour
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
-import { VaultFactory } from "pt-v5-vault/VaultFactory.sol";
+import { VaultFactoryV2 as VaultFactory } from "pt-v5-vault/VaultFactory.sol";
 
 import { RemoteOwner } from "remote-owner/RemoteOwner.sol";
 import { RngRelayAuction, UD2x18 } from "pt-v5-draw-auction/RngRelayAuction.sol";

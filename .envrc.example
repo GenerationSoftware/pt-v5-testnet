@@ -8,7 +8,7 @@ export PRIVATE_KEY=""
 export LOCAL_SENDER="0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"
 export LOCAL_PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"
 
-# Custom max priority gas fees for L2 txs (in gwei)
+# Custom max priority gas fees for L2 txs (in wei)
 export OPTIMISM_MAX_PRIORITY_FEE=100000
 export ARBITRUM_MAX_PRIORITY_FEE=100000
 

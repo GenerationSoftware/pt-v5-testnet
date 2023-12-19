@@ -8566,26 +8566,26 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xE5526e74C554d7f6E07906f3a7c315edEbb26aF4",
+      "address": "0x47266c3447459793903Fe79589f43230fEAF3666",
       "version": {
-        "major": 1,
+        "major": 2,
         "minor": 0,
         "patch": 0
       },
-      "type": "VaultFactory",
+      "type": "VaultFactoryV2",
       "abi": [
         {
           "anonymous": false,
           "inputs": [
             {
               "indexed": true,
-              "internalType": "contract Vault",
+              "internalType": "contract VaultV2",
               "name": "vault",
               "type": "address"
             },
             {
               "indexed": true,
-              "internalType": "contract VaultFactory",
+              "internalType": "contract VaultFactoryV2",
               "name": "vaultFactory",
               "type": "address"
             }
@@ -8604,7 +8604,7 @@
           "name": "allVaults",
           "outputs": [
             {
-              "internalType": "contract Vault",
+              "internalType": "contract VaultV2",
               "name": "",
               "type": "address"
             }
@@ -8674,7 +8674,7 @@
         {
           "inputs": [
             {
-              "internalType": "contract Vault",
+              "internalType": "address",
               "name": "",
               "type": "address"
             }
