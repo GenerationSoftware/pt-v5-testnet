@@ -9,60 +9,52 @@ import { IntegrationBaseSetup } from "../utils/IntegrationBaseSetup.t.sol";
 import { Helpers } from "../utils/Helpers.t.sol";
 
 contract LiquidateIntegrationTest is IntegrationBaseSetup, Helpers {
-  /* ============ setUp ============ */
-  function setUp() public override {
-    super.setUp();
-  }
+    /* ============ setUp ============ */
+    function setUp() public override {
+        super.setUp();
+    }
 
-  /* ============ Tests ============ */
-  function testLiquidate() external {
-    uint256 _amount = 1000e18;
+    /* ============ Tests ============ */
+    function testLiquidate() external {
+        uint256 _amount = 1000e18;
 
-    underlyingAsset.mint(address(this), _amount);
-    _sponsor(underlyingAsset, vault, _amount);
+        underlyingAsset.mint(address(this), _amount);
+        _sponsor(underlyingAsset, vault, _amount);
 
-    uint256 _yield = 10e18;
-    _accrueYield(underlyingAsset, yieldVault, _yield);
+        uint256 _yield = 10e18;
+        _accrueYield(underlyingAsset, yieldVault, _yield);
 
-    vm.startPrank(alice);
+        vm.startPrank(alice);
 
-    prizeToken.mint(alice, 1000e18);
+        prizeToken.mint(alice, 1000e18);
 
-    vm.warp(block.timestamp + 36 hours);
+        vm.warp(block.timestamp + 36 hours);
 
-    uint24 openDrawId = prizePool.getOpenDrawId();
+        uint24 openDrawId = prizePool.getOpenDrawId();
 
-    uint256 maxAmountOut = liquidationPair.maxAmountOut();
+        uint256 maxAmountOut = liquidationPair.maxAmountOut();
 
-    (uint256 _alicePrizeTokenBalanceBefore, uint256 _prizeTokenContributed) = _liquidate(
-      liquidationRouter,
-      liquidationPair,
-      prizeToken,
-      maxAmountOut,
-      alice
-    );
+        (uint256 _alicePrizeTokenBalanceBefore, uint256 _prizeTokenContributed) = _liquidate(
+            liquidationRouter,
+            liquidationPair,
+            prizeToken,
+            maxAmountOut,
+            alice
+        );
 
-    assertEq(
-      prizeToken.balanceOf(address(prizePool)),
-      _prizeTokenContributed,
-      "prize pool balance"
-    );
-    assertEq(
-      prizeToken.balanceOf(alice),
-      _alicePrizeTokenBalanceBefore - _prizeTokenContributed,
-      "alice balance"
-    );
+        assertEq(prizeToken.balanceOf(address(prizePool)), _prizeTokenContributed, "prize pool balance");
+        assertEq(prizeToken.balanceOf(alice), _alicePrizeTokenBalanceBefore - _prizeTokenContributed, "alice balance");
 
-    // Because of the yield smoothing, only 10% of the prize tokens contributed can be awarded.
-    assertEq(
-      prizePool.getContributedBetween(address(vault), openDrawId, openDrawId),
-      (_prizeTokenContributed * 10) / 100,
-      "contributed between"
-    );
+        // Because of the yield smoothing, only 10% of the prize tokens contributed can be awarded.
+        assertEq(
+            prizePool.getContributedBetween(address(vault), openDrawId, openDrawId),
+            (_prizeTokenContributed * 10) / 100,
+            "contributed between"
+        );
 
-    assertEq(IERC20(vault).balanceOf(alice), maxAmountOut, "alice vault balance ERC20");
-    assertEq(vault.balanceOf(alice), maxAmountOut, "alice vault balance");
+        assertEq(IERC20(vault).balanceOf(alice), maxAmountOut, "alice vault balance ERC20");
+        assertEq(vault.balanceOf(alice), maxAmountOut, "alice vault balance");
 
-    vm.stopPrank();
-  }
+        vm.stopPrank();
+    }
 }

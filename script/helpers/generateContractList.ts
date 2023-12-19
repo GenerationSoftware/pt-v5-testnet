@@ -26,11 +26,17 @@ const renameType = (type: string) => {
 };
 
 const getAbi = (type: string) =>
-  JSON.parse(fs.readFileSync(`${rootFolder}/out/${type}.sol/${type}.json`, "utf8")).abi;
+  JSON.parse(
+    fs.readFileSync(`${rootFolder}/out/${type}.sol/${type}.json`, "utf8")
+  ).abi;
 
-const getBlob = (path: string) => JSON.parse(fs.readFileSync(`${path}/run-latest.json`, "utf8"));
+const getBlob = (path: string) =>
+  JSON.parse(fs.readFileSync(`${path}/run-latest.json`, "utf8"));
 
-const getUnderlyingAsset = (transactions: any, underlyingAssetAddress: string) => {
+const getUnderlyingAsset = (
+  transactions: any,
+  underlyingAssetAddress: string
+) => {
   const deployArguments = transactions.find(
     (transaction: { contractAddress: string }) =>
       transaction.contractAddress === underlyingAssetAddress
@@ -51,7 +57,10 @@ const generateVaultInfo = (
 ): VaultInfo => {
   const name = deployArguments[1];
   const underlyingAssetAddress = deployArguments[0] as `0x${string}`;
-  const underlyingAsset = getUnderlyingAsset(transactions, underlyingAssetAddress);
+  const underlyingAsset = getUnderlyingAsset(
+    transactions,
+    underlyingAssetAddress
+  );
 
   return {
     chainId,
@@ -95,14 +104,18 @@ const formatContract = (
   if (type === "VaultMintRate") {
     return {
       ...defaultContract,
-      tokens: [generateVaultInfo(tokenTransactions, chainId, address, deployArguments)],
+      tokens: [
+        generateVaultInfo(tokenTransactions, chainId, address, deployArguments),
+      ],
     };
   } else {
     return defaultContract;
   }
 };
 
-export const generateContractList = (deploymentPaths: string[]): ContractList => {
+export const generateContractList = (
+  deploymentPaths: string[]
+): ContractList => {
   const contractList: ContractList = {
     name: "Hyperstructure Testnet",
     version: PACKAGE_VERSION,
@@ -138,7 +151,8 @@ export const generateContractList = (deploymentPaths: string[]): ContractList =>
         const createdContract = additionalContracts[0];
 
         // Store name of contract for reference later
-        if (contractName) contractAddressToName.set(contractAddress, contractName);
+        if (contractName)
+          contractAddressToName.set(contractAddress, contractName);
 
         if (
           transactionType == "CALL" &&
@@ -191,7 +205,9 @@ export const generateVaultList = (
     tokens: [],
   };
 
-  const { transactions: stableTokenTransactions } = getBlob(tokenDeploymentPaths[0]);
+  const { transactions: stableTokenTransactions } = getBlob(
+    tokenDeploymentPaths[0]
+  );
   let { transactions: tokenTransactions } = getBlob(tokenDeploymentPaths[1]);
 
   tokenTransactions = stableTokenTransactions.concat(tokenTransactions);
@@ -201,10 +217,20 @@ export const generateVaultList = (
   const vaultTransactions = vaultDeploymentBlob.transactions;
 
   vaultTransactions.forEach(
-    ({ transactionType, contractName, contractAddress, arguments: deployArguments }) => {
+    ({
+      transactionType,
+      contractName,
+      contractAddress,
+      arguments: deployArguments,
+    }) => {
       if (transactionType === "CREATE" && contractName === "VaultMintRate") {
         vaultList.tokens.push(
-          generateVaultInfo(tokenTransactions, chainId, contractAddress, deployArguments)
+          generateVaultInfo(
+            tokenTransactions,
+            chainId,
+            contractAddress,
+            deployArguments
+          )
         );
       }
     }
@@ -213,7 +239,11 @@ export const generateVaultList = (
   return vaultList;
 };
 
-export const writeList = (list: ContractList | VaultList, folderName: string, fileName: string) => {
+export const writeList = (
+  list: ContractList | VaultList,
+  folderName: string,
+  fileName: string
+) => {
   const dirpath = `${rootFolder}/${folderName}`;
 
   fs.mkdirSync(dirpath, { recursive: true });

@@ -25,36 +25,13 @@ import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
-contract DeployL2PrizePool is Helpers {
+contract RedeployL2DrawManager is Helpers {
     function run() public {
         vm.startBroadcast();
 
-        console2.log("getting POOL....");
+        console2.log("getting prize pool....");
 
-        ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
-
-        console2.log("constructing twab controller....");
-
-        TwabController twabController = new TwabController(
-            TWAB_PERIOD_LENGTH,
-            _getAuctionOffset() // use auction offset since it's set in the past
-        );
-
-        console2.log("constructing prize pool....");
-
-        PrizePool prizePool = new PrizePool(
-            ConstructorParams(
-                prizeToken,
-                twabController,
-                DRAW_PERIOD_SECONDS,
-                _getFirstDrawStartsAt(),
-                _getContributionsSmoothing(),
-                GRAND_PRIZE_PERIOD_DRAWS,
-                MIN_NUMBER_OF_TIERS,
-                TIER_SHARES,
-                RESERVE_SHARES
-            )
-        );
+        PrizePool prizePool = _getPrizePool();
 
         console2.log("constructing auction....");
 
@@ -83,20 +60,6 @@ contract DeployL2PrizePool is Helpers {
         );
 
         prizePool.setDrawManager(address(rngRelayAuction));
-
-        ClaimerFactory claimerFactory = new ClaimerFactory();
-        claimerFactory.createClaimer(
-            prizePool,
-            CLAIMER_MIN_FEE,
-            CLAIMER_MAX_FEE,
-            _getClaimerTimeToReachMaxFee(),
-            CLAIMER_MAX_FEE_PERCENT
-        );
-
-        LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
-        new LiquidationRouter(liquidationPairFactory);
-
-        new VaultFactory();
 
         vm.stopBroadcast();
     }

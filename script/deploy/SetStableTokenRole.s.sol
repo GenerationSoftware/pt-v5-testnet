@@ -7,19 +7,19 @@ import { MarketRate } from "../../src/MarketRate.sol";
 import { Helpers } from "../helpers/Helpers.sol";
 
 contract SetStableTokenRole is Helpers {
-  function run() public {
-    vm.startBroadcast();
-    /* DAI */
-    ERC20Mintable dai = _getToken(DAI_SYMBOL, _stableTokenDeployPath);
-    _tokenGrantMinterRoles(dai);
+    function run() public {
+        vm.startBroadcast();
+        /* DAI */
+        ERC20Mintable dai = _getToken(DAI_SYMBOL, _stableTokenDeployPath);
+        _tokenGrantMinterRoles(dai);
 
-    /* USDC */
-    ERC20Mintable usdc = _getToken(USDC_SYMBOL, _stableTokenDeployPath);
-    _tokenGrantMinterRoles(usdc);
+        /* USDC */
+        ERC20Mintable usdc = _getToken(USDC_SYMBOL, _stableTokenDeployPath);
+        _tokenGrantMinterRoles(usdc);
 
-    /* gUSD */
-    ERC20Mintable gUSD = _getToken(GUSD_SYMBOL, _stableTokenDeployPath);
-    _tokenGrantMinterRoles(gUSD);
-    vm.stopBroadcast();
-  }
+        /* gUSD */
+        ERC20Mintable gUSD = _getToken(GUSD_SYMBOL, _stableTokenDeployPath);
+        _tokenGrantMinterRoles(gUSD);
+        vm.stopBroadcast();
+    }
 }
