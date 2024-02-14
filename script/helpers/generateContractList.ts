@@ -18,8 +18,8 @@ const renameType = (type: string) => {
   switch (type) {
     case "YieldVaultMintRate":
       return "YieldVault";
-    case "VaultMintRate":
-      return "Vault";
+    case "PrizeVaultMintRate":
+      return "PrizeVault";
     default:
       return type;
   }
@@ -33,63 +33,14 @@ const getAbi = (type: string) =>
 const getBlob = (path: string) =>
   JSON.parse(fs.readFileSync(`${path}/run-latest.json`, "utf8"));
 
-const getUnderlyingAsset = (
-  transactions: any,
-  underlyingAssetAddress: string
-) => {
-  const deployArguments = transactions.find(
-    (transaction: { contractAddress: string }) =>
-      transaction.contractAddress === underlyingAssetAddress
-  ).arguments;
-
-  return {
-    name: deployArguments[0],
-    symbol: deployArguments[1],
-    decimals: Number(deployArguments[2]),
-  };
-};
-
-const generateVaultInfo = (
-  transactions: any,
-  chainId: number,
-  address: `0x${string}`,
-  deployArguments: string[]
-): VaultInfo => {
-  const name = deployArguments[1];
-  const underlyingAssetAddress = deployArguments[0] as `0x${string}`;
-  const underlyingAsset = getUnderlyingAsset(
-    transactions,
-    underlyingAssetAddress
-  );
-
-  return {
-    chainId,
-    address,
-    name,
-    decimals: underlyingAsset.decimals,
-    symbol: deployArguments[2],
-    extensions: {
-      underlyingAsset: {
-        address: underlyingAssetAddress,
-        symbol: underlyingAsset.symbol,
-        name: underlyingAsset.name,
-      },
-    },
-  };
-};
-
 const formatContract = (
-  tokenTransactions: any,
   chainId: number,
   name: string,
   address: `0x${string}`,
-  deployArguments: string[]
 ): Contract => {
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
   const type = name.split(regex)[0];
-
-  console.log({type})
 
   const defaultContract = {
     chainId,
@@ -103,16 +54,7 @@ const formatContract = (
     abi: getAbi(type),
   };
 
-  if (type === "VaultMintRate") {
-    return {
-      ...defaultContract,
-      tokens: [
-        generateVaultInfo(tokenTransactions, chainId, address, deployArguments),
-      ],
-    };
-  } else {
-    return defaultContract;
-  }
+  return defaultContract;
 };
 
 export const generateContractList = (
@@ -180,11 +122,9 @@ export const generateContractList = (
         if (transactionType === "CREATE") {
           contractList.contracts.push(
             formatContract(
-              tokenTransactions,
               chainId,
               contractName,
-              contractAddress,
-              deployArguments
+              contractAddress
             )
           );
         }
@@ -195,9 +135,42 @@ export const generateContractList = (
   return contractList;
 };
 
+export const findConstructorArguments = (deploymentPaths: string[], targetContractAddress: string): string[] => {
+  let result: string[];
+
+  for (let d = 0; d < deploymentPaths.length; d++) {
+    const deploymentPath = deploymentPaths[d];
+    const deploymentBlob = getBlob(deploymentPath);
+    const transactions = deploymentBlob.transactions;
+
+    for (let i = 0; i < transactions.length; i++) {
+      const {
+        transactionType,
+        contractAddress,
+        arguments: deployArguments,
+        additionalContracts,
+      } = transactions[i];
+      if (contractAddress === targetContractAddress) {
+        result = deployArguments;
+        break;
+      }
+      if (
+        transactionType == "CALL" &&
+        additionalContracts.length > 0 &&
+        additionalContracts[0].address === targetContractAddress
+      ) {
+        result = deployArguments;
+        break;
+      }
+    }
+  }
+
+  return result;
+};
+
 export const generateVaultList = (
-  vaultDeploymentPath: string,
-  tokenDeploymentPaths: string[]
+  deploymentPaths: string[],
+  contractList: ContractList
 ): VaultList => {
   const vaultList: VaultList = {
     name: "PoolTogether Testnet Vault List",
@@ -207,36 +180,26 @@ export const generateVaultList = (
     tokens: [],
   };
 
-  const { transactions: stableTokenTransactions } = getBlob(
-    tokenDeploymentPaths[0]
-  );
-  let { transactions: tokenTransactions } = getBlob(tokenDeploymentPaths[1]);
-
-  tokenTransactions = stableTokenTransactions.concat(tokenTransactions);
-
-  const vaultDeploymentBlob = getBlob(vaultDeploymentPath);
-  const chainId = vaultDeploymentBlob.chain;
-  const vaultTransactions = vaultDeploymentBlob.transactions;
-
-  vaultTransactions.forEach(
-    ({
-      transactionType,
-      contractName,
-      contractAddress,
-      arguments: deployArguments,
-    }) => {
-      if (transactionType === "CREATE" && contractName === "VaultMintRate") {
-        vaultList.tokens.push(
-          generateVaultInfo(
-            tokenTransactions,
-            chainId,
-            contractAddress,
-            deployArguments
-          )
-        );
+  contractList.contracts.filter((contract) => contract.type === "PrizeVault").forEach((contract) => {
+    const args = findConstructorArguments(deploymentPaths, contract.address);
+    const yieldVaultAddress = args[2];
+    const assetAddress = findConstructorArguments(deploymentPaths, yieldVaultAddress)[0];
+    const assetArguments = findConstructorArguments(deploymentPaths, assetAddress);
+    vaultList.tokens.push({
+      chainId: contract.chainId,
+      address: contract.address,
+      name: stripQuotes(args[0]),
+      decimals: parseInt(assetArguments[2]),
+      symbol: stripQuotes(args[1]),
+      extensions: {
+        underlyingAsset: {
+          address: assetAddress,
+          symbol: stripQuotes(assetArguments[1]),
+          name: stripQuotes(assetArguments[0])
+        }
       }
-    }
-  );
+    });
+  })
 
   return vaultList;
 };
@@ -249,10 +212,14 @@ export const writeList = (
   const dirpath = `${rootFolder}/${folderName}`;
 
   fs.mkdirSync(dirpath, { recursive: true });
-  fs.writeFile(`${dirpath}/${fileName}.json`, JSON.stringify(list), (err) => {
+  fs.writeFile(`${dirpath}/${fileName}.json`, JSON.stringify(list, null, 2), (err) => {
     if (err) {
       console.error(err);
       return;
     }
   });
 };
+
+function stripQuotes(str) {
+  return str.replace(/['"]+/g, '');
+}

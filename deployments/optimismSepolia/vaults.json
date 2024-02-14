@@ -1,1 +1,112 @@
-{"name":"PoolTogether Testnet Vault List","keywords":["pooltogether"],"version":{"major":1,"minor":0,"patch":0},"timestamp":"2024-02-14T01:51:42.694Z","tokens":[]}
+{
+  "name": "PoolTogether Testnet Vault List",
+  "keywords": [
+    "pooltogether"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "timestamp": "2024-02-14T17:57:08.632Z",
+  "tokens": [
+    {
+      "chainId": 11155420,
+      "address": "0x70fcfa939B301E44b2f8510949ea2F33073B22f8",
+      "name": "Prize DAI Low Yield",
+      "decimals": 18,
+      "symbol": "pDAI-LY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x38449a6b7bb76638452273925c9a2BA818bD130d",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0x0fa95Bdc0D8C6E39be9Bf0f003Ab4fa2d8D7A2ab",
+      "name": "Prize DAI High Yield",
+      "decimals": 18,
+      "symbol": "pDAI-HY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x38449a6b7bb76638452273925c9a2BA818bD130d",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0xB7b84E913ADfb1d92128a261C11eC6dbD1f2BB9C",
+      "name": "Prize USDC Low Yield",
+      "decimals": 6,
+      "symbol": "pUSDC-LY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xa2Ba3d22e2469BC0b46d57145D4bd212d3550ec2",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0xB286140B692D39c2b673C5E6514613B0928C2f4b",
+      "name": "Prize USDC High Yield",
+      "decimals": 6,
+      "symbol": "pUSDC-HY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xa2Ba3d22e2469BC0b46d57145D4bd212d3550ec2",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0x47A912c358B540DC9db396b6882e453D1041F2E4",
+      "name": "Prize GUSD",
+      "decimals": 2,
+      "symbol": "pGUSD-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xa1697E8F6b11D0E2F00d9dC8a5AEae2b2665650a",
+          "symbol": "GUSD",
+          "name": "Gemini Dollar"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0xb1857054e11FF71041c8eC38eF51d5c13A4eD330",
+      "name": "Prize WBTC",
+      "decimals": 8,
+      "symbol": "pWBTC-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xA469deff6D52C9571d13513e3cd7d94496082d81",
+          "symbol": "WBTC",
+          "name": "Wrapped BTC"
+        }
+      }
+    },
+    {
+      "chainId": 11155420,
+      "address": "0x465d2708Da4b532E73731BA8DdF72f513d847915",
+      "name": "Prize WETH",
+      "decimals": 18,
+      "symbol": "pWETH-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x6Cb52020204A526C2a86998b8DC3b0B4fAc9fBc1",
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
+        }
+      }
+    }
+  ]
+}

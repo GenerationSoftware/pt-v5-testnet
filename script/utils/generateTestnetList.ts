@@ -99,16 +99,18 @@ const optimismSepoliaTokenDeploymentPaths = [
   optimismSepoliaTokenDeploymentPath,
 ];
 
+const optimismSepoliaContractList = generateContractList(optimismSepoliaDeploymentPaths)
+
 writeList(
-  generateContractList(optimismSepoliaDeploymentPaths),
+  optimismSepoliaContractList,
   "deployments/optimismSepolia",
   "contracts"
 );
 
 writeList(
   generateVaultList(
-    optimismSepoliaVaultDeploymentPath,
-    optimismSepoliaTokenDeploymentPaths
+    optimismSepoliaDeploymentPaths,
+    optimismSepoliaContractList
   ),
   "deployments/optimismSepolia",
   "vaults"
