@@ -14,7 +14,7 @@ import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSour
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
-import { VaultFactoryV2 as VaultFactory } from "pt-v5-vault/VaultFactory.sol";
+import { PrizeVaultFactory } from "pt-v5-vault/PrizeVaultFactory.sol";
 
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
 import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
@@ -26,13 +26,12 @@ import {
 } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
 
 import { RNGInterface } from "rng/RNGInterface.sol";
+import { RNGBlockhash } from "rng/RNGBlockhash.sol";
 import { RngAuction, UD2x18 } from "pt-v5-draw-auction/RngAuction.sol";
 import { RngAuctionRelayerDirect } from "pt-v5-draw-auction/RngAuctionRelayerDirect.sol";
 import { RngRelayAuction } from "pt-v5-draw-auction/RngRelayAuction.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
-import { VaultMintRate } from "../../src/VaultMintRate.sol";
-import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
@@ -40,7 +39,9 @@ contract DeployPool is Helpers {
     function run() public {
         vm.startBroadcast();
 
+        console2.log("POOL_SYMBOL: ", POOL_SYMBOL);
         ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
+        console2.log("prizeToken: ", address(prizeToken));
         TwabController twabController = new TwabController(
             TWAB_PERIOD_LENGTH,
             _getAuctionOffset() // use auction offset since it's set in the past
@@ -48,15 +49,10 @@ contract DeployPool is Helpers {
 
         console2.log("constructing rng stuff....");
 
-        ChainlinkVRFV2Direct chainlinkRng = new ChainlinkVRFV2Direct(
-            msg.sender, // owner
-            _getVrfV2Wrapper(),
-            CHAINLINK_CALLBACK_GAS_LIMIT,
-            CHAINLINK_REQUEST_CONFIRMATIONS
-        );
+        RNGBlockhash rngBlockhash = new RNGBlockhash();
 
         RngAuction rngAuction = new RngAuction(
-            RNGInterface(chainlinkRng),
+            RNGInterface(rngBlockhash),
             msg.sender,
             DRAW_PERIOD_SECONDS,
             _getFirstDrawStartsAt(),
@@ -67,8 +63,6 @@ contract DeployPool is Helpers {
 
         RngAuctionRelayerDirect rngAuctionRelayerDirect = new RngAuctionRelayerDirect(rngAuction);
 
-        new ChainlinkVRFV2DirectRngAuctionHelper(chainlinkRng, IRngAuction(address(rngAuction)));
-
         console2.log("constructing prize pool....");
 
         PrizePool prizePool = new PrizePool(
@@ -77,11 +71,11 @@ contract DeployPool is Helpers {
                 twabController,
                 DRAW_PERIOD_SECONDS,
                 _getFirstDrawStartsAt(),
-                _getContributionsSmoothing(),
                 GRAND_PRIZE_PERIOD_DRAWS,
                 MIN_NUMBER_OF_TIERS,
                 TIER_SHARES,
-                RESERVE_SHARES
+                RESERVE_SHARES,
+                DRAW_TIMEOUT
             )
         );
 
@@ -110,7 +104,7 @@ contract DeployPool is Helpers {
         LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
         new LiquidationRouter(liquidationPairFactory);
 
-        new VaultFactory();
+        new PrizeVaultFactory();
 
         vm.stopBroadcast();
     }

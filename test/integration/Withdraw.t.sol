@@ -150,13 +150,13 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
 
         vault.redeem(vault.maxRedeem(alice), alice, alice);
 
-        assertEq(vault.balanceOf(alice), 0);
-        assertEq(underlyingAsset.balanceOf(alice), _amount);
+        assertEq(vault.balanceOf(alice), 0, "alice vault balance is zero");
+        assertEq(underlyingAsset.balanceOf(alice), _amount, "alice holds assets");
 
         assertEq(twabController.balanceOf(address(vault), alice), 0);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), 0);
 
-        assertEq(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield);
+        assertEq(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield, "yield is available");
         assertEq(underlyingAsset.balanceOf(address(yieldVault)), _yield);
 
         vm.stopPrank();

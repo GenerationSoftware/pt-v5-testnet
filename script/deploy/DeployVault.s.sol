@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity 0.8.19;
 
+import "forge-std/console2.sol";
+
 import { PrizePool, SD59x18 } from "pt-v5-prize-pool/PrizePool.sol";
 import { ud2x18 } from "prb-math/UD2x18.sol";
 import { SD59x18, wrap, convert } from "prb-math/SD59x18.sol";
@@ -14,7 +16,7 @@ import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
 import { VaultBooster } from "pt-v5-vault-boost/VaultBooster.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
-import { VaultMintRate } from "../../src/VaultMintRate.sol";
+import { PrizeVaultMintRate } from "../../src/PrizeVaultMintRate.sol";
 import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
@@ -25,13 +27,16 @@ contract DeployVault is Helpers {
         string memory _nameSuffix,
         string memory _symbolSuffix,
         uint128 _tokenOutPerPool
-    ) internal returns (VaultMintRate vault) {
+    ) internal returns (PrizeVaultMintRate vault) {
         ERC20 _underlyingAsset = ERC20(_yieldVault.asset());
+
+        console2.log("_deployVault _underlyingAsset", address(_underlyingAsset));
 
         PrizePool prizePool = _getPrizePool();
 
-        vault = new VaultMintRate(
-            _underlyingAsset,
+        console2.log("_deployVault prizePool", address(prizePool));
+
+        vault = new PrizeVaultMintRate(
             string.concat("Prize ", _underlyingAsset.symbol(), _nameSuffix),
             string.concat("p", _underlyingAsset.symbol(), _symbolSuffix, "-T"),
             _yieldVault,
@@ -53,7 +58,7 @@ contract DeployVault is Helpers {
 
     function _createPair(
         PrizePool _prizePool,
-        VaultMintRate _vault,
+        PrizeVaultMintRate _vault,
         uint128 _tokenOutPerPool
     ) internal returns (LiquidationPair pair) {
         pair = _getLiquidationPairFactory().createPair(
@@ -74,7 +79,11 @@ contract DeployVault is Helpers {
         /* DAI */
         uint128 daiPerPool = _getExchangeRate(ONE_DAI_IN_USD_E8, 0);
 
+        console2.log("yvDAI-LY");
+
         _deployVault(_getYieldVault("yvDAI-LY"), " Low Yield", "-LY", daiPerPool);
+
+        console2.log("yvDAI-HY");
 
         _deployVault(_getYieldVault("yvDAI-HY"), " High Yield", "-HY", daiPerPool);
 

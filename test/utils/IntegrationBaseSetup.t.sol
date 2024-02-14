@@ -15,7 +15,7 @@ import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSour
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
-import { VaultV2 as Vault } from "pt-v5-vault/Vault.sol";
+import { PrizeVault } from "pt-v5-vault/PrizeVault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
 import { Utils } from "./Utils.t.sol";
@@ -32,7 +32,7 @@ contract IntegrationBaseSetup is Test {
 
     address public constant SPONSORSHIP_ADDRESS = address(1);
 
-    Vault public vault;
+    PrizeVault public vault;
     string public vaultName = "PoolTogether aEthDAI Prize Token (PTaEthDAI)";
     string public vaultSymbol = "PTaEthDAI";
 
@@ -80,11 +80,11 @@ contract IntegrationBaseSetup is Test {
                 twabController,
                 drawPeriodSeconds, // drawPeriodSeconds
                 drawStartsAt, // drawStartedAt
-                sd1x18(0.9e18), // alpha
                 12,
                 uint8(3), // minimum number of tiers
                 100,
-                100
+                100,
+                10 // draw timeout
             )
         );
 
@@ -94,8 +94,7 @@ contract IntegrationBaseSetup is Test {
 
         yieldVault = new YieldVault(address(underlyingAsset), "PoolTogether aEthDAI Yield (PTaEthDAIY)", "PTaEthDAIY");
 
-        vault = new Vault(
-            underlyingAsset,
+        vault = new PrizeVault(
             vaultName,
             vaultSymbol,
             yieldVault,
@@ -103,6 +102,7 @@ contract IntegrationBaseSetup is Test {
             address(claimer),
             address(this),
             100000000, // 0.1 = 10%
+            1000,
             address(this)
         );
 

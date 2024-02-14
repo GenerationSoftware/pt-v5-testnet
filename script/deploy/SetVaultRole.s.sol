@@ -4,8 +4,6 @@ pragma solidity 0.8.19;
 import "forge-std/console2.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
-import { VaultMintRate } from "../../src/VaultMintRate.sol";
-import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 

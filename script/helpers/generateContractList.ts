@@ -89,6 +89,8 @@ const formatContract = (
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
   const type = name.split(regex)[0];
 
+  console.log({type})
+
   const defaultContract = {
     chainId,
     address,
@@ -170,7 +172,7 @@ export const generateContractList = (
           contractAddress = createdContract.address;
           if (contractName === "LiquidationPairFactory") {
             contractName = "LiquidationPair";
-          } else if (contractName === "ClaimerFactory") {
+          } else if (contractName.endsWith("ClaimerFactory")) {
             contractName = "Claimer";
           }
         }

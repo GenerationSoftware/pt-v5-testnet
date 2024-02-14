@@ -5,16 +5,15 @@ import { IERC4626, IERC20 } from "openzeppelin/mocks/ERC4626Mock.sol";
 
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
-import { VaultV2 as Vault } from "pt-v5-vault/Vault.sol";
+import { PrizeVault } from "pt-v5-vault/PrizeVault.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 
 import { YieldVaultMintRate } from "./YieldVaultMintRate.sol";
 
-contract VaultMintRate is Vault {
+contract PrizeVaultMintRate is PrizeVault {
     IERC4626 private immutable _yieldVault;
 
     constructor(
-        IERC20 _asset,
         string memory _name,
         string memory _symbol,
         IERC4626 yieldVault_,
@@ -24,8 +23,7 @@ contract VaultMintRate is Vault {
         uint32 _yieldFeePercentage,
         address _owner
     )
-        Vault(
-            _asset,
+        PrizeVault(
             _name,
             _symbol,
             yieldVault_,
@@ -33,6 +31,7 @@ contract VaultMintRate is Vault {
             address(_claimer),
             _yieldFeeRecipient,
             _yieldFeePercentage,
+            1000,
             _owner
         )
     {
@@ -43,20 +42,4 @@ contract VaultMintRate is Vault {
         YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
         super._mint(_receiver, _shares);
     }
-
-    // function transferTokensOut(
-    //   address _sender,
-    //   address _receiver,
-    //   address _tokenOut,
-    //   uint256 _amountOut
-    // ) public override returns (bytes memory) {
-    //   YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
-    //   return
-    //     super.transferTokensOut(
-    //       _sender,
-    //       _receiver,
-    //       _tokenOut,
-    //       _amountOut
-    //     );
-    // }
 }

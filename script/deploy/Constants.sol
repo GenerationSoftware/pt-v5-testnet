@@ -29,6 +29,7 @@ abstract contract Constants {
     address internal constant ERC5164_EXECUTOR_SEPOLIA_ARBITRUM = 0x2B3E6b5c9a6Bdb0e595896C9093fce013490abbD;
     address internal constant ERC5164_EXECUTOR_SEPOLIA_OPTIMISM = 0x6A501383A61ebFBc143Fc4BD41A2356bA71A6964;
 
+
     // Chain IDs
     uint256 constant GOERLI_CHAIN_ID = 5;
     uint256 constant SEPOLIA_CHAIN_ID = 11155111;
@@ -74,6 +75,7 @@ abstract contract Constants {
     uint8 internal constant MIN_NUMBER_OF_TIERS = 3;
     uint8 internal constant RESERVE_SHARES = 80;
     uint8 internal constant TIER_SHARES = 100;
+    uint24 constant DRAW_TIMEOUT = GRAND_PRIZE_PERIOD_DRAWS-1;
 
     function _getContributionsSmoothing() internal pure returns (SD1x18) {
         return sd1x18(0.3e18);

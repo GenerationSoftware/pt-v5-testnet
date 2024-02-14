@@ -18,7 +18,7 @@ import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";
 import { TokenFaucet } from "../../src/TokenFaucet.sol";
-import { VaultMintRate } from "../../src/VaultMintRate.sol";
+import { PrizeVaultMintRate } from "../../src/PrizeVaultMintRate.sol";
 import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
@@ -37,20 +37,7 @@ abstract contract Helpers is Constants, Script {
     /* ============ Constants ============ */
     uint256 internal constant ONE_YEAR_IN_SECONDS = 31557600;
 
-    string DEPLOY_POOL_SCRIPT;
-
-    constructor() {
-        if (block.chainid == GOERLI_CHAIN_ID || block.chainid == SEPOLIA_CHAIN_ID) {
-            DEPLOY_POOL_SCRIPT = "DeployPool.s.sol";
-        } else if (
-            block.chainid == ARBITRUM_GOERLI_CHAIN_ID ||
-            block.chainid == OPTIMISM_GOERLI_CHAIN_ID ||
-            block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID ||
-            block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID
-        ) {
-            DEPLOY_POOL_SCRIPT = "DeployL2PrizePool.s.sol";
-        }
-    }
+    string constant DEPLOY_POOL_SCRIPT = "DeployPool.s.sol";
 
     /* ============ Helpers ============ */
 
@@ -142,6 +129,7 @@ abstract contract Helpers is Constants, Script {
     }
 
     function _getDeploymentArtifacts(string memory _deploymentArtifactsPath) internal returns (string[] memory) {
+        console2.log("_getDeploymentArtifactsPath", _deploymentArtifactsPath);
         string[] memory inputs = new string[](4);
         inputs[0] = "ls";
         inputs[1] = "-r";
@@ -178,12 +166,10 @@ abstract contract Helpers is Constants, Script {
         string memory _errorMsg
     ) internal returns (address) {
         string[] memory filesName = _getDeploymentArtifacts(_artifactsPath);
-        uint256 filesNameLength = filesName.length;
 
         // Loop through deployment artifacts and find latest deployed `_contractName` address
-        for (uint256 i; i < filesNameLength; i++) {
-            string memory filePath = string.concat(vm.projectRoot(), _artifactsPath, filesName[i]);
-            string memory jsonFile = vm.readFile(filePath);
+        for (uint256 i; i < filesName.length; i++) {
+            string memory jsonFile = vm.readFile(string.concat(vm.projectRoot(), _artifactsPath, filesName[i]));
             uint256 transactionsLength = abi.decode(vm.parseJson(jsonFile, ".transactions"), (bytes[])).length;
 
             for (uint256 j; j < transactionsLength; j++) {
@@ -204,9 +190,15 @@ abstract contract Helpers is Constants, Script {
                     return contractAddress;
                 }
 
+                string memory factoryName = string.concat(":", _contractName, "Factory");
+                strings.slice memory found = contractName.toSlice().find(factoryName.toSlice());
+
+                // console2.log("factoryName", factoryName);
+                // console2.log("found", found.toString());
+
                 // check factory creations
                 if (
-                    keccak256(abi.encodePacked(contractName)) == keccak256(abi.encodePacked(_contractName, "Factory"))
+                    keccak256(abi.encodePacked(found.toString())) == keccak256(abi.encodePacked(factoryName))
                 ) {
                     console2.log("Checking factory...");
                     string memory factoryTransactionType = abi.decode(
@@ -264,6 +256,7 @@ abstract contract Helpers is Constants, Script {
 
         // Loop through deployment artifacts and find latest deployed `_contractName` address
         for (uint256 i; i < filesName.length; i++) {
+            console2.log("_getTokenAddress filepath", string.concat(vm.projectRoot(), _artifactsPath, filesName[i]));
             string memory jsonFile = vm.readFile(string.concat(vm.projectRoot(), _artifactsPath, filesName[i]));
             bytes[] memory rawTxs = abi.decode(vm.parseJson(jsonFile, ".transactions"), (bytes[]));
 
@@ -295,7 +288,7 @@ abstract contract Helpers is Constants, Script {
                             ),
                             (string)
                         ),
-                        _tokenSymbol
+                        string.concat("\"", _tokenSymbol, "\"")
                     )
                 ) {
                     return
@@ -418,15 +411,16 @@ abstract contract Helpers is Constants, Script {
         return ERC20Mintable(_getTokenAddress("ERC20Mintable", _tokenSymbol, 1, _artifactsPath, "token-not-found"));
     }
 
-    function _getVault(string memory _tokenSymbol) internal returns (VaultMintRate) {
+    function _getVault(string memory _tokenSymbol) internal returns (PrizeVaultMintRate) {
         string memory deployPath = _getDeployPath("DeployVault.s.sol");
         console2.log("looking for", _tokenSymbol);
-        address tokenAddress = _getTokenAddress("VaultMintRate", _tokenSymbol, 2, deployPath, "vault-not-found");
-        return VaultMintRate(tokenAddress);
+        address tokenAddress = _getTokenAddress("PrizeVaultMintRate", _tokenSymbol, 1, deployPath, "vault-not-found");
+        return PrizeVaultMintRate(tokenAddress);
     }
 
     function _getYieldVault(string memory _tokenSymbol) internal returns (YieldVaultMintRate) {
         string memory deployPath = _getDeployPath("DeployYieldVault.s.sol");
+        console2.log("_getYieldVault deployPath", deployPath);
         address tokenAddress = _getTokenAddress(
             "YieldVaultMintRate",
             _tokenSymbol,
@@ -434,6 +428,7 @@ abstract contract Helpers is Constants, Script {
             deployPath,
             "yield-vault-not-found"
         );
+        console2.log("_getYieldVault tokenAddress", tokenAddress);
         return YieldVaultMintRate(tokenAddress);
     }
 

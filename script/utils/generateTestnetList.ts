@@ -5,16 +5,16 @@ import {
   writeList,
 } from "../helpers/generateContractList";
 
-const ethSepoliaDeploymentPaths = [
-  `${rootFolder}/broadcast/DeployL1RngAuction.s.sol/11155111`,
+// const ethSepoliaDeploymentPaths = [
+  // `${rootFolder}/broadcast/DeployL1RngAuction.s.sol/11155111`,
   // `${rootFolder}/broadcast/DeployL1RelayerArbitrum.s.sol/11155111`, // uncomment if redeployed to Arbitrum
   // `${rootFolder}/broadcast/DeployL1RelayerOptimism.s.sol/11155111`, // uncomment if redeployed to Optimism
-];
-writeList(
-  generateContractList(ethSepoliaDeploymentPaths),
-  "deployments/ethSepolia",
-  "contracts"
-);
+// ];
+// writeList(
+//   generateContractList(ethSepoliaDeploymentPaths),
+//   "deployments/ethSepolia",
+//   "contracts"
+// );
 
 // Extra L1 Deployment Paths
 
@@ -45,39 +45,39 @@ writeList(
 // );
 
 // Arbitrum
-const arbitrumSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/421614`;
-const arbitrumSepoliaTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/421614`;
-const arbitrumSepoliaVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/421614`;
+// const arbitrumSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/421614`;
+// const arbitrumSepoliaTokenDeploymentPath = `${rootFolder}/broadcast/DeployToken.s.sol/421614`;
+// const arbitrumSepoliaVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.s.sol/421614`;
 
-const arbitrumSepoliaDeploymentPaths = [
-  arbitrumSepoliaStableTokenDeploymentPath,
-  arbitrumSepoliaTokenDeploymentPath,
-  `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/421614`,
-  `${rootFolder}/broadcast/DeployYieldVault.s.sol/421614`,
-  `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/421614`,
-  `${rootFolder}/broadcast/DeployTwabRewards.s.sol/421614`,
-  arbitrumSepoliaVaultDeploymentPath,
-];
+// const arbitrumSepoliaDeploymentPaths = [
+//   arbitrumSepoliaStableTokenDeploymentPath,
+//   arbitrumSepoliaTokenDeploymentPath,
+//   `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/421614`,
+//   `${rootFolder}/broadcast/DeployYieldVault.s.sol/421614`,
+//   `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/421614`,
+//   `${rootFolder}/broadcast/DeployTwabRewards.s.sol/421614`,
+//   arbitrumSepoliaVaultDeploymentPath,
+// ];
 
-const arbitrumSepoliaTokenDeploymentPaths = [
-  arbitrumSepoliaStableTokenDeploymentPath,
-  arbitrumSepoliaTokenDeploymentPath,
-];
+// const arbitrumSepoliaTokenDeploymentPaths = [
+//   arbitrumSepoliaStableTokenDeploymentPath,
+//   arbitrumSepoliaTokenDeploymentPath,
+// ];
 
-writeList(
-  generateContractList(arbitrumSepoliaDeploymentPaths),
-  "deployments/arbitrumSepolia",
-  "contracts"
-);
+// writeList(
+//   generateContractList(arbitrumSepoliaDeploymentPaths),
+//   "deployments/arbitrumSepolia",
+//   "contracts"
+// );
 
-writeList(
-  generateVaultList(
-    arbitrumSepoliaVaultDeploymentPath,
-    arbitrumSepoliaTokenDeploymentPaths
-  ),
-  "deployments/arbitrumSepolia",
-  "vaults"
-);
+// writeList(
+//   generateVaultList(
+//     arbitrumSepoliaVaultDeploymentPath,
+//     arbitrumSepoliaTokenDeploymentPaths
+//   ),
+//   "deployments/arbitrumSepolia",
+//   "vaults"
+// );
 
 // Optimism
 const optimismSepoliaStableTokenDeploymentPath = `${rootFolder}/broadcast/DeployStableToken.s.sol/11155420`;
@@ -87,7 +87,7 @@ const optimismSepoliaVaultDeploymentPath = `${rootFolder}/broadcast/DeployVault.
 const optimismSepoliaDeploymentPaths = [
   optimismSepoliaStableTokenDeploymentPath,
   optimismSepoliaTokenDeploymentPath,
-  `${rootFolder}/broadcast/DeployL2PrizePool.s.sol/11155420`,
+  `${rootFolder}/broadcast/DeployPool.s.sol/11155420`,
   `${rootFolder}/broadcast/DeployYieldVault.s.sol/11155420`,
   `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/11155420`,
   `${rootFolder}/broadcast/DeployTwabRewards.s.sol/11155420`,

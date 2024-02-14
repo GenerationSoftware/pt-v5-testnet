@@ -10,7 +10,7 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
 import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
-import { VaultV2 as Vault } from "pt-v5-vault/Vault.sol";
+import { PrizeVault } from "pt-v5-vault/PrizeVault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
 contract Helpers is Test {
@@ -25,7 +25,7 @@ contract Helpers is Test {
         return _vault.deposit(_amount, _user);
     }
 
-    function _sponsor(IERC20 _underlyingAsset, Vault _vault, uint256 _amount) internal returns (uint256) {
+    function _sponsor(IERC20 _underlyingAsset, PrizeVault _vault, uint256 _amount) internal returns (uint256) {
         _underlyingAsset.approve(address(_vault), type(uint256).max);
         return _vault.sponsor(_amount);
     }
@@ -66,7 +66,7 @@ contract Helpers is Test {
     /* ============ Claim ============ */
     function _claim(
         Claimer _claimer,
-        Vault _vault,
+        PrizeVault _vault,
         PrizePool _prizePool,
         address _user,
         uint32[] memory _userPrizeIndices,
@@ -87,7 +87,7 @@ contract Helpers is Test {
         _prizeIndices[0] = _userPrizeIndices;
 
         uint256 _totalFees = _claimer.claimPrizes(
-            Vault(address(_vault)),
+            PrizeVault(address(_vault)),
             _tiers[0],
             _winners,
             _prizeIndices,
