@@ -84,11 +84,12 @@ abstract contract Constants {
     /// @notice Returns the start timestamp of the first draw.
     /// @dev Configured for 7pm (19th hour) UTC of the next day
     function _getFirstDrawStartsAt() internal view returns (uint48) {
-        if (block.timestamp < 1693594800) revert("block timestamp doesn't seem right"); // make sure we're not on some relative script time
-        uint48 secondsInDay = 1 days;
-        uint48 firstDrawStartsAt = uint48(block.timestamp / secondsInDay + 1) * secondsInDay; // next day at 0:00:00 PM UTC
-        console2.log("first draw starts at:", firstDrawStartsAt);
-        return firstDrawStartsAt;
+        // hard code the time so that it is consistent between contract deployments
+        uint256 time = uint48(1708032507 + 1 hours);
+        if (time < block.timestamp){ 
+            revert("first draw starts at is in past");
+        }
+        return uint48(time);
     }
 
     // RngAuctions
