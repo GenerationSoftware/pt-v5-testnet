@@ -28,29 +28,31 @@ contract YieldVaultMintRate is ERC4626, AccessControl {
 
     /* ============ External Functions ============ */
 
-    function deposit(uint256 assets, address receiver) public virtual override returns (uint256) {
-        _mintRate();
+    function deposit(uint256 assets, address receiver) public virtual override _mintRate returns (uint256) {
         return super.deposit(assets, receiver);
     }
 
-    function mint(uint256 shares, address receiver) public virtual override returns (uint256) {
-        _mintRate();
+    function mint(uint256 shares, address receiver) public virtual override _mintRate returns (uint256) {
         return super.mint(shares, receiver);
     }
 
-    function withdraw(uint256 assets, address receiver, address owner) public virtual override returns (uint256) {
-        _mintRate();
+    function withdraw(
+        uint256 assets,
+        address receiver,
+        address owner
+    ) public virtual override _mintRate returns (uint256) {
         return super.withdraw(assets, receiver, owner);
     }
 
-    function redeem(uint256 shares, address receiver, address owner) public virtual override returns (uint256) {
-        _mintRate();
+    function redeem(
+        uint256 shares,
+        address receiver,
+        address owner
+    ) public virtual override _mintRate returns (uint256) {
         return super.redeem(shares, receiver, owner);
     }
 
-    function setRatePerSecond(uint256 _ratePerSecond) external onlyMinterRole {
-        _mintRate();
-        lastYieldTimestamp = block.timestamp;
+    function setRatePerSecond(uint256 _ratePerSecond) external onlyMinterRole _mintRate {
         ratePerSecond = _ratePerSecond;
     }
 
@@ -58,16 +60,16 @@ contract YieldVaultMintRate is ERC4626, AccessControl {
         ERC20Mintable(asset()).mint(address(this), amount);
     }
 
-    function mintRate() external onlyMinterRole {
-        _mintRate();
-    }
+    function mintRate() external onlyMinterRole _mintRate {}
 
     /* ============ Internal Functions ============ */
 
-    function _mintRate() internal {
+    modifier _mintRate() {
         uint256 deltaTime = block.timestamp - lastYieldTimestamp;
         uint256 rateMultiplier = deltaTime * ratePerSecond;
         uint256 balance = ERC20Mintable(asset()).balanceOf(address(this));
+
+        _;
 
         ERC20Mintable(asset()).mint(address(this), (rateMultiplier * balance) / 1 ether);
         lastYieldTimestamp = block.timestamp;

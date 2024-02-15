@@ -41,7 +41,7 @@ contract DeployVault is Helpers {
             string.concat("p", _underlyingAsset.symbol(), _symbolSuffix, "-T"),
             _yieldVault,
             prizePool,
-            _getClaimer(),
+            address(_getClaimer()),
             msg.sender,
             100000000, // 0.1 = 10%
             msg.sender
