@@ -18,7 +18,7 @@ contract PrizeVaultMintRate is PrizeVault {
         string memory _symbol,
         IERC4626 yieldVault_,
         PrizePool _prizePool,
-        Claimer _claimer,
+        address _claimer,
         address _yieldFeeRecipient,
         uint32 _yieldFeePercentage,
         address _owner
@@ -28,7 +28,7 @@ contract PrizeVaultMintRate is PrizeVault {
             _symbol,
             yieldVault_,
             _prizePool,
-            address(_claimer),
+            _claimer,
             _yieldFeeRecipient,
             _yieldFeePercentage,
             1000,
@@ -39,7 +39,7 @@ contract PrizeVaultMintRate is PrizeVault {
     }
 
     function _mint(address _receiver, uint256 _shares) internal virtual override {
-        YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
         super._mint(_receiver, _shares);
+        YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
     }
 }

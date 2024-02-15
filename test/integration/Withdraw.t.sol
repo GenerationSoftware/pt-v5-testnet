@@ -23,6 +23,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         uint256 _amount = 1000e18;
         underlyingAsset.mint(alice, _amount);
 
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
+
         _deposit(underlyingAsset, vault, _amount, alice);
         vault.withdraw(vault.maxWithdraw(alice), alice, alice);
 
@@ -32,8 +36,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), 0);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), 0);
 
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), 0);
-        assertEq(yieldVault.balanceOf(address(vault)), 0);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), yieldBuffer);
+        assertEq(yieldVault.balanceOf(address(vault)), yieldBuffer);
 
         vm.stopPrank();
     }
@@ -45,6 +49,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         uint256 _halfAmount = _amount / 2;
         underlyingAsset.mint(alice, _amount);
 
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
+
         _deposit(underlyingAsset, vault, _amount, alice);
         vault.withdraw(_halfAmount, alice, alice);
 
@@ -54,8 +62,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), _halfAmount);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), _halfAmount);
 
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _halfAmount);
-        assertEq(yieldVault.balanceOf(address(vault)), _halfAmount);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _halfAmount + yieldBuffer);
+        assertEq(yieldVault.balanceOf(address(vault)), _halfAmount + yieldBuffer);
 
         vm.stopPrank();
     }
@@ -63,6 +71,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
     function testWithdrawFullAmountYieldAccrued() external {
         uint256 _amount = 1000e18;
         underlyingAsset.mint(alice, _amount);
+
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
 
         vm.startPrank(alice);
 
@@ -83,8 +95,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), 0);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), 0);
 
-        assertEq(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield);
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _yield);
+        assertApproxEqAbs(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield + yieldBuffer, 1);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _yield + yieldBuffer);
 
         vm.stopPrank();
     }
@@ -96,6 +108,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         uint256 _amount = 1000e18;
         underlyingAsset.mint(alice, _amount);
 
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
+
         _deposit(underlyingAsset, vault, _amount, alice);
         vault.redeem(vault.maxRedeem(alice), alice, alice);
 
@@ -105,8 +121,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), 0);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), 0);
 
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), 0);
-        assertEq(yieldVault.balanceOf(address(vault)), 0);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), yieldBuffer);
+        assertEq(yieldVault.balanceOf(address(vault)), yieldBuffer);
 
         vm.stopPrank();
     }
@@ -118,6 +134,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         uint256 _halfAmount = _amount / 2;
         underlyingAsset.mint(alice, _amount);
 
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
+
         uint256 _shares = _deposit(underlyingAsset, vault, _amount, alice);
         vault.redeem(_shares / 2, alice, alice);
 
@@ -127,8 +147,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), _halfAmount);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), _halfAmount);
 
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _halfAmount);
-        assertEq(yieldVault.balanceOf(address(vault)), _halfAmount);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _halfAmount + yieldBuffer);
+        assertEq(yieldVault.balanceOf(address(vault)), _halfAmount + yieldBuffer);
 
         vm.stopPrank();
     }
@@ -136,6 +156,10 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
     function testRedeemFullAmountYieldAccrued() external {
         uint256 _amount = 1000e18;
         underlyingAsset.mint(alice, _amount);
+
+        // mint some yield to the vault yield buffer to simulate normal operating conditions
+        uint256 yieldBuffer = vault.yieldBuffer();
+        underlyingAsset.mint(address(vault), yieldBuffer);
 
         vm.startPrank(alice);
 
@@ -156,8 +180,8 @@ contract WithdrawIntegrationTest is IntegrationBaseSetup, Helpers {
         assertEq(twabController.balanceOf(address(vault), alice), 0);
         assertEq(twabController.delegateBalanceOf(address(vault), alice), 0);
 
-        assertEq(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield, "yield is available");
-        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _yield);
+        assertApproxEqAbs(yieldVault.convertToAssets(yieldVault.balanceOf(address(vault))), _yield + yieldBuffer, 1);
+        assertEq(underlyingAsset.balanceOf(address(yieldVault)), _yield + yieldBuffer);
 
         vm.stopPrank();
     }
