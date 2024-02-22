@@ -12,12 +12,6 @@
 [submodule "lib/solidity-stringutils"]
 	path = lib/solidity-stringutils
 	url = https://github.com/Arachnid/solidity-stringutils
-[submodule "lib/pt-v5-rng-contracts"]
-	path = lib/pt-v5-rng-contracts
-	url = https://github.com/generationsoftware/pt-v5-rng-contracts
-[submodule "lib/pt-v5-draw-auction"]
-	path = lib/pt-v5-draw-auction
-	url = https://github.com/generationsoftware/pt-v5-draw-auction
 [submodule "lib/pt-v5-vault"]
 	path = lib/pt-v5-vault
 	url = https://github.com/generationsoftware/pt-v5-vault
