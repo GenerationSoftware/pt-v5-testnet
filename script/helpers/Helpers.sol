@@ -3,6 +3,7 @@ pragma solidity 0.8.19;
 
 import "forge-std/console2.sol";
 
+import { SD59x18 } from "pt-v5-prize-pool/PrizePool.sol";
 import { Script } from "forge-std/Script.sol";
 import { stdJson } from "forge-std/StdJson.sol";
 import { strings } from "solidity-stringutils/strings.sol";
@@ -12,8 +13,6 @@ import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
-import { RngAuction } from "pt-v5-draw-auction/RngAuction.sol";
-import { RngAuctionRelayer } from "pt-v5-draw-auction/abstract/RngAuctionRelayer.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";
@@ -337,38 +336,6 @@ abstract contract Helpers is Constants, Script {
         }
 
         revert("Failed to determine L1 chain ID");
-    }
-
-    function _getL1RngAuction() internal returns (RngAuction) {
-        return
-            RngAuction(
-                _getContractAddress(
-                    "RngAuction",
-                    _getDeployPathWithChainId("DeployL1RngAuction.s.sol", _getL1ChainId()),
-                    "rng-auction-not-found"
-                )
-            );
-    }
-
-    function _getL1RngAuctionRelayerRemote() internal returns (RngAuctionRelayer) {
-        string memory contractName;
-        string memory deployPath;
-        uint256 chainIdL1 = _getL1ChainId();
-        if (block.chainid == ARBITRUM_GOERLI_CHAIN_ID || block.chainid == ARBITRUM_SEPOLIA_CHAIN_ID) {
-            contractName = "RngAuctionRelayerRemoteOwnerArbitrum";
-            deployPath = "DeployL1RelayerArbitrum.s.sol";
-        } else if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID || block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) {
-            contractName = "RngAuctionRelayerRemoteOwnerOptimism";
-            deployPath = "DeployL1RelayerOptimism.s.sol";
-        }
-        return
-            RngAuctionRelayer(
-                _getContractAddress(
-                    contractName,
-                    _getDeployPathWithChainId(deployPath, chainIdL1),
-                    "rng-auction-relayer-not-found"
-                )
-            );
     }
 
     function _getLiquidationPairFactory() internal returns (LiquidationPairFactory) {
