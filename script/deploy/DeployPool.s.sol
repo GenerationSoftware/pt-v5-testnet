@@ -71,14 +71,14 @@ contract DeployPool is Helpers {
 
         FeeBurner feeBurner = new FeeBurner(
             prizePool,
-            address(_getToken(POOL_SYMBOL, _tokenDeployPath)),
+            address(poolToken),
             msg.sender
         );
 
         uint128 wEthPerPool = _getExchangeRate(ONE_ETH_IN_USD_E8, 0);
         LiquidationPair feeBurnerPair = liquidationPairFactory.createPair(
             feeBurner,
-            address(_getToken(POOL_SYMBOL, _tokenDeployPath)),
+            address(poolToken),
             address(prizeToken),
             uint32(prizePool.drawPeriodSeconds()),
             uint32(prizePool.firstDrawOpensAt()),

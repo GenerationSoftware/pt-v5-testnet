@@ -63,7 +63,7 @@ contract DeployVault is Helpers {
     ) internal returns (LiquidationPair pair) {
         pair = _getLiquidationPairFactory().createPair(
             ILiquidationSource(_vault),
-            address(_getToken(POOL_SYMBOL, _tokenDeployPath)),
+            address(_prizeToken()),
             address(_vault),
             uint32(_prizePool.drawPeriodSeconds()),
             uint32(_prizePool.firstDrawOpensAt()),

@@ -98,7 +98,7 @@ abstract contract Constants {
     /// @dev Configured for 7pm (19th hour) UTC of the next day
     function _getFirstDrawStartsAt() internal view returns (uint48) {
         // hard code the time so that it is consistent between contract deployments
-        uint256 time = uint48(1708569422 + 1 hours);
+        uint256 time = uint48(1708635111 + 30 minutes);
         if (time < block.timestamp){ 
             revert("first draw starts at is in past");
         }
