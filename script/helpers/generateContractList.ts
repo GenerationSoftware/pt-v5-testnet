@@ -40,6 +40,7 @@ const formatContract = (
 ): Contract => {
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
+  console.log("NAME", name )
   const type = name.split(regex)[0];
 
   const defaultContract = {
@@ -112,7 +113,7 @@ export const generateContractList = (
           // Set contract info to the created contract
           transactionType = "CREATE";
           contractAddress = createdContract.address;
-          if (contractName === "LiquidationPairFactory") {
+          if (contractName.endsWith("LiquidationPairFactory")) {
             contractName = "LiquidationPair";
           } else if (contractName.endsWith("ClaimerFactory")) {
             contractName = "Claimer";

@@ -8,103 +8,103 @@
     "minor": 0,
     "patch": 0
   },
-  "timestamp": "2024-02-15T22:05:17.650Z",
+  "timestamp": "2024-02-22T02:23:59.068Z",
   "tokens": [
     {
-      "chainId": 11155420,
-      "address": "0x0FFe33D8b2D93ff1EFF4be866c87aE45c22fb681",
+      "chainId": 420,
+      "address": "0x9407700D80fd43b8E9741d0202786fd09e553FdD",
       "name": "Prize DAI Low Yield",
       "decimals": 18,
       "symbol": "pDAI-LY-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0xe4f79f7050C43521B40cf84C16aD69aaB0EfBbb8",
+          "address": "0xd19e79720c364a9d2E14bE8e43eF01c7776E99c1",
           "symbol": "DAI",
           "name": "Dai Stablecoin"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0x9F155a1586e0ad33213C506026AA3122Cf041a19",
+      "chainId": 420,
+      "address": "0x9194BE10aa807d2b2880695D6A5B94FF0a56299F",
       "name": "Prize DAI High Yield",
       "decimals": 18,
       "symbol": "pDAI-HY-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0xe4f79f7050C43521B40cf84C16aD69aaB0EfBbb8",
+          "address": "0xd19e79720c364a9d2E14bE8e43eF01c7776E99c1",
           "symbol": "DAI",
           "name": "Dai Stablecoin"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0x92059f0145AfA8A788F54577CB692a5c9960FC1c",
+      "chainId": 420,
+      "address": "0x213533c9245145D06F0d86b218718Ef8E3500513",
       "name": "Prize USDC Low Yield",
       "decimals": 6,
       "symbol": "pUSDC-LY-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x6daaa3E5C99cEC675485D920FB6869deEaE1C0bf",
+          "address": "0xaAE82F396d7D22C7Bca1759Afa231743308c95f8",
           "symbol": "USDC",
           "name": "USD Coin"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0x170dE99261a497D5b29AA2279Cc2F3Da0eB09b4B",
+      "chainId": 420,
+      "address": "0x596845f8608D40c79D7608b72ADf79e99e6b7422",
       "name": "Prize USDC High Yield",
       "decimals": 6,
       "symbol": "pUSDC-HY-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x6daaa3E5C99cEC675485D920FB6869deEaE1C0bf",
+          "address": "0xaAE82F396d7D22C7Bca1759Afa231743308c95f8",
           "symbol": "USDC",
           "name": "USD Coin"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0xd5F54456fa312a21872472dcD21bfe6978ab1fC7",
+      "chainId": 420,
+      "address": "0x4a29c3375Efe8eABCFb0134F051ecEE6D8d3676b",
       "name": "Prize GUSD",
       "decimals": 2,
       "symbol": "pGUSD-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x29615d775BcFD529744b9693Ba417f814fe86aD3",
+          "address": "0x91660EeCd36a8905a33fa9a7750502A100886f7F",
           "symbol": "GUSD",
           "name": "Gemini Dollar"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0x9452A41E1D69894b5c47c3e0785e37e48C5Dbb8f",
+      "chainId": 420,
+      "address": "0x36998a4c9D0124998aa825B91B4e9b1290cA2dbE",
       "name": "Prize WBTC",
       "decimals": 8,
       "symbol": "pWBTC-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x4Fe84045D2B9CC35D03E7551f79355b18b09CE90",
+          "address": "0xAa2bA5f173f7fda690FEED8537A6323765e01638",
           "symbol": "WBTC",
           "name": "Wrapped BTC"
         }
       }
     },
     {
-      "chainId": 11155420,
-      "address": "0x50088bF4dba58145c0B873643d285626f87837c3",
+      "chainId": 420,
+      "address": "0x5E3267003541a6743289a4e74Ce46412d98BFeF7",
       "name": "Prize WETH",
-      "decimals": 18,
+      "decimals": null,
       "symbol": "pWETH-T",
       "extensions": {
         "underlyingAsset": {
-          "address": "0xC7299B4791926EfAF1800bd6cA470734954c6C02",
-          "symbol": "WETH",
-          "name": "Wrapped Ether"
+          "address": "0x0877eB557DfeB0AF4A6cF27dF180bF6A87B46500",
+          "symbol": "100000000000000000000",
+          "name": "0x313A6052231178840B209c92EA710569FE1d6318"
         }
       }
     }

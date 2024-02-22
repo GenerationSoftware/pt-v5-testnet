@@ -18,8 +18,9 @@ contract SetTokenRole is Helpers {
         _tokenGrantMinterRoles(wETH);
 
         /* prizeToken */
-        ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
-        _tokenGrantMinterRoles(prizeToken);
+        ERC20Mintable poolToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
+        _tokenGrantMinterRoles(poolToken);
+
         vm.stopBroadcast();
     }
 }

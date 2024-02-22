@@ -33,8 +33,8 @@ contract SetTokenPrice is Helpers {
         marketRate.setPrice(address(0), _denominator, ONE_ETH_IN_USD_E8);
 
         /* prizeToken */
-        ERC20Mintable prizeToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
-        marketRate.setPrice(address(prizeToken), _denominator, ONE_PRIZE_TOKEN_IN_USD_E8);
+        ERC20Mintable poolToken = _getToken(POOL_SYMBOL, _tokenDeployPath);
+        marketRate.setPrice(address(poolToken), _denominator, ONE_PRIZE_TOKEN_IN_USD_E8);
     }
 
     function run() public {

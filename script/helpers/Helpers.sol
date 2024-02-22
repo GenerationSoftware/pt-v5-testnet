@@ -91,6 +91,10 @@ abstract contract Helpers is Constants, Script {
         _tokenGrantMinterRole(_token, address(0x49ca801A80e31B1ef929eAB13Ab3FBbAe7A55e8F)); // Bot
     }
 
+    function _prizeToken() internal returns (ERC20Mintable) {
+        return _getToken(WETH_SYMBOL, _tokenDeployPath);
+    }
+
     function _yieldVaultGrantMinterRoles(YieldVaultMintRate _yieldVault) internal {
         if (block.chainid == GOERLI_CHAIN_ID) {
             _yieldVaultGrantMinterRole(_yieldVault, GOERLI_DEFENDER_ADDRESS);
