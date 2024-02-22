@@ -39,3 +39,6 @@
 [submodule "lib/pt-v5-twab-rewards"]
 	path = lib/pt-v5-twab-rewards
 	url = https://github.com/GenerationSoftware/pt-v5-twab-rewards
+[submodule "lib/pt-v5-draw-manager"]
+	path = lib/pt-v5-draw-manager
+	url = https://github.com/GenerationSoftware/pt-v5-draw-manager
