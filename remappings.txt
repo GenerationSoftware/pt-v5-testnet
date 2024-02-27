@@ -21,3 +21,4 @@ pt-v5-vault-mock/=lib/pt-v5-vault/test/contracts/mock/
 pt-v5-claimer/=lib/pt-v5-claimer/src/
 remote-owner/=lib/pt-v5-draw-auction/lib/remote-owner/src/
 pt-v5-vault-boost/=lib/pt-v5-vault-boost/src/
+pt-v5-rng-blockhash/=lib/pt-v5-rng-blockhash/src/
