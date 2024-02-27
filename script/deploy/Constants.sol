@@ -8,6 +8,17 @@ import { SD1x18, sd1x18 } from "prb-math/SD1x18.sol";
 import { SD59x18, convert } from "prb-math/SD59x18.sol";
 
 abstract contract Constants {
+
+    // Prize Pool
+    uint    internal constant FIRST_DRAW_STARTS_AT = 1708994309 + 30 minutes;
+    uint32  internal constant DRAW_PERIOD_SECONDS = 2 hours;
+    uint24  internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
+    uint8   internal constant MIN_NUMBER_OF_TIERS = 4;
+    uint8   internal constant RESERVE_SHARES = 20;
+    uint8   internal constant TIER_SHARES = 100;
+    uint8   internal constant CANARY_SHARES = 5;
+    uint24  internal constant DRAW_TIMEOUT = GRAND_PRIZE_PERIOD_DRAWS - 1;
+
     // Addresses
     // Defender
     address internal constant GOERLI_DEFENDER_ADDRESS = 0x22f928063d7FA5a90f4fd7949bB0848aF7C79b0A;
@@ -53,68 +64,14 @@ abstract contract Constants {
     uint256 internal constant CLAIMER_MAX_FEE = 10000e18;
     UD2x18 constant CLAIMER_MAX_FEE_PERCENT = UD2x18.wrap(0.1e18); // 10%
 
-    function _getClaimerTimeToReachMaxFee() internal pure returns (uint256) {
-        return (DRAW_PERIOD_SECONDS - (2 * AUCTION_DURATION)) / 2;
-    }
-
-    // Liquidation Pair
-    uint104 internal constant ONE_POOL = 1e18;
-
-    /// @notice The target first sale time for an LP
-    function _getTargetFirstSaleTime(uint48 _drawPeriodSeconds) internal pure returns (uint32) {
-        return uint32(_drawPeriodSeconds / 2);
-    }
-
-    /**
-     * @notice Get Liquidation Pair decay constant.
-     * @dev This is approximately the maximum decay constant, as the CGDA formula requires computing e^(decayConstant * time).
-     *      Since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
-     */
-    function _getDecayConstant() internal pure returns (SD59x18) {
-        return SD59x18.wrap(134e18).div(convert(int256(uint256(DRAW_PERIOD_SECONDS * 50))));
-    }
-
-    function _getWitnetRandomness() internal view returns (address) {
-        if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
-            return WITNET_RANDOMNESS_OPTIMISM_GOERLI;
-        } else {
-            revert("Witnet RNG Not Supported on this chain");
-        }
-    }
-
-    // Prize Pool
-    uint32 internal constant DRAW_PERIOD_SECONDS = 2 hours;
-    uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
-    uint8 internal constant MIN_NUMBER_OF_TIERS = 4;
-    uint8 internal constant RESERVE_SHARES = 80;
-    uint8 internal constant TIER_SHARES = 100;
-    uint24 constant DRAW_TIMEOUT = GRAND_PRIZE_PERIOD_DRAWS-1;
-
-    function _getContributionsSmoothing() internal pure returns (SD1x18) {
-        return sd1x18(0.3e18);
-    }
-
-    /// @notice Returns the start timestamp of the first draw.
-    /// @dev Configured for 7pm (19th hour) UTC of the next day
-    function _getFirstDrawStartsAt() internal view returns (uint48) {
-        // hard code the time so that it is consistent between contract deployments
-        uint256 time = uint48(1708635111 + 30 minutes);
-        if (time < block.timestamp){ 
-            revert("first draw starts at is in past");
-        }
-        return uint48(time);
-    }
-
-    // RngAuctions
+    // Draw manager
     uint64 internal constant AUCTION_DURATION = 40 minutes;
     uint64 internal constant AUCTION_TARGET_SALE_TIME = 15 minutes; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
     uint256 internal constant AUCTION_MAX_REWARD = 10000e18;
     UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0); // 0%
 
-    /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
-    function _getAuctionOffset() internal view returns (uint32) {
-        return uint32(_getFirstDrawStartsAt() - DRAW_PERIOD_SECONDS * 10);
-    }
+    // Liquidation Pair
+    uint104 internal constant ONE_POOL = 1e18;
 
     // Twab
     // nice round fraction of the draw period
@@ -146,4 +103,51 @@ abstract contract Constants {
     // Vault
     uint32 internal constant YIELD_FEE_PERCENTAGE = 0; // 0%
     address internal constant YIELD_FEE_RECIPIENT = address(0);
+
+    function _getClaimerTimeToReachMaxFee() internal pure returns (uint256) {
+        return (DRAW_PERIOD_SECONDS - (2 * AUCTION_DURATION)) / 2;
+    }
+
+    /// @notice The target first sale time for an LP
+    function _getTargetFirstSaleTime(uint48 _drawPeriodSeconds) internal pure returns (uint32) {
+        return uint32(_drawPeriodSeconds / 2);
+    }
+
+    /**
+     * @notice Get Liquidation Pair decay constant.
+     * @dev This is approximately the maximum decay constant, as the CGDA formula requires computing e^(decayConstant * time).
+     *      Since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
+     */
+    function _getDecayConstant() internal pure returns (SD59x18) {
+        return SD59x18.wrap(134e18).div(convert(int256(uint256(DRAW_PERIOD_SECONDS * 50))));
+    }
+
+    function _getWitnetRandomness() internal view returns (address) {
+        if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
+            return WITNET_RANDOMNESS_OPTIMISM_GOERLI;
+        } else {
+            revert("Witnet RNG Not Supported on this chain");
+        }
+    }
+
+    function _getContributionsSmoothing() internal pure returns (SD1x18) {
+        return sd1x18(0.3e18);
+    }
+
+    /// @notice Returns the start timestamp of the first draw.
+    /// @dev Configured for 7pm (19th hour) UTC of the next day
+    function _getFirstDrawStartsAt() internal view returns (uint48) {
+        // hard code the time so that it is consistent between contract deployments
+        uint256 time = uint48(FIRST_DRAW_STARTS_AT);
+        if (time < block.timestamp){ 
+            revert("first draw starts at is in past");
+        }
+        return uint48(time);
+    }
+
+    /// @notice Returns the timestamp of the auction offset, aligned to the draw offset.
+    function _getAuctionOffset() internal view returns (uint32) {
+        return uint32(_getFirstDrawStartsAt() - DRAW_PERIOD_SECONDS * 10);
+    }
+
 }

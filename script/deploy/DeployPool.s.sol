@@ -28,6 +28,7 @@ import {
 import { FeeBurner } from "pt-v5-fee-burner/FeeBurner.sol";
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
 import { RngWitnet, IWitnetRandomness } from "pt-v5-rng-witnet/RngWitnet.sol";
+import { RngBlockhash } from "pt-v5-rng-blockhash/RngBlockhash.sol";
 import { DrawManager } from "pt-v5-draw-manager/DrawManager.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
@@ -51,7 +52,12 @@ contract DeployPool is Helpers {
         new LiquidationRouter(liquidationPairFactory);
         new PrizeVaultFactory();
 
-        RngWitnet rngWitnet = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
+        IRng rng;
+        if (block.chainid == 31337) { // if local chain
+            rng = new RngBlockhash();
+        } else {
+            rng = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
+        }
 
         PrizePool prizePool = new PrizePool(
             ConstructorParams(
@@ -64,6 +70,7 @@ contract DeployPool is Helpers {
                 GRAND_PRIZE_PERIOD_DRAWS,
                 MIN_NUMBER_OF_TIERS,
                 TIER_SHARES,
+                CANARY_SHARES,
                 RESERVE_SHARES,
                 DRAW_TIMEOUT
             )
@@ -93,7 +100,7 @@ contract DeployPool is Helpers {
 
         DrawManager drawManager = new DrawManager(
             prizePool,
-            rngWitnet,
+            rng,
             AUCTION_DURATION,
             AUCTION_TARGET_SALE_TIME,
             AUCTION_TARGET_FIRST_SALE_FRACTION,

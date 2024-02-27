@@ -85,7 +85,8 @@ contract IntegrationBaseSetup is Test {
                 12,
                 uint8(3), // minimum number of tiers
                 100,
-                100,
+                5,
+                20,
                 10 // draw timeout
             )
         );
