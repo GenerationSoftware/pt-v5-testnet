@@ -10,7 +10,7 @@ import { SD59x18, convert } from "prb-math/SD59x18.sol";
 abstract contract Constants {
 
     // Prize Pool
-    uint    internal constant FIRST_DRAW_STARTS_AT = 1708994309 + 30 minutes;
+    uint    internal constant FIRST_DRAW_STARTS_AT = 1708996764 + 30 minutes;
     uint32  internal constant DRAW_PERIOD_SECONDS = 2 hours;
     uint24  internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
     uint8   internal constant MIN_NUMBER_OF_TIERS = 4;
