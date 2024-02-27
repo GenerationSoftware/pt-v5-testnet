@@ -83,9 +83,9 @@ abstract contract Constants {
     }
 
     // Prize Pool
-    uint32 internal constant DRAW_PERIOD_SECONDS = 1 days / 4;
-    uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 14; // Twice a week (4 draws a day)
-    uint8 internal constant MIN_NUMBER_OF_TIERS = 3;
+    uint32 internal constant DRAW_PERIOD_SECONDS = 2 hours;
+    uint24 internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
+    uint8 internal constant MIN_NUMBER_OF_TIERS = 4;
     uint8 internal constant RESERVE_SHARES = 80;
     uint8 internal constant TIER_SHARES = 100;
     uint24 constant DRAW_TIMEOUT = GRAND_PRIZE_PERIOD_DRAWS-1;
@@ -106,8 +106,8 @@ abstract contract Constants {
     }
 
     // RngAuctions
-    uint64 internal constant AUCTION_DURATION = DRAW_PERIOD_SECONDS / 4;
-    uint64 internal constant AUCTION_TARGET_SALE_TIME = AUCTION_DURATION / 2; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
+    uint64 internal constant AUCTION_DURATION = 40 minutes;
+    uint64 internal constant AUCTION_TARGET_SALE_TIME = 15 minutes; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
     uint256 internal constant AUCTION_MAX_REWARD = 10000e18;
     UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0); // 0%
 
