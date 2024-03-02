@@ -1,0 +1,112 @@
+{
+  "name": "PoolTogether Testnet Vault List",
+  "keywords": [
+    "pooltogether"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "timestamp": "2024-03-02T02:05:50.996Z",
+  "tokens": [
+    {
+      "chainId": 420,
+      "address": "0x5905549D4AC352dd9B3950ca0e0277Ed1284Af73",
+      "name": "Prize DAI Low Yield",
+      "decimals": 18,
+      "symbol": "pDAI-LY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x3f592F85D4C7779814D43EB01f47375bDfe1a8B3",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0x94Af72970ca8a2F6f5F39135DB53A9e0e2463f90",
+      "name": "Prize DAI High Yield",
+      "decimals": 18,
+      "symbol": "pDAI-HY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x3f592F85D4C7779814D43EB01f47375bDfe1a8B3",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0xe4Fa4A25dF9F940377a1e94a8956DbE5665B5f94",
+      "name": "Prize USDC Low Yield",
+      "decimals": 6,
+      "symbol": "pUSDC-LY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x3749e4DA7558BeD9b0819dE7f8C7eFc271Db004e",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0x75CA27Bb45d689c18f350592e036EE4E10a68D06",
+      "name": "Prize USDC High Yield",
+      "decimals": 6,
+      "symbol": "pUSDC-HY-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x3749e4DA7558BeD9b0819dE7f8C7eFc271Db004e",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0xE22824a901d726eC8A2b05878F9fE1a0eFeb3CdC",
+      "name": "Prize GUSD",
+      "decimals": 2,
+      "symbol": "pGUSD-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xC923144BB5403c16f05c4D6372bc733d2BD9F9D3",
+          "symbol": "GUSD",
+          "name": "Gemini Dollar"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0x8e3dC73Ecad13af0098D70f79cf57cA66ad29176",
+      "name": "Prize WBTC",
+      "decimals": 8,
+      "symbol": "pWBTC-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x22572B83c1618207788dbeab6a121662D2732226",
+          "symbol": "WBTC",
+          "name": "Wrapped BTC"
+        }
+      }
+    },
+    {
+      "chainId": 420,
+      "address": "0x21249545298bEfD0064E8e9420b4f8FD8ECB5B6a",
+      "name": "Prize WETH",
+      "decimals": null,
+      "symbol": "pWETH-T",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x541B588d1EDc43078931C20Fb62983344F808e8e",
+          "symbol": "100000000000000000000",
+          "name": "0xbaD6266e5293e92a50294Cb17e5558a0Ca859b60"
+        }
+      }
+    }
+  ]
+}
