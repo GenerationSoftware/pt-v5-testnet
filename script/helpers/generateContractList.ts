@@ -40,7 +40,6 @@ const formatContract = (
 ): Contract => {
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
-  console.log("NAME", name )
   const type = name.split(regex)[0];
 
   const defaultContract = {
@@ -223,4 +222,43 @@ export const writeList = (
 
 function stripQuotes(str) {
   return str.replace(/['"]+/g, '');
+}
+
+
+export function getDeploymentPaths(chainId: number) {
+  return [
+    `${rootFolder}/broadcast/DeployStableToken.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployToken.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployPool.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployYieldVault.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployTwabRewards.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployVault.s.sol/${chainId}`,
+  ];
+}
+
+export function writeFiles(chainId: number, chainName: string) {
+  const deploymentPaths = getDeploymentPaths(chainId);
+
+  if (!fs.existsSync(deploymentPaths[0])) {
+    console.error(`No files for chainId ${chainId} and chainName ${chainName}`)
+    return;
+  }
+
+  const contractList = generateContractList(deploymentPaths);
+
+  writeList(
+    contractList,
+    `deployments/${chainName}`,
+    `contracts`
+  );
+  
+  writeList(
+    generateVaultList(
+      deploymentPaths,
+      contractList
+    ),
+    `deployments/${chainName}`,
+    `vaults`
+  );
 }

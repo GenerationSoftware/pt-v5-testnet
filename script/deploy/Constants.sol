@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.24;
 
 import { console2 } from "forge-std/console2.sol";
 
@@ -10,7 +10,7 @@ import { SD59x18, convert } from "prb-math/SD59x18.sol";
 abstract contract Constants {
 
     // Prize Pool
-    uint    internal constant FIRST_DRAW_STARTS_AT = 1708997552 + 30 minutes;
+    uint    internal constant FIRST_DRAW_STARTS_AT = 1709341475 + 30 minutes;
     uint32  internal constant DRAW_PERIOD_SECONDS = 2 hours;
     uint24  internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
     uint8   internal constant MIN_NUMBER_OF_TIERS = 4;
@@ -36,6 +36,8 @@ abstract contract Constants {
 
     // Witnet
     address internal constant WITNET_RANDOMNESS_OPTIMISM_GOERLI = 0x0123456fbBC59E181D76B6Fe8771953d1953B51a;
+    address internal constant WITNET_RANDOMNESS_GOERLI = 0x0123456fbBC59E181D76B6Fe8771953d1953B51a;
+    address internal constant WITNET_RANDOMNESS_SEPOLIA = 0x0123456fbBC59E181D76B6Fe8771953d1953B51a;
 
     // MessageExecutor
     address internal constant ERC5164_EXECUTOR_GOERLI_ARBITRUM = 0xe7Ab52219631882f778120c1f19D6086ED390bE1;
@@ -65,13 +67,14 @@ abstract contract Constants {
     UD2x18 constant CLAIMER_MAX_FEE_PERCENT = UD2x18.wrap(0.1e18); // 10%
 
     // Draw manager
-    uint64 internal constant AUCTION_DURATION = 40 minutes;
-    uint64 internal constant AUCTION_TARGET_SALE_TIME = 15 minutes; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
+    uint48 internal constant AUCTION_DURATION = 40 minutes;
+    uint48 internal constant AUCTION_TARGET_SALE_TIME = 15 minutes; // since testnet periods are shorter, we make this a bit longer to account for decreased granularity
     uint256 internal constant AUCTION_MAX_REWARD = 10000e18;
     UD2x18 internal constant AUCTION_TARGET_FIRST_SALE_FRACTION = UD2x18.wrap(0); // 0%
 
     // Liquidation Pair
     uint104 internal constant ONE_POOL = 1e18;
+    uint104 internal constant ONE_WETH = 1e18;
 
     // Twab
     // nice round fraction of the draw period
@@ -93,12 +96,12 @@ abstract contract Constants {
 
     // Token prices in USD
     uint8 MARKET_RATE_DECIMALS = 8;
-    uint256 internal constant ONE_USDC_IN_USD_E8 = 1e8;
-    uint256 internal constant ONE_ETH_IN_USD_E8 = 1641e8;
-    uint256 internal constant ONE_PRIZE_TOKEN_IN_USD_E8 = 0.55e8;
-    uint256 internal constant ONE_DAI_IN_USD_E8 = 1e8;
-    uint256 internal constant ONE_GUSD_IN_USD_E8 = 1e8;
-    uint256 internal constant ONE_WBTC_IN_USD_E8 = 27903e8;
+    uint256 internal constant USD_PER_USDC_E8 = 1e8;
+    uint256 internal constant USD_PER_ETH_E8 = 3000e8;
+    uint256 internal constant USD_PER_POOL_E8 = 0.55e8;
+    uint256 internal constant USD_PER_DAI_E8 = 1e8;
+    uint256 internal constant USD_PER_GUSD_E8 = 1e8;
+    uint256 internal constant USD_PER_WBTC_E8 = 60000e8;
 
     // Vault
     uint32 internal constant YIELD_FEE_PERCENTAGE = 0; // 0%
@@ -125,6 +128,10 @@ abstract contract Constants {
     function _getWitnetRandomness() internal view returns (address) {
         if (block.chainid == OPTIMISM_GOERLI_CHAIN_ID) {
             return WITNET_RANDOMNESS_OPTIMISM_GOERLI;
+        } else if (block.chainid == GOERLI_CHAIN_ID) {
+            return WITNET_RANDOMNESS_GOERLI;
+        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
+            return WITNET_RANDOMNESS_SEPOLIA;
         } else {
             revert("Witnet RNG Not Supported on this chain");
         }

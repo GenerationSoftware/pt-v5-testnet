@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.24;
 
 import "forge-std/console2.sol";
 
@@ -26,7 +26,7 @@ contract DeployVault is Helpers {
         YieldVaultMintRate _yieldVault,
         string memory _nameSuffix,
         string memory _symbolSuffix,
-        uint128 _tokenOutPerPool
+        uint104 _tokenOutPerWeth
     ) internal returns (PrizeVaultMintRate vault) {
         ERC20 _underlyingAsset = ERC20(_yieldVault.asset());
 
@@ -51,7 +51,7 @@ contract DeployVault is Helpers {
         prizeToken.mint(address(prizePool), 100e18);
         prizePool.contributePrizeTokens(address(vault), 100e18);
 
-        vault.setLiquidationPair(address(_createPair(prizePool, vault, _tokenOutPerPool)));
+        vault.setLiquidationPair(address(_createPair(prizePool, vault, _tokenOutPerWeth)));
 
         new VaultBooster(prizePool, address(vault), msg.sender);
     }
@@ -59,7 +59,7 @@ contract DeployVault is Helpers {
     function _createPair(
         PrizePool _prizePool,
         PrizeVaultMintRate _vault,
-        uint128 _tokenOutPerPool
+        uint104 _tokenOutPerWeth
     ) internal returns (LiquidationPair pair) {
         pair = _getLiquidationPairFactory().createPair(
             ILiquidationSource(_vault),
@@ -69,45 +69,38 @@ contract DeployVault is Helpers {
             uint32(_prizePool.firstDrawOpensAt()),
             _getTargetFirstSaleTime(_prizePool.drawPeriodSeconds()),
             _getDecayConstant(),
-            uint104(ONE_POOL),
-            uint104(_tokenOutPerPool),
-            uint104(_tokenOutPerPool) // Assume min is 1 POOL worth of the token
+            uint104(ONE_WETH),
+            uint104(_tokenOutPerWeth),
+            uint104(_tokenOutPerWeth) // Assume min is 1 POOL worth of the token
         );
     }
 
     function _deployVaults() internal {
         /* DAI */
-        uint128 daiPerPool = _getExchangeRate(ONE_DAI_IN_USD_E8, 0);
+        uint104 daiPerWeth = uint104((ONE_WETH * USD_PER_ETH_E8) / USD_PER_DAI_E8);
 
-        console2.log("yvDAI-LY");
+        _deployVault(_getYieldVault("yvDAI-LY"), " Low Yield", "-LY", daiPerWeth);
 
-        _deployVault(_getYieldVault("yvDAI-LY"), " Low Yield", "-LY", daiPerPool);
-
-        console2.log("yvDAI-HY");
-
-        _deployVault(_getYieldVault("yvDAI-HY"), " High Yield", "-HY", daiPerPool);
+        _deployVault(_getYieldVault("yvDAI-HY"), " High Yield", "-HY", daiPerWeth);
 
         /* USDC */
-        uint128 usdcPerPool = _getExchangeRate(ONE_USDC_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - USDC_TOKEN_DECIMAL);
+        uint104 usdcPerWeth = uint104((ONE_WETH * USD_PER_ETH_E8) / USD_PER_USDC_E8);
 
-        _deployVault(_getYieldVault("yvUSDC-LY"), " Low Yield", "-LY", usdcPerPool);
+        _deployVault(_getYieldVault("yvUSDC-LY"), " Low Yield", "-LY", usdcPerWeth);
 
-        _deployVault(_getYieldVault("yvUSDC-HY"), " High Yield", "-HY", usdcPerPool);
+        _deployVault(_getYieldVault("yvUSDC-HY"), " High Yield", "-HY", usdcPerWeth);
 
         /* gUSD */
-        uint128 gusdPerPool = _getExchangeRate(ONE_GUSD_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - GUSD_TOKEN_DECIMAL);
+        uint104 gusdPerWeth = uint104((ONE_WETH * USD_PER_ETH_E8) / USD_PER_GUSD_E8);
 
-        _deployVault(_getYieldVault("yvGUSD"), "", "", gusdPerPool);
+        _deployVault(_getYieldVault("yvGUSD"), "", "", gusdPerWeth);
 
         /* wBTC */
-        uint128 wBtcPerPool = _getExchangeRate(ONE_WBTC_IN_USD_E8, DEFAULT_TOKEN_DECIMAL - WBTC_TOKEN_DECIMAL);
+        uint104 wBtcPerWeth = uint104((ONE_WETH * USD_PER_ETH_E8) / USD_PER_WBTC_E8);
 
-        _deployVault(_getYieldVault("yvWBTC"), "", "", wBtcPerPool);
+        _deployVault(_getYieldVault("yvWBTC"), "", "", wBtcPerWeth);
 
-        /* wETH */
-        uint128 wEthPerPool = _getExchangeRate(ONE_ETH_IN_USD_E8, 0);
-
-        _deployVault(_getYieldVault("yvWETH"), "", "", wEthPerPool);
+        _deployVault(_getYieldVault("yvWETH"), "", "", ONE_WETH);
     }
 
     function run() public {

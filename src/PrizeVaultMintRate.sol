@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.24;
 
 import { IERC4626, IERC20 } from "openzeppelin/mocks/ERC4626Mock.sol";
 

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.24;
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";

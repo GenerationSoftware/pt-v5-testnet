@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity 0.8.19;
+pragma solidity ^0.8.24;
 
 import "forge-std/console2.sol";
 
@@ -82,7 +82,7 @@ contract DeployPool is Helpers {
             msg.sender
         );
 
-        uint128 wEthPerPool = _getExchangeRate(ONE_ETH_IN_USD_E8, 0);
+        uint128 wEthPerPool = _getExchangeRate(USD_PER_ETH_E8, 0);
         LiquidationPair feeBurnerPair = liquidationPairFactory.createPair(
             feeBurner,
             address(poolToken),
