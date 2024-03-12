@@ -52,12 +52,12 @@ contract DeployPool is Helpers {
         new LiquidationRouter(liquidationPairFactory);
         new PrizeVaultFactory();
 
-        IRng rng;
-        if (block.chainid == 31337) { // if local chain
-            rng = new RngBlockhash();
-        } else {
-            rng = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
-        }
+        IRng rng = new RngBlockhash();
+        // if (block.chainid == 31337) { // if local chain
+        //     rng = new RngBlockhash();
+        // } else {
+        //     rng = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
+        // }
 
         PrizePool prizePool = new PrizePool(
             ConstructorParams(
