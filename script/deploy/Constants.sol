@@ -10,7 +10,7 @@ import { SD59x18, convert } from "prb-math/SD59x18.sol";
 abstract contract Constants {
 
     // Prize Pool
-    uint    internal constant FIRST_DRAW_STARTS_AT = 1710273469 + 30 minutes;
+    uint    internal constant FIRST_DRAW_STARTS_AT = 1710343791 + 30 minutes;
     uint32  internal constant DRAW_PERIOD_SECONDS = 2 hours;
     uint24  internal constant GRAND_PRIZE_PERIOD_DRAWS = 84;
     uint8   internal constant MIN_NUMBER_OF_TIERS = 4;
@@ -75,6 +75,10 @@ abstract contract Constants {
     // Liquidation Pair
     uint104 internal constant ONE_POOL = 1e18;
     uint104 internal constant ONE_WETH = 1e18;
+    uint104 internal constant ONE_DAI = 1e18;
+    uint104 internal constant ONE_USDC = 1e6;
+    uint104 internal constant ONE_GUSD = 1e2;
+    uint104 internal constant ONE_WBTC = 1e8;
 
     // Twab
     // nice round fraction of the draw period
@@ -96,6 +100,7 @@ abstract contract Constants {
 
     // Token prices in USD
     uint8 MARKET_RATE_DECIMALS = 8;
+    uint256 internal constant E8 = 1e8;
     uint256 internal constant USD_PER_USDC_E8 = 1e8;
     uint256 internal constant USD_PER_ETH_E8 = 3000e8;
     uint256 internal constant USD_PER_POOL_E8 = 0.55e8;
