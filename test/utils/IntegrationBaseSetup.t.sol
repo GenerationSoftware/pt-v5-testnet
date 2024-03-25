@@ -12,9 +12,9 @@ import { convert } from "prb-math/SD59x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSource.sol";
-import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
-import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
-import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
+import { TpdaLiquidationPair } from "pt-v5-tpda-liquidator/TpdaLiquidationPair.sol";
+import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidationPairFactory.sol";
+import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { PrizeVault } from "pt-v5-vault/PrizeVault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
@@ -40,9 +40,9 @@ contract IntegrationBaseSetup is Test {
     ERC20Mock public underlyingAsset;
     ERC20Mock public prizeToken;
 
-    LiquidationRouter public liquidationRouter;
-    LiquidationPairFactory internal liquidationPairFactory;
-    LiquidationPair public liquidationPair;
+    TpdaLiquidationRouter public liquidationRouter;
+    TpdaLiquidationPairFactory internal liquidationPairFactory;
+    TpdaLiquidationPair public liquidationPair;
 
     Claimer public claimer;
     PrizePool public prizePool;
@@ -109,29 +109,19 @@ contract IntegrationBaseSetup is Test {
             address(this)
         );
 
-        liquidationPairFactory = new LiquidationPairFactory();
+        liquidationPairFactory = new TpdaLiquidationPairFactory();
 
-        uint128 _virtualReserveIn = 10e18;
-        uint128 _virtualReserveOut = 5e18;
-
-        // this is approximately the maximum decay constant, as the CGDA formula requires computing e^(decayConstant * time).
-        // since the data type is SD59x18 and e^134 ~= 1e58, we can divide 134 by the draw period to get the max decay constant.
-        SD59x18 _decayConstant = convert(130).div(convert(int(uint(drawPeriodSeconds))));
         liquidationPair = liquidationPairFactory.createPair(
             ILiquidationSource(vault),
             address(prizeToken),
             address(vault),
-            drawPeriodSeconds,
-            uint32(drawStartsAt),
-            uint32(drawPeriodSeconds / 2),
-            _decayConstant,
-            uint104(_virtualReserveIn),
-            uint104(_virtualReserveOut),
-            _virtualReserveOut // just make it up
+            uint32(drawPeriodSeconds / 4),
+            1e18,
+            0
         );
 
         vault.setLiquidationPair(address(liquidationPair));
 
-        liquidationRouter = new LiquidationRouter(liquidationPairFactory);
+        liquidationRouter = new TpdaLiquidationRouter(liquidationPairFactory);
     }
 }

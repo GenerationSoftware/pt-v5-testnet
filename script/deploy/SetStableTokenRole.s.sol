@@ -6,6 +6,12 @@ import { MarketRate } from "../../src/MarketRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
+import { 
+    DAI_SYMBOL,
+    USDC_SYMBOL,
+    GUSD_SYMBOL
+} from "./Constants.sol";
+
 contract SetStableTokenRole is Helpers {
     function run() public {
         vm.startBroadcast();

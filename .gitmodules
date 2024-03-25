@@ -51,3 +51,6 @@
 [submodule "lib/pt-v5-rng-blockhash"]
 	path = lib/pt-v5-rng-blockhash
 	url = https://github.com/GenerationSoftware/pt-v5-rng-blockhash
+[submodule "lib/pt-v5-tpda-liquidator"]
+	path = lib/pt-v5-tpda-liquidator
+	url = https://github.com/generationsoftware/pt-v5-tpda-liquidator

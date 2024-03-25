@@ -10,9 +10,9 @@ import { sd1x18 } from "prb-math/SD1x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSource.sol";
-import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
-import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
-import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
+import { TpdaLiquidationPair } from "pt-v5-tpda-liquidator/TpdaLiquidationPair.sol";
+import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidationPairFactory.sol";
+import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { VaultBooster } from "pt-v5-vault-boost/VaultBooster.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
@@ -20,6 +20,20 @@ import { PrizeVaultMintRate } from "../../src/PrizeVaultMintRate.sol";
 import { ERC20, YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
+
+import {
+    ONE_WETH,
+    ONE_DAI,
+    ONE_USDC,
+    ONE_GUSD,
+    ONE_WBTC,
+    USD_PER_ETH_E8,
+    USD_PER_DAI_E8,
+    USD_PER_USDC_E8,
+    USD_PER_GUSD_E8,
+    USD_PER_WBTC_E8,
+    E8
+} from "./Constants.sol";
 
 contract DeployVault is Helpers {
     function _deployVault(
@@ -62,18 +76,14 @@ contract DeployVault is Helpers {
         PrizeVaultMintRate _vault,
         uint104 _tokenOutPerWeth,
         uint104 _tokenOutPerUsd
-    ) internal returns (LiquidationPair pair) {
-        pair = _getLiquidationPairFactory().createPair(
+    ) internal returns (TpdaLiquidationPair pair) {
+        pair = _getTpdaLiquidationPairFactory().createPair(
             ILiquidationSource(_vault),
             address(_prizeToken()),
             address(_vault),
-            uint32(_prizePool.drawPeriodSeconds()),
-            uint32(_prizePool.firstDrawOpensAt()),
             _getTargetFirstSaleTime(_prizePool.drawPeriodSeconds()),
-            _getDecayConstant(),
-            uint104(ONE_WETH),
-            uint104(_tokenOutPerWeth),
-            uint104(_tokenOutPerUsd)
+            0.001e18, // 1 thousandth of an ETH
+            0 // no smoothing
         );
     }
 

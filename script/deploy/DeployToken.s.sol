@@ -6,6 +6,14 @@ import { TokenFaucet } from "../../src/TokenFaucet.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
+import {
+    WBTC_SYMBOL,
+    WETH_SYMBOL,
+    POOL_SYMBOL,
+    DEFAULT_TOKEN_DECIMAL,
+    WBTC_TOKEN_DECIMAL
+} from "./Constants.sol";
+
 contract DeployToken is Helpers {
     function _deployTokens() internal {
         uint256 _mintAmount = 100_000_000;

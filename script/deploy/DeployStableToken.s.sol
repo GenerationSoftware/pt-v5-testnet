@@ -5,6 +5,16 @@ import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
 import { MarketRate } from "../../src/MarketRate.sol";
 import { TokenFaucet } from "../../src/TokenFaucet.sol";
 
+import { 
+    DAI_SYMBOL,
+    USDC_SYMBOL,
+    GUSD_SYMBOL,
+    DEFAULT_TOKEN_DECIMAL,
+    USDC_TOKEN_DECIMAL,
+    GUSD_TOKEN_DECIMAL,
+    MARKET_RATE_DECIMALS
+} from "./Constants.sol";
+
 import { Helpers } from "../helpers/Helpers.sol";
 
 contract DeployStableToken is Helpers {

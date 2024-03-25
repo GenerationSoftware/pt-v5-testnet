@@ -8,8 +8,8 @@ import { IERC4626 } from "openzeppelin/token/ERC20/extensions/ERC4626.sol";
 
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
-import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
-import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
+import { TpdaLiquidationPair } from "pt-v5-tpda-liquidator/TpdaLiquidationPair.sol";
+import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { PrizeVault } from "pt-v5-vault/PrizeVault.sol";
 import { YieldVault } from "pt-v5-vault-mock/YieldVault.sol";
 
@@ -36,8 +36,8 @@ contract Helpers is Test {
     }
 
     function _liquidate(
-        LiquidationRouter _liquidationRouter,
-        LiquidationPair _liquidationPair,
+        TpdaLiquidationRouter _liquidationRouter,
+        TpdaLiquidationPair _liquidationPair,
         IERC20 _prizeToken,
         uint256 _yield,
         address _user

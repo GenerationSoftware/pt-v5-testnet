@@ -6,6 +6,21 @@ import { MarketRate } from "../../src/MarketRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
+import {
+    DAI_SYMBOL,
+    USDC_SYMBOL,
+    GUSD_SYMBOL,
+    WBTC_SYMBOL,
+    WETH_SYMBOL,
+    POOL_SYMBOL,
+    USD_PER_DAI_E8,
+    USD_PER_USDC_E8,
+    USD_PER_GUSD_E8,
+    USD_PER_WBTC_E8,
+    USD_PER_ETH_E8,
+    USD_PER_POOL_E8
+} from "./Constants.sol";
+
 contract SetTokenPrice is Helpers {
     function _setTokensPrice() internal {
         string memory _denominator = "USD";

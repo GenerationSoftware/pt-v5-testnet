@@ -10,7 +10,7 @@ import { strings } from "solidity-stringutils/strings.sol";
 import { Strings } from "openzeppelin/utils/Strings.sol";
 
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
-import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
+import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidationPairFactory.sol";
 import { PrizePool } from "pt-v5-prize-pool/PrizePool.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 
@@ -23,7 +23,23 @@ import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
 import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
 
-import { Constants } from "../deploy/Constants.sol";
+import {
+    Constants,
+    WETH_SYMBOL,
+    MARKET_RATE_DECIMALS,
+    GOERLI_CHAIN_ID,
+    SEPOLIA_CHAIN_ID,
+    ARBITRUM_GOERLI_CHAIN_ID,
+    OPTIMISM_GOERLI_CHAIN_ID,
+    ARBITRUM_SEPOLIA_CHAIN_ID,
+    OPTIMISM_SEPOLIA_CHAIN_ID,
+    MUMBAI_DEFENDER_ADDRESS,
+    GOERLI_DEFENDER_ADDRESS,
+    GOERLI_DEFENDER_ADDRESS_2,
+    SEPOLIA_DEFENDER_ADDRESS,
+    ARBITRUM_GOERLI_DEFENDER_ADDRESS,
+    OPTIMISM_GOERLI_DEFENDER_ADDRESS
+} from "../deploy/Constants.sol";
 
 // Testnet deployment paths
 string constant ETHEREUM_GOERLI_PATH = "broadcast/Deploy.s.sol/5/";
@@ -342,11 +358,11 @@ abstract contract Helpers is Constants, Script {
         revert("Failed to determine L1 chain ID");
     }
 
-    function _getLiquidationPairFactory() internal returns (LiquidationPairFactory) {
+    function _getTpdaLiquidationPairFactory() internal returns (TpdaLiquidationPairFactory) {
         return
-            LiquidationPairFactory(
+            TpdaLiquidationPairFactory(
                 _getContractAddress(
-                    "LiquidationPairFactory",
+                    "TpdaLiquidationPairFactory",
                     _getDeployPath(DEPLOY_POOL_SCRIPT),
                     "liquidation-pair-factory-not-found"
                 )
@@ -401,33 +417,5 @@ abstract contract Helpers is Constants, Script {
         );
         console2.log("_getYieldVault tokenAddress", tokenAddress);
         return YieldVaultMintRate(tokenAddress);
-    }
-
-    function _getLinkToken() internal view returns (LinkTokenInterface) {
-        if (block.chainid == GOERLI_CHAIN_ID) {
-            // Goerli Ethereum
-            return LinkTokenInterface(GOERLI_LINK_ADDRESS);
-        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
-            // Sepolia Ethereum
-            return LinkTokenInterface(SEPOLIA_LINK_ADDRESS);
-        } else if (block.chainid == 31337) {
-            return LinkTokenInterface(address(GOERLI_LINK_ADDRESS)); // bogus localhost address
-        } else {
-            revert("Link token address not set in `_getLinkToken` for this chain.");
-        }
-    }
-
-    function _getVrfV2Wrapper() internal view returns (VRFV2Wrapper) {
-        if (block.chainid == GOERLI_CHAIN_ID) {
-            // Goerli Ethereum
-            return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS));
-        } else if (block.chainid == SEPOLIA_CHAIN_ID) {
-            // Sepolia Ethereum
-            return VRFV2Wrapper(address(SEPOLIA_VRFV2_WRAPPER_ADDRESS));
-        } else if (block.chainid == 31337) {
-            return VRFV2Wrapper(address(GOERLI_VRFV2_WRAPPER_ADDRESS)); // bogus localhost address
-        } else {
-            revert("VRF V2 Wrapper address not set in `_getLinkToken` for this chain.");
-        }
     }
 }

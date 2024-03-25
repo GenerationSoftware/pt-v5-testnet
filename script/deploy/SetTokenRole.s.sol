@@ -6,6 +6,12 @@ import { MarketRate } from "../../src/MarketRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
+import {
+    WBTC_SYMBOL,
+    WETH_SYMBOL,
+    POOL_SYMBOL
+} from "./Constants.sol";
+
 contract SetTokenRole is Helpers {
     function run() public {
         vm.startBroadcast();

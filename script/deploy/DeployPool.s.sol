@@ -11,9 +11,9 @@ import { sd1x18 } from "prb-math/SD1x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { ClaimerFactory } from "pt-v5-claimer/ClaimerFactory.sol";
 import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSource.sol";
-import { LiquidationPair } from "pt-v5-cgda-liquidator/LiquidationPair.sol";
-import { LiquidationPairFactory } from "pt-v5-cgda-liquidator/LiquidationPairFactory.sol";
-import { LiquidationRouter } from "pt-v5-cgda-liquidator/LiquidationRouter.sol";
+import { TpdaLiquidationPair } from "pt-v5-tpda-liquidator/TpdaLiquidationPair.sol";
+import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidationPairFactory.sol";
+import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { PrizeVaultFactory } from "pt-v5-vault/PrizeVaultFactory.sol";
 
 import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
@@ -32,6 +32,27 @@ import { RngBlockhash } from "pt-v5-rng-blockhash/RngBlockhash.sol";
 import { DrawManager } from "pt-v5-draw-manager/DrawManager.sol";
 
 import { ERC20Mintable } from "../../src/ERC20Mintable.sol";
+import {
+    OPTIMISM_SEPOLIA_CHAIN_ID,
+    POOL_SYMBOL,
+    WETH_SYMBOL,
+    TWAB_PERIOD_LENGTH,
+    TIER_LIQUIDITY_UTILIZATION_PERCENT,
+    DRAW_PERIOD_SECONDS,
+    GRAND_PRIZE_PERIOD_DRAWS,
+    MIN_NUMBER_OF_TIERS,
+    TIER_SHARES,
+    CANARY_SHARES,
+    RESERVE_SHARES,
+    DRAW_TIMEOUT,
+    AUCTION_DURATION,
+    AUCTION_TARGET_SALE_TIME,
+    AUCTION_TARGET_FIRST_SALE_FRACTION,
+    AUCTION_MAX_REWARD,
+    CLAIMER_MIN_FEE,
+    CLAIMER_MAX_FEE,
+    CLAIMER_MAX_FEE_PERCENT
+} from "./Constants.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
@@ -48,16 +69,18 @@ contract DeployPool is Helpers {
             _getAuctionOffset() // use auction offset since it's set in the past
         );
 
-        LiquidationPairFactory liquidationPairFactory = new LiquidationPairFactory();
-        new LiquidationRouter(liquidationPairFactory);
+        TpdaLiquidationPairFactory liquidationPairFactory = new TpdaLiquidationPairFactory();
+        new TpdaLiquidationRouter(liquidationPairFactory);
         new PrizeVaultFactory();
 
-        IRng rng = new RngBlockhash();
-        // if (block.chainid == 31337) { // if local chain
-        //     rng = new RngBlockhash();
-        // } else {
-        //     rng = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
-        // }
+        IRng rng;
+        if (block.chainid == OPTIMISM_SEPOLIA_CHAIN_ID) { // if local chain
+            rng = new RngWitnet(IWitnetRandomness(_getWitnetRandomness()));
+        } else {
+            rng = new RngBlockhash();
+        }
+
+        console2.log("created Rng");
 
         PrizePool prizePool = new PrizePool(
             ConstructorParams(
@@ -76,27 +99,30 @@ contract DeployPool is Helpers {
             )
         );
 
+        console2.log("created PrizePool");
+
         FeeBurner feeBurner = new FeeBurner(
             prizePool,
             address(poolToken),
             msg.sender
         );
 
-        uint128 wEthPerPool = _getExchangeRate(USD_PER_ETH_E8, 0);
-        LiquidationPair feeBurnerPair = liquidationPairFactory.createPair(
+        console2.log("created FeeBurner");
+
+        TpdaLiquidationPair feeBurnerPair = liquidationPairFactory.createPair(
             feeBurner,
             address(poolToken),
             address(prizeToken),
-            uint32(prizePool.drawPeriodSeconds()),
-            uint32(prizePool.firstDrawOpensAt()),
             _getTargetFirstSaleTime(prizePool.drawPeriodSeconds()),
-            _getDecayConstant(),
-            uint104(wEthPerPool),
-            uint104(ONE_POOL),
-            uint104(ONE_POOL) // Assume min is 1 POOL worth of the token
+            1e18, // 1 POOL
+            0.95e18 // heavy smoothing
         );
 
+        console2.log("created FeeBurnerPair");
+
         feeBurner.setLiquidationPair(address(feeBurnerPair));
+
+        console2.log("set liquidation pair");
 
         DrawManager drawManager = new DrawManager(
             prizePool,
@@ -109,7 +135,11 @@ contract DeployPool is Helpers {
             address(feeBurner)
         );
 
+        console2.log("created DrawManager");
+
         prizePool.setDrawManager(address(drawManager));
+
+        console2.log("set DrawManager");
 
         ClaimerFactory claimerFactory = new ClaimerFactory();
         claimerFactory.createClaimer(
@@ -119,6 +149,8 @@ contract DeployPool is Helpers {
             _getClaimerTimeToReachMaxFee(),
             CLAIMER_MAX_FEE_PERCENT
         );
+
+        console2.log("create CLAIMER");
 
         vm.stopBroadcast();
     }

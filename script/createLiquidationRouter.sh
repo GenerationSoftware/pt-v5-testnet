@@ -4,4 +4,4 @@ forge create \
     --private-key $PRIVATE_KEY \
     --etherscan-api-key $OPTIMISM_ETHERSCAN_API_KEY \
     --verify \
-    lib/pt-v5-cgda-liquidator/src/LiquidationRouter.sol:LiquidationRouter
+    lib/pt-v5-tpda-liquidator/src/TpdaLiquidationRouter.sol:TpdaLiquidationRouter

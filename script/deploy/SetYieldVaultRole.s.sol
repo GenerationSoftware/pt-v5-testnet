@@ -6,6 +6,14 @@ import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
 import { Helpers } from "../helpers/Helpers.sol";
 
+import {
+    DAI_SYMBOL,
+    USDC_SYMBOL,
+    GUSD_SYMBOL,
+    WBTC_SYMBOL,
+    WETH_SYMBOL
+} from "./Constants.sol";
+
 contract SetYieldVaultRole is Helpers {
     function _setYieldVaultsRole() internal {
         /* DAI */
