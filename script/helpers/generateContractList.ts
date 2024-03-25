@@ -112,8 +112,8 @@ export const generateContractList = (
           // Set contract info to the created contract
           transactionType = "CREATE";
           contractAddress = createdContract.address;
-          if (contractName.endsWith("LiquidationPairFactory")) {
-            contractName = "LiquidationPair";
+          if (contractName.endsWith("TpdaLiquidationPairFactory")) {
+            contractName = "TpdaLiquidationPair";
           } else if (contractName.endsWith("ClaimerFactory")) {
             contractName = "Claimer";
           }

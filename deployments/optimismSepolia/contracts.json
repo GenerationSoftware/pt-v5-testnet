@@ -5,11 +5,11 @@
     "minor": 0,
     "patch": 0
   },
-  "timestamp": "2024-03-13T16:03:28.886Z",
+  "timestamp": "2024-03-25T22:39:51.652Z",
   "contracts": [
     {
       "chainId": 11155420,
-      "address": "0x54Ffd74e428ef58FAC9D482E1f74bf3a333DEd7f",
+      "address": "0x48f96e3F00a1F2703a0Aa1494186375c6F16e4fD",
       "version": {
         "major": 1,
         "minor": 0,
@@ -361,7 +361,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x2E07bB630D3E57b3b6c1ADAaA083A27B8d3036a2",
+      "address": "0x22c319d8D70ce238363168DF63F8f9bdd643Dcb9",
       "version": {
         "major": 1,
         "minor": 0,
@@ -386,7 +386,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x34F166839C655F2DcD56638F2CE779fd9B5987a6",
+      "address": "0x8261Cb9519DD1D80B5ce66B0887C6fCEeA8a64eE",
       "version": {
         "major": 1,
         "minor": 0,
@@ -976,7 +976,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xE9CB1A8c3C1b5bcE7c6C0FB15F31A3A56209207F",
+      "address": "0x0E13bF42f927575475894f2d5076a7Ac77060eA0",
       "version": {
         "major": 1,
         "minor": 0,
@@ -1566,7 +1566,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xCe1fe3170d4ACEFBc3d06595EeF3A918F65000c2",
+      "address": "0x493c7081FAab6e5B2d6b18d9311918580e88c6bF",
       "version": {
         "major": 1,
         "minor": 0,
@@ -2156,7 +2156,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x42fd018A6ac84478f28b3f7e322271C83064d737",
+      "address": "0x45bbc6B553D2Afc4d3e376B22f70A67d9a26f819",
       "version": {
         "major": 1,
         "minor": 0,
@@ -2746,7 +2746,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x1bcd630e1303cef37F19743fbFE84b1b14e7750c",
+      "address": "0xD5C2a983D320a881F21Dc68fd89f905Ff1517B2C",
       "version": {
         "major": 1,
         "minor": 0,
@@ -3336,7 +3336,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x264954576Da8496cc0d2216Df81a7D7A38857329",
+      "address": "0x1e62Cf8A2C981B0AE39E0A52A06EA5679186938C",
       "version": {
         "major": 1,
         "minor": 0,
@@ -3926,7 +3926,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xd7a754FCFf13007C8E35aE5c40417432C1918616",
+      "address": "0xB2549f4e7b919004b31925FD4271459273DE8A89",
       "version": {
         "major": 1,
         "minor": 0,
@@ -5095,13 +5095,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5114de3c33458815BaD56B28D32261695490DBf3",
+      "address": "0x0d2AD8f32E94605a9a7E797Ff494D27C691B16Dc",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPairFactory",
+      "type": "TpdaLiquidationPairFactory",
       "abi": [
         {
           "type": "function",
@@ -5117,7 +5117,7 @@
             {
               "name": "",
               "type": "address",
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             }
           ],
           "stateMutability": "view"
@@ -5142,37 +5142,17 @@
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
             }
@@ -5181,7 +5161,7 @@
             {
               "name": "",
               "type": "address",
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             }
           ],
           "stateMutability": "nonpayable"
@@ -5193,7 +5173,7 @@
             {
               "name": "",
               "type": "address",
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             }
           ],
           "outputs": [
@@ -5226,7 +5206,13 @@
               "name": "pair",
               "type": "address",
               "indexed": true,
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
+            },
+            {
+              "name": "source",
+              "type": "address",
+              "indexed": false,
+              "internalType": "contract ILiquidationSource"
             },
             {
               "name": "tokenIn",
@@ -5241,49 +5227,19 @@
               "internalType": "address"
             },
             {
-              "name": "source",
-              "type": "address",
+              "name": "targetAuctionPeriod",
+              "type": "uint256",
               "indexed": false,
-              "internalType": "contract ILiquidationSource"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint32",
-              "indexed": false,
-              "internalType": "uint32"
-            },
-            {
-              "name": "firstPeriodStartsAt",
-              "type": "uint32",
-              "indexed": false,
-              "internalType": "uint32"
-            },
-            {
-              "name": "targetFirstSaleTime",
-              "type": "uint32",
-              "indexed": false,
-              "internalType": "uint32"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "initialAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
+              "internalType": "uint256"
             },
             {
               "name": "minimumAuctionAmount",
+              "type": "uint192",
+              "indexed": false,
+              "internalType": "uint192"
+            },
+            {
+              "name": "smoothingFactor",
               "type": "uint256",
               "indexed": false,
               "internalType": "uint256"
@@ -5295,13 +5251,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xDfCF0c47C5697CDDFADEB7b5CbD29BC6b20c8DD1",
+      "address": "0xB485D92896944D3f8Dd73A1a61371CDaDb1021f5",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationRouter",
+      "type": "TpdaLiquidationRouter",
       "abi": [
         {
           "type": "constructor",
@@ -5309,7 +5265,7 @@
             {
               "name": "liquidationPairFactory_",
               "type": "address",
-              "internalType": "contract LiquidationPairFactory"
+              "internalType": "contract TpdaLiquidationPairFactory"
             }
           ],
           "stateMutability": "nonpayable"
@@ -5349,7 +5305,7 @@
             {
               "name": "_liquidationPair",
               "type": "address",
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             },
             {
               "name": "_receiver",
@@ -5389,7 +5345,7 @@
               "name": "liquidationPairFactory",
               "type": "address",
               "indexed": true,
-              "internalType": "contract LiquidationPairFactory"
+              "internalType": "contract TpdaLiquidationPairFactory"
             }
           ],
           "anonymous": false
@@ -5402,7 +5358,7 @@
               "name": "liquidationPair",
               "type": "address",
               "indexed": true,
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             },
             {
               "name": "sender",
@@ -5467,17 +5423,17 @@
         },
         {
           "type": "error",
-          "name": "UndefinedLiquidationPairFactory",
+          "name": "UndefinedTpdaLiquidationPairFactory",
           "inputs": []
         },
         {
           "type": "error",
-          "name": "UnknownLiquidationPair",
+          "name": "UnknownTpdaLiquidationPair",
           "inputs": [
             {
               "name": "liquidationPair",
               "type": "address",
-              "internalType": "contract LiquidationPair"
+              "internalType": "contract TpdaLiquidationPair"
             }
           ]
         }
@@ -5485,7 +5441,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x2031fc356feec120eFba3BAfA7997d1dfB377Ed4",
+      "address": "0x65741e6C8fbCcD3d4BEC7E2179417236FbD33d3A",
       "version": {
         "major": 1,
         "minor": 0,
@@ -5671,14 +5627,44 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x6907139d4d1D031de631B335f663081DFE52f53c",
+      "address": "0x3a4532a394f322d1b6Af7C88bAB377Fab8F39AaE",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "RngBlockhash",
+      "type": "RngWitnet",
       "abi": [
+        {
+          "type": "constructor",
+          "inputs": [
+            {
+              "name": "_witnetRandomness",
+              "type": "address",
+              "internalType": "contract IWitnetRandomness"
+            }
+          ],
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "estimateRandomizeFee",
+          "inputs": [
+            {
+              "name": "_gasPrice",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
+        },
         {
           "type": "function",
           "name": "getLastRequestId",
@@ -5691,6 +5677,25 @@
             }
           ],
           "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "getRequestor",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract Requestor"
+            }
+          ],
+          "stateMutability": "nonpayable"
         },
         {
           "type": "function",
@@ -5713,6 +5718,19 @@
         },
         {
           "type": "function",
+          "name": "lastRequestId",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint32",
+              "internalType": "uint32"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
           "name": "randomNumber",
           "inputs": [
             {
@@ -5728,12 +5746,18 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
           "name": "requestRandomNumber",
-          "inputs": [],
+          "inputs": [
+            {
+              "name": "rngPaymentAmount",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "requestId",
@@ -5742,8 +5766,13 @@
             },
             {
               "name": "lockBlock",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "cost",
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "payable"
@@ -5753,7 +5782,7 @@
           "name": "requestedAtBlock",
           "inputs": [
             {
-              "name": "rngRequestId",
+              "name": "requestId",
               "type": "uint32",
               "internalType": "uint32"
             }
@@ -5765,12 +5794,55 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "requestors",
+          "inputs": [
+            {
+              "name": "user",
+              "type": "address",
+              "internalType": "address"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract Requestor"
+            }
+          ],
+          "stateMutability": "view"
+        },
+        {
+          "type": "function",
+          "name": "requests",
+          "inputs": [
+            {
+              "name": "requestId",
+              "type": "uint32",
+              "internalType": "uint32"
+            }
+          ],
+          "outputs": [
+            {
+              "name": "lockBlock",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
+          "stateMutability": "view"
         },
         {
           "type": "function",
           "name": "startDraw",
           "inputs": [
+            {
+              "name": "rngPaymentAmount",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
             {
               "name": "_drawManager",
               "type": "address",
@@ -5792,23 +5864,30 @@
           "stateMutability": "payable"
         },
         {
-          "type": "event",
-          "name": "RandomNumberCompleted",
-          "inputs": [
+          "type": "function",
+          "name": "withdraw",
+          "inputs": [],
+          "outputs": [
             {
-              "name": "requestId",
-              "type": "uint32",
-              "indexed": true,
-              "internalType": "uint32"
-            },
-            {
-              "name": "randomNumber",
+              "name": "",
               "type": "uint256",
-              "indexed": false,
               "internalType": "uint256"
             }
           ],
-          "anonymous": false
+          "stateMutability": "nonpayable"
+        },
+        {
+          "type": "function",
+          "name": "witnetRandomness",
+          "inputs": [],
+          "outputs": [
+            {
+              "name": "",
+              "type": "address",
+              "internalType": "contract IWitnetRandomness"
+            }
+          ],
+          "stateMutability": "view"
         },
         {
           "type": "event",
@@ -5825,6 +5904,12 @@
               "type": "address",
               "indexed": true,
               "internalType": "address"
+            },
+            {
+              "name": "cost",
+              "type": "uint256",
+              "indexed": false,
+              "internalType": "uint256"
             }
           ],
           "anonymous": false
@@ -5833,7 +5918,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5e1b40e4249644a7d7589d1197AD0F1628e79FB1",
+      "address": "0x31547D3c38F2F8dC92421C54B173F3B27Ab26EbB",
       "version": {
         "major": 1,
         "minor": 0,
@@ -7744,7 +7829,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x0ec864603017B73918537718EE057BF755ebc878",
+      "address": "0x81b1eF54ad957D03Ebd301582E5ea7fb522D911d",
       "version": {
         "major": 1,
         "minor": 0,
@@ -7993,13 +8078,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xD20777642BA9441D0B7a3f9F53B2ef0255Ec7C31",
+      "address": "0xd781B45644fB5b5D8C76A991DA2365b8272e932D",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -8010,75 +8095,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -8088,50 +8127,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -8143,8 +8143,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -8152,98 +8158,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -8273,7 +8214,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -8307,7 +8248,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -8346,13 +8287,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -8384,294 +8325,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -8686,38 +8339,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0x07DBA6DB0b4c2B65B340C93e751f3694277A5a89",
+      "address": "0x1bEbF92C4502341785DDDe63d2f770954CA38e33",
       "version": {
         "major": 1,
         "minor": 0,
@@ -9341,7 +8968,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x1725Be88e09576A61072030ba1f72854410fd33f",
+      "address": "0xfF4aD3cb82De6e979B9b0b97D6596058dA26Ca81",
       "version": {
         "major": 1,
         "minor": 0,
@@ -9486,7 +9113,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x239d1befb50fcFF353804C6df1579ED0Bbb9dA07",
+      "address": "0x189231eBe184a40A8AFb1659985C6D976729780D",
       "version": {
         "major": 1,
         "minor": 0,
@@ -9950,7 +9577,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4Cf96b676a347E8647eEb6AAeA99F40cA76ed342",
+      "address": "0xeE71a7CdE1bA4896D5Bd7D33DEDEd67D0e8bA534",
       "version": {
         "major": 1,
         "minor": 0,
@@ -10924,7 +10551,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xBfF0113396fed91700A088F993b96B5473EB1497",
+      "address": "0x6F626779fb5AB0F1Bba6EeE45F5D556A796e9341",
       "version": {
         "major": 1,
         "minor": 0,
@@ -11898,7 +11525,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xe661730EC120D78961542bc77f197792b01E7AFC",
+      "address": "0x2332B17419a9F6BA122572Aa820Ba8f8E3D08c20",
       "version": {
         "major": 1,
         "minor": 0,
@@ -12872,7 +12499,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5323ad247241A38e7169D694C58c8d84DE4b43B2",
+      "address": "0x8c2cbfeCd13344E48464c91bF7eA705aDD74D9D8",
       "version": {
         "major": 1,
         "minor": 0,
@@ -13846,7 +13473,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xbe2ca778890B9297d3Db17ae86f548B0E298224e",
+      "address": "0xB1126119dD12Bc11afB35A25D33c19ac60A64d1f",
       "version": {
         "major": 1,
         "minor": 0,
@@ -14820,7 +14447,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x7887F1e815847d896D52fFB10dEdf6eB09e967E9",
+      "address": "0x5C28E1b31E88344606015479a4f2cfF4cB7bfAa1",
       "version": {
         "major": 1,
         "minor": 0,
@@ -15794,7 +15421,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xcC6b662bdf918583d2a5EcF4db1787C438e699dC",
+      "address": "0x9CfC71e201fD7E9F2C758D1cF34D33c9Bd4c32E9",
       "version": {
         "major": 1,
         "minor": 0,
@@ -16768,7 +16395,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x9bf30466636798E60494F94D97c79b0cC19FCbB8",
+      "address": "0x5462aC12B44C10Bb7414Eb65c05501d1A2f8c032",
       "version": {
         "major": 1,
         "minor": 0,
@@ -17821,7 +17448,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5a89c08b7B852A10F237a286F088e548fc24Be50",
+      "address": "0x40F0Be465994cD09D2e9670c624306287e291138",
       "version": {
         "major": 1,
         "minor": 0,
@@ -18874,7 +18501,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xc46f01E86b17d83D46C19a49A058F8c966140A92",
+      "address": "0x9c0a40425013ec920D4942549630C95f33F92743",
       "version": {
         "major": 1,
         "minor": 0,
@@ -19927,7 +19554,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xbb98475f3fB8a2dD98828c52Da7b9B566f056Edd",
+      "address": "0xE1E5A188Ab1C2Bb8CB90A81719533a902D4C109E",
       "version": {
         "major": 1,
         "minor": 0,
@@ -20980,7 +20607,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4a7075f2e19A66017E53D0b683bb388FDF93062B",
+      "address": "0x518966dD5fEb97014B9960D81A6b4919AaFbb443",
       "version": {
         "major": 1,
         "minor": 0,
@@ -22033,7 +21660,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x6A9b9d75ca136795de2A37685497c635965AEc63",
+      "address": "0xAC8132aAb2B3cd0eC1c0DC763C4F5dD18afebb25",
       "version": {
         "major": 1,
         "minor": 0,
@@ -23086,7 +22713,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xDB15BFda7401972e59aBE13827986a53dF5FbA4a",
+      "address": "0xd8a170d10F70c42d8000071DC878e24f42708FC5",
       "version": {
         "major": 1,
         "minor": 0,
@@ -24139,7 +23766,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xB1231d0bdf134b09D92f6d33C651280D3B96F6e3",
+      "address": "0xC5c208DFAE3bA24132070E63aE964bA0D4A81a03",
       "version": {
         "major": 1,
         "minor": 0,
@@ -24826,7 +24453,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x332b1EB2Cc4046954725EbDFB8143fB8354ea9a7",
+      "address": "0x8f8484f30F7A72c8059E6BD709f898606e38DedA",
       "version": {
         "major": 1,
         "minor": 0,
@@ -26729,13 +26356,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x862cfdc2C03B16be4Db912c99B32fb052B511DC2",
+      "address": "0x34BA71d2FCa7D49C581c9c6982C53f1A650158D2",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -26746,75 +26373,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -26824,50 +26405,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -26879,8 +26421,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -26888,98 +26436,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -27009,7 +26492,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -27043,7 +26526,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -27082,13 +26565,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -27120,294 +26603,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -27422,38 +26617,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0xDA0Ed68E7f6E3be3ea5CDCF60D6a1B21074cD9D0",
+      "address": "0x8cb792Db0b04242db01fF6b737F7b799dd41946b",
       "version": {
         "major": 1,
         "minor": 0,
@@ -28092,7 +27261,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x13E37b0Ca8b48fc2818C177c24635F90C1495C5c",
+      "address": "0x5B0182E62Baee8Be36AC15696E5C78A0c89b465F",
       "version": {
         "major": 1,
         "minor": 0,
@@ -29995,13 +29164,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x419CA6D3eab772517B025DCB74C0FAf291768e81",
+      "address": "0x254BC9Bf6d0b951F4573dee0545f588168dA573b",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -30012,75 +29181,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -30090,50 +29213,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -30145,8 +29229,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -30154,98 +29244,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -30275,7 +29300,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -30309,7 +29334,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -30348,13 +29373,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -30386,294 +29411,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -30688,38 +29425,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0x06a6429815D3995cE7D9661A41D8A66A9B814DcD",
+      "address": "0x14Ba0505E33c3A918f7bdA5b4952f32514A29AA9",
       "version": {
         "major": 1,
         "minor": 0,
@@ -31358,7 +30069,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x602d77e900eCD48ac9b51151936Dcc5Efe2e7FaE",
+      "address": "0x383E8D88De4E3999b43C51cA1819516617260e99",
       "version": {
         "major": 1,
         "minor": 0,
@@ -33261,13 +31972,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4e690AA05d9471753cF59F7d59f10B828a081ac5",
+      "address": "0x783EFf635D10cd59852F647686A92708E12Eacdf",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -33278,75 +31989,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -33356,50 +32021,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -33411,8 +32037,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -33420,98 +32052,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -33541,7 +32108,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -33575,7 +32142,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -33614,13 +32181,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -33652,294 +32219,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -33954,38 +32233,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0x4d82776332546efd6F223e26928975e626BB5366",
+      "address": "0x52898323a229125178759781e77170bCcFC115ce",
       "version": {
         "major": 1,
         "minor": 0,
@@ -34624,7 +32877,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xA2B0321B671A83a98Ff1F5a680b700864f57c6e7",
+      "address": "0xe8AD34CB77b8DCE62DEd796DCB10b8f574d6A619",
       "version": {
         "major": 1,
         "minor": 0,
@@ -36527,13 +34780,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x52868fdB5DF8042f3788c43034f56F4CD7D79F8A",
+      "address": "0xe2eeF2B93196251Af25B3Ddf5e5B1C66A918c9BE",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -36544,75 +34797,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -36622,50 +34829,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -36677,8 +34845,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -36686,98 +34860,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -36807,7 +34916,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -36841,7 +34950,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -36880,13 +34989,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -36918,294 +35027,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -37220,38 +35041,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0xA8Fa2e68e9749C4a791DF43779fd6379317F1ceD",
+      "address": "0x4c7Cf351f76B453912371470bE8eA511925cf9B3",
       "version": {
         "major": 1,
         "minor": 0,
@@ -37890,7 +35685,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xd96702995B2bBD78a9A39eF86f4fA5f9704fdC7D",
+      "address": "0x7eb63F62f2E1E4646793D3dA9C1A232A5f5710B5",
       "version": {
         "major": 1,
         "minor": 0,
@@ -39793,13 +37588,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xB2E2624Ce7547FaB0B460B825280ee48E290fF44",
+      "address": "0xDa9F49298ebBa4707BbeC0A7E2979E03eFfE7Bc2",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -39810,75 +37605,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -39888,50 +37637,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -39943,8 +37653,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -39952,98 +37668,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -40073,7 +37724,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -40107,7 +37758,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -40146,13 +37797,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -40184,294 +37835,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -40486,38 +37849,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0xDa403DD119D7Fd143E4f299FF5DB45023bB1223e",
+      "address": "0xfb00B8E4515338d1fb49b27C9a4A02057C8fA783",
       "version": {
         "major": 1,
         "minor": 0,
@@ -41156,7 +38493,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xE77Db9f8b68BC47A82D4F47E68FB57535dF0086e",
+      "address": "0x1B751A1F3b558173DF9832d4564E6B38db7552c6",
       "version": {
         "major": 1,
         "minor": 0,
@@ -43059,13 +40396,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x0fb047D8deb713e7F11F818675EE9D446Fba29bE",
+      "address": "0x729e4DFFfd394e817Be3c23ea5f94919904d601f",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -43076,75 +40413,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -43154,50 +40445,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -43209,8 +40461,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -43218,98 +40476,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -43339,7 +40532,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -43373,7 +40566,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -43412,13 +40605,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -43450,294 +40643,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -43752,38 +40657,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0xabDb7434A004130A497Bd89FE9D9AC9E69e91D4a",
+      "address": "0x118798c0a36Ece5b23b00b7d60DA3EbC43A26666",
       "version": {
         "major": 1,
         "minor": 0,
@@ -44422,7 +41301,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x98CED5d595e8981756f063db8D3c44a6Be9A8F86",
+      "address": "0xf04Aa80EaC0043C8F8328Dd35385aaf2C0ed8E9a",
       "version": {
         "major": 1,
         "minor": 0,
@@ -46325,13 +43204,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x1bb2153644aE16999e0f7e679Ddd0AfFE01B953E",
+      "address": "0xF944b7300D5176fE1e0C199eaE3a5117F8545319",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "LiquidationPair",
+      "type": "TpdaLiquidationPair",
       "abi": [
         {
           "type": "constructor",
@@ -46342,75 +43221,29 @@
               "internalType": "contract ILiquidationSource"
             },
             {
-              "name": "_tokenIn",
+              "name": "__tokenIn",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_tokenOut",
+              "name": "__tokenOut",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_periodLength",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_firstPeriodStartsAt",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_targetFirstSaleTime",
-              "type": "uint32",
-              "internalType": "uint32"
-            },
-            {
-              "name": "_decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "_initialAmountIn",
-              "type": "uint104",
-              "internalType": "uint104"
-            },
-            {
-              "name": "_initialAmountOut",
-              "type": "uint104",
-              "internalType": "uint104"
+              "name": "_targetAuctionPeriod",
+              "type": "uint256",
+              "internalType": "uint256"
             },
             {
               "name": "_minimumAuctionAmount",
+              "type": "uint192",
+              "internalType": "uint192"
+            },
+            {
+              "name": "_smoothingFactor",
               "type": "uint256",
               "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountInForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "amountOutForPeriod",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint104",
-              "internalType": "uint104"
             }
           ],
           "stateMutability": "nonpayable"
@@ -46420,50 +43253,11 @@
           "name": "computeExactAmountIn",
           "inputs": [
             {
-              "name": "_amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "outputs": [
-            {
               "name": "",
               "type": "uint256",
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "decayConstant",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "view"
-        },
-        {
-          "type": "function",
-          "name": "emissionRate",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "firstPeriodStartsAt",
-          "inputs": [],
           "outputs": [
             {
               "name": "",
@@ -46475,8 +43269,14 @@
         },
         {
           "type": "function",
-          "name": "getElapsedTime",
-          "inputs": [],
+          "name": "computeTimeForPrice",
+          "inputs": [
+            {
+              "name": "price",
+              "type": "uint256",
+              "internalType": "uint256"
+            }
+          ],
           "outputs": [
             {
               "name": "",
@@ -46484,98 +43284,33 @@
               "internalType": "uint256"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodEnd",
+          "name": "lastAuctionAt",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint64",
+              "internalType": "uint64"
             }
           ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
-          "name": "getPeriodStart",
+          "name": "lastAuctionPrice",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
+              "type": "uint192",
+              "internalType": "uint192"
             }
           ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "initialPrice",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastAuctionTime",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint48",
-              "internalType": "uint48"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "lastNonZeroAmountOut",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint112",
-              "internalType": "uint112"
-            }
-          ],
-          "stateMutability": "nonpayable"
-        },
-        {
-          "type": "function",
-          "name": "maxAmountIn",
-          "inputs": [],
-          "outputs": [
-            {
-              "name": "",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ],
-          "stateMutability": "nonpayable"
+          "stateMutability": "view"
         },
         {
           "type": "function",
@@ -46605,7 +43340,7 @@
         },
         {
           "type": "function",
-          "name": "periodLength",
+          "name": "smoothingFactor",
           "inputs": [],
           "outputs": [
             {
@@ -46639,7 +43374,7 @@
               "internalType": "address"
             },
             {
-              "name": "_amountOut",
+              "name": "",
               "type": "uint256",
               "internalType": "uint256"
             },
@@ -46678,13 +43413,13 @@
         },
         {
           "type": "function",
-          "name": "targetFirstSaleTime",
+          "name": "targetAuctionPeriod",
           "inputs": [],
           "outputs": [
             {
               "name": "",
-              "type": "uint32",
-              "internalType": "uint32"
+              "type": "uint256",
+              "internalType": "uint256"
             }
           ],
           "stateMutability": "view"
@@ -46716,294 +43451,6 @@
           "stateMutability": "view"
         },
         {
-          "type": "event",
-          "name": "StartedAuction",
-          "inputs": [
-            {
-              "name": "lastNonZeroAmountIn",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastNonZeroAmountOut",
-              "type": "uint104",
-              "indexed": false,
-              "internalType": "uint104"
-            },
-            {
-              "name": "lastAuctionTime",
-              "type": "uint48",
-              "indexed": false,
-              "internalType": "uint48"
-            },
-            {
-              "name": "period",
-              "type": "uint48",
-              "indexed": true,
-              "internalType": "uint48"
-            },
-            {
-              "name": "emissionRate",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "initialPrice",
-              "type": "int256",
-              "indexed": false,
-              "internalType": "SD59x18"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "event",
-          "name": "SwappedExactAmountOut",
-          "inputs": [
-            {
-              "name": "sender",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "receiver",
-              "type": "address",
-              "indexed": true,
-              "internalType": "address"
-            },
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountInMax",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "amountIn",
-              "type": "uint256",
-              "indexed": false,
-              "internalType": "uint256"
-            },
-            {
-              "name": "flashSwapData",
-              "type": "bytes",
-              "indexed": false,
-              "internalType": "bytes"
-            }
-          ],
-          "anonymous": false
-        },
-        {
-          "type": "error",
-          "name": "AmountInZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "AmountOutZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "DecayConstantTooLarge",
-          "inputs": [
-            {
-              "name": "maxDecayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "decayConstant",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "EmissionRateIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "LiquidationSourceZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv18_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_MulDiv_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "y",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "denominator",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Ceil_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Convert_Underflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "int256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Div_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp2_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Exp_InputTooBig",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_InputTooSmall",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "PRBMath_SD59x18_Mul_Overflow",
-          "inputs": [
-            {
-              "name": "x",
-              "type": "int256",
-              "internalType": "SD59x18"
-            },
-            {
-              "name": "y",
-              "type": "int256",
-              "internalType": "SD59x18"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "PurchasePriceIsZero",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "ReceiverIsZero",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "SwapExceedsAvailable",
-          "inputs": [
-            {
-              "name": "amountOut",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "available",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
           "type": "error",
           "name": "SwapExceedsMax",
           "inputs": [
@@ -47018,38 +43465,12 @@
               "internalType": "uint256"
             }
           ]
-        },
-        {
-          "type": "error",
-          "name": "TargetFirstSaleTimeGePeriodLength",
-          "inputs": [
-            {
-              "name": "passedTargetSaleTime",
-              "type": "uint256",
-              "internalType": "uint256"
-            },
-            {
-              "name": "periodLength",
-              "type": "uint256",
-              "internalType": "uint256"
-            }
-          ]
-        },
-        {
-          "type": "error",
-          "name": "TokenInZeroAddress",
-          "inputs": []
-        },
-        {
-          "type": "error",
-          "name": "TokenOutZeroAddress",
-          "inputs": []
         }
       ]
     },
     {
       "chainId": 11155420,
-      "address": "0xcEBc88F73ab6aBFA950d21f8A459AC743EE557BB",
+      "address": "0xa48eD825cDEe5e08931ed6659279734b772EB0B7",
       "version": {
         "major": 1,
         "minor": 0,
