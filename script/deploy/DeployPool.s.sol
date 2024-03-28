@@ -16,16 +16,7 @@ import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidatio
 import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { PrizeVaultFactory } from "pt-v5-vault/PrizeVaultFactory.sol";
 
-import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
-import { VRFV2WrapperInterface } from "chainlink/interfaces/VRFV2WrapperInterface.sol";
-
-import { IRngAuction } from "pt-v5-chainlink-vrf-v2-direct/interfaces/IRngAuction.sol";
-import { ChainlinkVRFV2Direct } from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2Direct.sol";
-import {
-    ChainlinkVRFV2DirectRngAuctionHelper
-} from "pt-v5-chainlink-vrf-v2-direct/ChainlinkVRFV2DirectRngAuctionHelper.sol";
-
-import { FeeBurner } from "pt-v5-fee-burner/FeeBurner.sol";
+import { RewardBurner } from "pt-v5-reward-burner/RewardBurner.sol";
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
 import { RngWitnet, IWitnetRandomness } from "pt-v5-rng-witnet/RngWitnet.sol";
 import { RngBlockhash } from "pt-v5-rng-blockhash/RngBlockhash.sol";
@@ -101,16 +92,15 @@ contract DeployPool is Helpers {
 
         console2.log("created PrizePool");
 
-        FeeBurner feeBurner = new FeeBurner(
+        RewardBurner rewardBurner = new RewardBurner(
             prizePool,
-            address(poolToken),
             msg.sender
         );
 
-        console2.log("created FeeBurner");
+        console2.log("created RewardBurner");
 
-        TpdaLiquidationPair feeBurnerPair = liquidationPairFactory.createPair(
-            feeBurner,
+        TpdaLiquidationPair rewardBurnerPair = liquidationPairFactory.createPair(
+            rewardBurner,
             address(poolToken),
             address(prizeToken),
             _getTargetFirstSaleTime(prizePool.drawPeriodSeconds()),
@@ -118,9 +108,9 @@ contract DeployPool is Helpers {
             0.95e18 // heavy smoothing
         );
 
-        console2.log("created FeeBurnerPair");
+        console2.log("created RewardBurnerPair");
 
-        feeBurner.setLiquidationPair(address(feeBurnerPair));
+        rewardBurner.setLiquidationPair(address(rewardBurnerPair));
 
         console2.log("set liquidation pair");
 
@@ -132,7 +122,7 @@ contract DeployPool is Helpers {
             AUCTION_TARGET_FIRST_SALE_FRACTION,
             AUCTION_TARGET_FIRST_SALE_FRACTION,
             AUCTION_MAX_REWARD,
-            address(feeBurner)
+            address(rewardBurner)
         );
 
         console2.log("created DrawManager");

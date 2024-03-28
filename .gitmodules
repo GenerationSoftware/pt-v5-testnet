@@ -45,3 +45,6 @@
 [submodule "lib/pt-v5-tpda-liquidator"]
 	path = lib/pt-v5-tpda-liquidator
 	url = https://github.com/generationsoftware/pt-v5-tpda-liquidator
+[submodule "lib/pt-v5-reward-burner"]
+	path = lib/pt-v5-reward-burner
+	url = https://github.com/generationsoftware/pt-v5-reward-burner

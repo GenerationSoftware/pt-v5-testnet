@@ -20,9 +20,6 @@ import { TokenFaucet } from "../../src/TokenFaucet.sol";
 import { PrizeVaultMintRate } from "../../src/PrizeVaultMintRate.sol";
 import { YieldVaultMintRate } from "../../src/YieldVaultMintRate.sol";
 
-import { LinkTokenInterface } from "chainlink/interfaces/LinkTokenInterface.sol";
-import { VRFV2Wrapper } from "chainlink/vrf/VRFV2Wrapper.sol";
-
 import {
     Constants,
     WETH_SYMBOL,
