@@ -15,15 +15,9 @@
 [submodule "lib/pt-v5-vault"]
 	path = lib/pt-v5-vault
 	url = https://github.com/generationsoftware/pt-v5-vault
-[submodule "lib/pt-v5-cgda-liquidator"]
-	path = lib/pt-v5-cgda-liquidator
-	url = https://github.com/generationsoftware/pt-v5-cgda-liquidator
 [submodule "lib/pt-v5-claimer"]
 	path = lib/pt-v5-claimer
 	url = https://github.com/generationsoftware/pt-v5-claimer
-[submodule "lib/pt-v5-chainlink-vrf-v2-direct"]
-	path = lib/pt-v5-chainlink-vrf-v2-direct
-	url = https://github.com/GenerationSoftware/pt-v5-chainlink-vrf-v2-direct
 [submodule "lib/pt-v5-twab-controller"]
 	path = lib/pt-v5-twab-controller
 	url = https://github.com/generationsoftware/pt-v5-twab-controller
@@ -42,9 +36,6 @@
 [submodule "lib/pt-v5-draw-manager"]
 	path = lib/pt-v5-draw-manager
 	url = https://github.com/GenerationSoftware/pt-v5-draw-manager
-[submodule "lib/pt-v5-fee-burner"]
-	path = lib/pt-v5-fee-burner
-	url = https://github.com/GenerationSoftware/pt-v5-fee-burner
 [submodule "lib/pt-v5-rng-witnet"]
 	path = lib/pt-v5-rng-witnet
 	url = https://github.com/GenerationSoftware/pt-v5-rng-witnet
