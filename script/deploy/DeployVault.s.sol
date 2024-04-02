@@ -83,7 +83,7 @@ contract DeployVault is Helpers {
             address(_vault),
             _getTargetFirstSaleTime(_prizePool.drawPeriodSeconds()),
             0.001e18, // 1 thousandth of an ETH
-            0 // no smoothing
+            0.8e18 // 80% smoothing
         );
     }
 
