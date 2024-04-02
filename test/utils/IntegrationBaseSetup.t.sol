@@ -83,7 +83,7 @@ contract IntegrationBaseSetup is Test {
                 drawPeriodSeconds, // drawPeriodSeconds
                 drawStartsAt, // drawStartedAt
                 12,
-                uint8(3), // minimum number of tiers
+                uint8(4), // minimum number of tiers
                 100,
                 5,
                 20,
@@ -93,7 +93,7 @@ contract IntegrationBaseSetup is Test {
 
         prizePool.setDrawManager(address(this));
 
-        claimer = new Claimer(prizePool, 0.0001e18, 1000e18, drawPeriodSeconds, ud2x18(0.5e18));
+        claimer = new Claimer(prizePool, drawPeriodSeconds, ud2x18(0.5e18));
 
         yieldVault = new YieldVault(address(underlyingAsset), "PoolTogether aEthDAI Yield (PTaEthDAIY)", "PTaEthDAIY");
 

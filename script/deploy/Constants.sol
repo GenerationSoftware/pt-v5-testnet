@@ -57,8 +57,6 @@ uint32 constant CHAINLINK_CALLBACK_GAS_LIMIT = 60_000;
 uint16 constant CHAINLINK_REQUEST_CONFIRMATIONS = 3;
 
 // Claimer
-uint256 constant CLAIMER_MIN_FEE = 1e5;
-uint256 constant CLAIMER_MAX_FEE = 1e10;
 UD2x18 constant CLAIMER_MAX_FEE_PERCENT = UD2x18.wrap(0.1e18); // 10%
 
 // Draw manager

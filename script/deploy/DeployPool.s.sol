@@ -9,14 +9,15 @@ import { PrizePool, ConstructorParams, SD59x18 } from "pt-v5-prize-pool/PrizePoo
 import { ud2x18 } from "prb-math/UD2x18.sol";
 import { sd1x18 } from "prb-math/SD1x18.sol";
 import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
-import { ClaimerFactory } from "pt-v5-claimer/ClaimerFactory.sol";
+import { ClaimerFactory, Claimer } from "pt-v5-claimer/ClaimerFactory.sol";
 import { ILiquidationSource } from "pt-v5-liquidator-interfaces/ILiquidationSource.sol";
 import { TpdaLiquidationPair } from "pt-v5-tpda-liquidator/TpdaLiquidationPair.sol";
 import { TpdaLiquidationPairFactory } from "pt-v5-tpda-liquidator/TpdaLiquidationPairFactory.sol";
 import { TpdaLiquidationRouter } from "pt-v5-tpda-liquidator/TpdaLiquidationRouter.sol";
 import { PrizeVaultFactory } from "pt-v5-vault/PrizeVaultFactory.sol";
+import { PrizeVault, IERC4626 } from "pt-v5-vault/PrizeVault.sol";
 
-import { RewardBurner } from "pt-v5-reward-burner/RewardBurner.sol";
+import { StakingVault, IERC20 } from "pt-v5-staking-vault/StakingVault.sol";
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
 import { RngWitnet, IWitnetRandomness } from "pt-v5-rng-witnet/RngWitnet.sol";
 import { RngBlockhash } from "pt-v5-rng-blockhash/RngBlockhash.sol";
@@ -40,8 +41,6 @@ import {
     AUCTION_TARGET_SALE_TIME,
     AUCTION_TARGET_FIRST_SALE_FRACTION,
     AUCTION_MAX_REWARD,
-    CLAIMER_MIN_FEE,
-    CLAIMER_MAX_FEE,
     CLAIMER_MAX_FEE_PERCENT
 } from "./Constants.sol";
 
@@ -92,27 +91,32 @@ contract DeployPool is Helpers {
 
         console2.log("created PrizePool");
 
-        RewardBurner rewardBurner = new RewardBurner(
+        ClaimerFactory claimerFactory = new ClaimerFactory();
+        Claimer claimer = claimerFactory.createClaimer(
             prizePool,
-            msg.sender
+            _getClaimerTimeToReachMaxFee(),
+            CLAIMER_MAX_FEE_PERCENT
         );
 
-        console2.log("created RewardBurner");
+        console2.log("create CLAIMER");
 
-        TpdaLiquidationPair rewardBurnerPair = liquidationPairFactory.createPair(
-            rewardBurner,
-            address(poolToken),
-            address(prizeToken),
-            _getTargetFirstSaleTime(prizePool.drawPeriodSeconds()),
-            1e18, // 1 POOL
-            0.95e18 // heavy smoothing
+        StakingVault poolStakingVault = new StakingVault("Staked POOL", "sPOOL", IERC20(address(poolToken)));
+
+        console2.log("create POOL staking vault");
+
+        PrizeVault poolPrizeVault = new PrizeVault(
+            "Prize POOL",
+            "pPOOL",
+            IERC4626(address(poolStakingVault)),
+            prizePool,
+            address(claimer),
+            address(0), // no yield fee recipient
+            0, // 0 yield fee %
+            0, // 0 yield buffer
+            address(0) // no owner
         );
 
-        console2.log("created RewardBurnerPair");
-
-        rewardBurner.setLiquidationPair(address(rewardBurnerPair));
-
-        console2.log("set liquidation pair");
+        console2.log("create POOL prize vault");
 
         DrawManager drawManager = new DrawManager(
             prizePool,
@@ -122,7 +126,7 @@ contract DeployPool is Helpers {
             AUCTION_TARGET_FIRST_SALE_FRACTION,
             AUCTION_TARGET_FIRST_SALE_FRACTION,
             AUCTION_MAX_REWARD,
-            address(rewardBurner)
+            address(poolPrizeVault)
         );
 
         console2.log("created DrawManager");
@@ -130,17 +134,6 @@ contract DeployPool is Helpers {
         prizePool.setDrawManager(address(drawManager));
 
         console2.log("set DrawManager");
-
-        ClaimerFactory claimerFactory = new ClaimerFactory();
-        claimerFactory.createClaimer(
-            prizePool,
-            CLAIMER_MIN_FEE,
-            CLAIMER_MAX_FEE,
-            _getClaimerTimeToReachMaxFee(),
-            CLAIMER_MAX_FEE_PERCENT
-        );
-
-        console2.log("create CLAIMER");
 
         vm.stopBroadcast();
     }
