@@ -8,7 +8,7 @@
     "minor": 0,
     "patch": 0
   },
-  "timestamp": "2024-03-28T22:25:18.438Z",
+  "timestamp": "2024-04-02T20:35:30.976Z",
   "tokens": [
     {
       "chainId": 11155420,
@@ -98,13 +98,13 @@
       "chainId": 11155420,
       "address": "0x3e5bC94A341481F742F5f573D341fA2540bC0992",
       "name": "Prize WETH",
-      "decimals": null,
+      "decimals": 18,
       "symbol": "pWETH-T",
       "extensions": {
         "underlyingAsset": {
           "address": "0x0845842Ad2DCE40b83EddECf9C67df2C75caB844",
-          "symbol": "100000000000000000000",
-          "name": "0x595806bc53dd4bE760EbbE63D78931A3601aA04b"
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
         }
       }
     }
