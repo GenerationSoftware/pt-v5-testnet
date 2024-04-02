@@ -150,7 +150,11 @@ export const findConstructorArguments = (deploymentPaths: string[], targetContra
         arguments: deployArguments,
         additionalContracts,
       } = transactions[i];
-      if (contractAddress === targetContractAddress) {
+
+      if (
+        transactionType === "CREATE" &&
+        contractAddress === targetContractAddress
+      ) {
         result = deployArguments;
         break;
       }
