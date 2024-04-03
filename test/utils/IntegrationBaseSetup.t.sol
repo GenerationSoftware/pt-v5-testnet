@@ -93,7 +93,7 @@ contract IntegrationBaseSetup is Test {
 
         prizePool.setDrawManager(address(this));
 
-        claimer = new Claimer(prizePool, drawPeriodSeconds, ud2x18(0.5e18));
+        claimer = new Claimer(prizePool, drawPeriodSeconds, ud2x18(0.1e18));
 
         yieldVault = new YieldVault(address(underlyingAsset), "PoolTogether aEthDAI Yield (PTaEthDAIY)", "PTaEthDAIY");
 
