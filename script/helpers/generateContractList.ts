@@ -187,7 +187,12 @@ export const generateVaultList = (
   contractList.contracts.filter((contract) => contract.type === "PrizeVault").forEach((contract) => {
     const args = findConstructorArguments(deploymentPaths, contract.address);
     const yieldVaultAddress = args[2];
-    const assetAddress = findConstructorArguments(deploymentPaths, yieldVaultAddress)[0];
+    const yieldVaultArgs = findConstructorArguments(deploymentPaths, yieldVaultAddress);
+    let assetAddress = yieldVaultArgs[0];
+    if (yieldVaultArgs.length == 3) {
+      // staking vault
+      assetAddress = yieldVaultArgs[2];
+    }
     const assetArguments = findConstructorArguments(deploymentPaths, assetAddress);
     vaultList.tokens.push({
       chainId: contract.chainId,
@@ -231,13 +236,7 @@ function stripQuotes(str) {
 
 export function getDeploymentPaths(chainId: number) {
   return [
-    `${rootFolder}/broadcast/DeployStableToken.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployToken.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployPool.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployYieldVault.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployTwabDelegator.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployTwabRewards.s.sol/${chainId}`,
-    `${rootFolder}/broadcast/DeployVault.s.sol/${chainId}`,
+    `${rootFolder}/broadcast/DeployTestnet.s.sol/${chainId}`
   ];
 }
 

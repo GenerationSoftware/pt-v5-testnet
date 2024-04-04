@@ -11,12 +11,12 @@ import { TwabController } from "pt-v5-twab-controller/TwabController.sol";
 import { YieldVaultMintRate } from "./YieldVaultMintRate.sol";
 
 contract PrizeVaultMintRate is PrizeVault {
-    IERC4626 private immutable _yieldVault;
+    YieldVaultMintRate private immutable _yieldVault;
 
     constructor(
         string memory _name,
         string memory _symbol,
-        IERC4626 yieldVault_,
+        YieldVaultMintRate yieldVault_,
         PrizePool _prizePool,
         address _claimer,
         address _yieldFeeRecipient,
@@ -26,12 +26,12 @@ contract PrizeVaultMintRate is PrizeVault {
         PrizeVault(
             _name,
             _symbol,
-            yieldVault_,
+            IERC4626(address(yieldVault_)),
             _prizePool,
             _claimer,
             _yieldFeeRecipient,
             _yieldFeePercentage,
-            1000,
+            1e5,
             _owner
         )
     {
@@ -40,6 +40,6 @@ contract PrizeVaultMintRate is PrizeVault {
 
     function _mint(address _receiver, uint256 _shares) internal virtual override {
         super._mint(_receiver, _shares);
-        YieldVaultMintRate(address(_yieldVault)).mintRate(); // Updates the accrued yield in the YieldVaultMintRate
+        _yieldVault.mintRate(); // Updates the accrued yield in the YieldVaultMintRate
     }
 }
