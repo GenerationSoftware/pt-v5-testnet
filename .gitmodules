@@ -10,4 +10,4 @@
 [submodule "lib/pt-v5-mainnet"]
 	path = lib/pt-v5-mainnet
 	url = https://github.com/GenerationSoftware/pt-v5-mainnet
-	branch = gen-1268-update-mainnet-deploy-script-with-pool-prize-vault
+	branch = v51
