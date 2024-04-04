@@ -16,3 +16,6 @@ node_modules
 
 # VS Code history
 .history
+
+# Deployment address dump
+config/runs/*
