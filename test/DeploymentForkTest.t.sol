@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import { Test } from "forge-std/Test.sol";
-import { TestnetAddressBook, ERC20Mintable, PrizeVaultMintRate } from "../script/DeployTestnet.s.sol";
+import { TestnetAddressBook, ERC20Mintable, PrizeVaultMintRate, PrizePool } from "../script/DeployTestnet.s.sol";
 import { ILiquidationPair } from "pt-v5-liquidator-interfaces/ILiquidationPair.sol";
 
 /// @notice Runs some basic fork tests against a deployment
@@ -93,6 +93,62 @@ contract LocalForkTest is Test {
         assertEq(prizeVault.liquidatableBalanceOf(address(prizeVault)), liquidBalance - maxAmountOut, "no more liquid balance");
         assertEq(prizeVault.balanceOf(address(this)), amount + maxAmountOut, "received amount out");
         assertEq(addressBook.prizePool.getContributedBetween(address(prizeVault), 1, addressBook.prizePool.getOpenDrawId()), amountIn, "contributed");
+    }
+
+    function testClaim() public {
+        // Make a deposit
+        ERC20Mintable depositAsset = ERC20Mintable(address(addressBook.prizeVault.asset()));
+        vm.startPrank(addressBook.minter);
+        depositAsset.mint(address(this), 1e18);
+        vm.stopPrank();
+        depositAsset.approve(address(addressBook.prizeVault), 1e18);
+        addressBook.prizeVault.deposit(1e18, address(this));
+
+        // Make a contribution
+        ERC20Mintable prizeToken = ERC20Mintable(address(addressBook.prizePool.prizeToken()));
+        vm.startPrank(addressBook.minter);
+        prizeToken.mint(address(addressBook.prizePool), 1e18);
+        vm.stopPrank();
+        addressBook.prizePool.contributePrizeTokens(address(addressBook.prizeVault), 1e18);
+
+        // Award the draw
+        vm.warp(addressBook.prizePool.drawClosesAt(1));
+        vm.startPrank(addressBook.prizePool.drawManager());
+        addressBook.prizePool.awardDraw(12345);
+        vm.stopPrank();
+        assertEq(addressBook.prizePool.getLastAwardedDrawId(), 1);
+
+        // Claim prizes
+        address[] memory winners = new address[](1);
+        winners[0] = address(this);
+        uint32[] memory winnerPrizeIndices = new uint32[](4);
+        winnerPrizeIndices[0] = 0;
+        winnerPrizeIndices[1] = 1;
+        winnerPrizeIndices[2] = 2;
+        winnerPrizeIndices[3] = 3;
+        uint32[][] memory prizeIndices = new uint32[][](1);
+        prizeIndices[0] = winnerPrizeIndices;
+
+        vm.expectEmit(true, true, true, false);
+        emit PrizePool.ClaimedPrize(
+            address(addressBook.prizeVault),
+            address(this),
+            address(this),
+            0,
+            0,
+            0,
+            0,
+            0,
+            address(0)
+        );
+        addressBook.claimer.claimPrizes(
+            addressBook.prizeVault,
+            1,
+            winners,
+            prizeIndices,
+            address(this),
+            0
+        );
     }
 
 }
