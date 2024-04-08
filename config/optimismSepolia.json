@@ -80,13 +80,28 @@
                 "supply": "1000000"
             }
         },
-        "vaults": [
-            "WETH",
-            "USDC",
-            "DAI",
-            "GUSD",
-            "WBTC"
-        ],
+        "vaults": {
+            "pDAI": {
+                "asset_symbol": "DAI",
+                "rate_per_year": "50000000000000000"
+            },
+            "pUSDC": {
+                "asset_symbol": "USDC",
+                "rate_per_year": "100000000000000000"
+            },
+            "pWETH": {
+                "asset_symbol": "WETH",
+                "rate_per_year": "15000000000000000"
+            },
+            "pGUSD": {
+                "asset_symbol": "GUSD",
+                "rate_per_year": "22000000000000000"
+            },
+            "pWBTC": {
+                "asset_symbol": "WBTC",
+                "rate_per_year": "12000000000000000"
+            }
+        },
         "minters": []
     }
 }

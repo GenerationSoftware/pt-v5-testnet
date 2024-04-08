@@ -26,6 +26,12 @@ struct TokenInfo {
     address deployedAddress;
 }
 
+struct VaultInfo {
+    string symbol;
+    string assetSymbol;
+    uint ratePerYear;
+}
+
 struct TestnetConfig {
     // Token Choices
     string prizeTokenSymbol;
@@ -37,8 +43,8 @@ struct TestnetConfig {
     // Token minters
     address[] tokenMinters;
 
-    // Assets to deploy vaults for
-    string[] vaultAssets;
+    // vaults
+    string[] vaultSymbols;
 }
 
 /// @dev Used by the test script to run some fork tests after deployment
@@ -53,6 +59,7 @@ contract DeployTestnet is DeployPrizePool {
 
     TestnetConfig internal testnetConfig;
     mapping (string assetSymbol => TokenInfo) internal tokens;
+    mapping (string vaultSymbol => VaultInfo) internal vaults;
     mapping (string assetSymbol => PrizeVaultMintRate) internal prizeVaults;
 
     constructor() {
@@ -131,24 +138,25 @@ contract DeployTestnet is DeployPrizePool {
 
     function deployPeripherals() public {
         // Vaults & TWAB delegators
-        for (uint i = 0; i < testnetConfig.vaultAssets.length; i++) {
-            TokenInfo memory tokenInfo = tokens[testnetConfig.vaultAssets[i]];
+        for (uint i = 0; i < testnetConfig.vaultSymbols.length; i++) {
+            VaultInfo memory vaultInfo = vaults[testnetConfig.vaultSymbols[i]];
+            TokenInfo memory tokenInfo = tokens[vaultInfo.assetSymbol];
 
             YieldVaultMintRate yieldVault = new YieldVaultMintRate(
                 ERC20Mintable(tokenInfo.deployedAddress),
-                string.concat(tokenInfo.name, " Yield Vault"),
-                string.concat("yv", tokenInfo.symbol),
+                string.concat(vaultInfo.symbol, " Yield Vault"),
+                string.concat("yv", vaultInfo.symbol),
                 msg.sender
             );
             ERC20Mintable(tokenInfo.deployedAddress).grantRole(
                 ERC20Mintable(tokenInfo.deployedAddress).MINTER_ROLE(),
                 address(yieldVault)
             );
-            yieldVault.setRatePerSecond(tokenInfo.initialSupply / 315360000);
+            yieldVault.setRatePerSecond(vaultInfo.ratePerYear / 365 days);
 
             PrizeVaultMintRate prizeVault = new PrizeVaultMintRate(
-                string.concat("Prize ", tokenInfo.name),
-                string.concat("p", tokenInfo.symbol),
+                string.concat("Prize ", vaultInfo.symbol),
+                vaultInfo.symbol,
                 yieldVault,
                 prizePool,
                 claimer,
@@ -211,7 +219,15 @@ contract DeployTestnet is DeployPrizePool {
         }
 
         // Vaults to Deploy
-        testnetConfig.vaultAssets = vm.parseJsonStringArray(file, "$.testnet.vaults");
+        testnetConfig.vaultSymbols = vm.parseJsonKeys(file, "$.testnet.vaults");
+        for (uint i = 0; i < testnetConfig.vaultSymbols.length; i++) {
+            string memory symbol = testnetConfig.vaultSymbols[i];
+            VaultInfo storage info = vaults[symbol];
+
+            info.symbol = symbol;
+            info.assetSymbol = vm.parseJsonString(file, string.concat("$.testnet.vaults.", symbol, ".asset_symbol"));
+            info.ratePerYear = vm.parseJsonUint(file, string.concat("$.testnet.vaults.", symbol, ".rate_per_year"));
+        }
 
         // Token Minters
         testnetConfig.tokenMinters = vm.parseJsonAddressArray(file, "$.testnet.minters");

@@ -56,11 +56,7 @@ contract YieldVaultMintRate is ERC4626, AccessControl {
         ratePerSecond = _ratePerSecond;
     }
 
-    function yield(uint256 amount) external onlyMinterRole {
-        ERC20Mintable(asset()).mint(address(this), amount);
-    }
-
-    function mintRate() external onlyMinterRole _mintRate {}
+    function mintRate() external _mintRate {}
 
     /* ============ Internal Functions ============ */
 
