@@ -18,3 +18,5 @@ pt-v5-claimer/=lib/pt-v5-mainnet/lib/pt-v5-claimer/src/
 pt-v5-rng-blockhash/=lib/pt-v5-rng-blockhash/src/
 pt-v5-twab-delegator/=lib/pt-v5-twab-delegator/src/
 pt-v5-vault-boost/=lib/pt-v5-vault-boost/src/
+
+owner-manager-contracts/=lib/pt-v5-mainnet/lib/pt-v5-vault/lib/owner-manager-contracts/contracts/

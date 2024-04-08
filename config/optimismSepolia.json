@@ -2,12 +2,12 @@
     "prize_pool": {
         "tier_liquidity_utilization_rate": "500000000000000000",
         "draw_period_seconds": "7200",
-        "first_draw_starts_in": "600",
+        "first_draw_starts_in": "1200",
         "grand_prize_period_draws": "91",
         "number_of_tiers": "4",
         "tier_shares": "100",
         "canary_shares": "4",
-        "reserve_shares": "40",
+        "reserve_shares": "30",
         "draw_timeout": "60",
         "prize_token": "0x0000000000000000000000000000000000000000"
     },
@@ -25,7 +25,7 @@
     },
         
     "rng": {
-        "contract": "0xc0ffee84FD3B533C3fA408c993F59828395319A1",
+        "contract": "0xC0FFEE98AD1434aCbDB894BbB752e138c1006fAB",
         "type": "witnet-randomness-v2"
     },
 
