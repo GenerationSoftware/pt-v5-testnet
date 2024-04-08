@@ -8,45 +8,45 @@
     "minor": 0,
     "patch": 0
   },
-  "timestamp": "2024-04-02T20:35:30.976Z",
+  "timestamp": "2024-04-08T19:52:21.882Z",
   "tokens": [
     {
       "chainId": 11155420,
-      "address": "0xFaA0a8f7A7621A0Add12ddcFE940b3c634BD088e",
-      "name": "Prize DAI Low Yield",
+      "address": "0x96ca6EF46cCe037D264064686bbceF350bdb20BB",
+      "name": "Prize POOL",
       "decimals": 18,
-      "symbol": "pDAI-LY-T",
+      "symbol": "pPOOL",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x3eb488d3419496742963437378C2130a2EdcB87d",
-          "symbol": "DAI",
-          "name": "Dai Stablecoin"
+          "address": "0x4D01063e1BCb5fF8515f2C76bD3640D84913021e",
+          "symbol": "POOL",
+          "name": "PoolTogether"
         }
       }
     },
     {
       "chainId": 11155420,
-      "address": "0xaB9f23574e0722b52fF67db1B49A5385066612CB",
-      "name": "Prize DAI High Yield",
+      "address": "0x466Ec3859A8fC7D28f277E4577989fE2F146Fb63",
+      "name": "Prize Wrapped Ether",
       "decimals": 18,
-      "symbol": "pDAI-HY-T",
+      "symbol": "pWETH",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x3eb488d3419496742963437378C2130a2EdcB87d",
-          "symbol": "DAI",
-          "name": "Dai Stablecoin"
+          "address": "0x64cce6945bc557B5952a94FE6c8d8B67625B768F",
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
         }
       }
     },
     {
       "chainId": 11155420,
-      "address": "0x6d02b0CE229ABEe2f155248E66d8E090d3C86BB2",
-      "name": "Prize USDC Low Yield",
+      "address": "0xC751C8277875F71062d62D38b6631b2aD6381cB0",
+      "name": "Prize USD Coin",
       "decimals": 6,
-      "symbol": "pUSDC-LY-T",
+      "symbol": "pUSDC",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x01ce79e045539F560AFa57943DB6CFF3FB097c4b",
+          "address": "0x9bc4e6A065407A58C43AE32E31f5B9a0446F16E1",
           "symbol": "USDC",
           "name": "USD Coin"
         }
@@ -54,27 +54,27 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x0eC4EbfbED7599640e8AA3E76F46BB5A29d42827",
-      "name": "Prize USDC High Yield",
-      "decimals": 6,
-      "symbol": "pUSDC-HY-T",
+      "address": "0xBe9f103B1c8054BAd46C847C8be63de363ba0350",
+      "name": "Prize Dai Stablecoin",
+      "decimals": 18,
+      "symbol": "pDAI",
       "extensions": {
         "underlyingAsset": {
-          "address": "0x01ce79e045539F560AFa57943DB6CFF3FB097c4b",
-          "symbol": "USDC",
-          "name": "USD Coin"
+          "address": "0x20f2429224071366a84190517a507F8394a5d9C1",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
         }
       }
     },
     {
       "chainId": 11155420,
-      "address": "0x14b0c4f45Fe1BcC41DfA1C901D3dD1323735CDF3",
-      "name": "Prize GUSD",
+      "address": "0x53A73FFBA67A4289C7179AD0c6C9398e5EA4C001",
+      "name": "Prize Gemini Dollar",
       "decimals": 2,
-      "symbol": "pGUSD-T",
+      "symbol": "pGUSD",
       "extensions": {
         "underlyingAsset": {
-          "address": "0xF0F496Dc0558E9744963292eFFf344725218B1F5",
+          "address": "0x9EF9CA7648CE352a3424850c974b5a6a4Cb67787",
           "symbol": "GUSD",
           "name": "Gemini Dollar"
         }
@@ -82,29 +82,15 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xbc5405249D568A18C41714D32c9b3bC6521D3DD6",
-      "name": "Prize WBTC",
+      "address": "0x41f65C6bEf231f29618cE3d67a99A69b36968dF2",
+      "name": "Prize Wrapped Bitcoin",
       "decimals": 8,
-      "symbol": "pWBTC-T",
+      "symbol": "pWBTC",
       "extensions": {
         "underlyingAsset": {
-          "address": "0xC21D6c8dD430CC97Aaa58391625B82f4681AE473",
+          "address": "0xB1983e1c287EecB6c1C2747fb4391633d4f34376",
           "symbol": "WBTC",
-          "name": "Wrapped BTC"
-        }
-      }
-    },
-    {
-      "chainId": 11155420,
-      "address": "0x3e5bC94A341481F742F5f573D341fA2540bC0992",
-      "name": "Prize WETH",
-      "decimals": 18,
-      "symbol": "pWETH-T",
-      "extensions": {
-        "underlyingAsset": {
-          "address": "0x0845842Ad2DCE40b83EddECf9C67df2C75caB844",
-          "symbol": "WETH",
-          "name": "Wrapped Ether"
+          "name": "Wrapped Bitcoin"
         }
       }
     }
