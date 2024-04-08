@@ -73,6 +73,11 @@
                 "name": "Wrapped Bitcoin",
                 "decimals": 8,
                 "supply": "100000"
+            },
+            "rETH": {
+                "name": "Rocket Pool ETH",
+                "decimals": 18,
+                "supply": "1000000"
             }
         },
         "vaults": [
