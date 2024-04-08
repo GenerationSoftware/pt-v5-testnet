@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/console2.sol";
-import { DeployPrizePool } from "../lib/pt-v5-mainnet/script/DeployPrizePool.s.sol";
+import { DeployPrizePool, TpdaLiquidationPair, PrizePool } from "../lib/pt-v5-mainnet/script/DeployPrizePool.s.sol";
 
 // RNG
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
@@ -16,6 +16,7 @@ import { TokenFaucet } from "../src/TokenFaucet.sol";
 // Vaults
 import { YieldVaultMintRate, PrizeVaultMintRate } from "../src/PrizeVaultMintRate.sol";
 import { TwabDelegator } from "pt-v5-twab-delegator/TwabDelegator.sol";
+import { Claimer } from "pt-v5-claimer/Claimer.sol";
 
 struct TokenInfo {
     string name;
@@ -40,10 +41,19 @@ struct TestnetConfig {
     string[] vaultAssets;
 }
 
+/// @dev Used by the test script to run some fork tests after deployment
+struct TestnetAddressBook {
+    PrizePool prizePool;
+    PrizeVaultMintRate prizeVault;
+    Claimer claimer;
+    address minter;
+}
+
 contract DeployTestnet is DeployPrizePool {
 
-    TestnetConfig public testnetConfig;
-    mapping (string => TokenInfo) public tokens;
+    TestnetConfig internal testnetConfig;
+    mapping (string assetSymbol => TokenInfo) internal tokens;
+    mapping (string assetSymbol => PrizeVaultMintRate) internal prizeVaults;
 
     constructor() {
         loadTestnetConfig(vm.envString("CONFIG"));
@@ -63,6 +73,23 @@ contract DeployTestnet is DeployPrizePool {
         deployPeripherals();
 
         vm.stopBroadcast();
+
+        // dump some addresses for the fork tests to use
+        string memory addressBookPath = string.concat("config/runs/", vm.toString(block.chainid), "/");
+        vm.createDir(addressBookPath, true);
+        vm.writeFile(
+            string.concat(addressBookPath, "addressBook.txt"),
+            vm.toString(
+                abi.encode(
+                    TestnetAddressBook({
+                        prizePool: prizePool,
+                        prizeVault: prizeVaults["USDC"], // assuming we'll always deploy a USDC test vault
+                        claimer: Claimer(claimer),
+                        minter: msg.sender // should be able to mint any assets
+                    })
+                )
+            )
+        );
     }
 
     function deployRng() public {
@@ -106,12 +133,19 @@ contract DeployTestnet is DeployPrizePool {
         // Vaults & TWAB delegators
         for (uint i = 0; i < testnetConfig.vaultAssets.length; i++) {
             TokenInfo memory tokenInfo = tokens[testnetConfig.vaultAssets[i]];
+
             YieldVaultMintRate yieldVault = new YieldVaultMintRate(
                 ERC20Mintable(tokenInfo.deployedAddress),
                 string.concat(tokenInfo.name, " Yield Vault"),
                 string.concat("yv", tokenInfo.symbol),
                 msg.sender
             );
+            ERC20Mintable(tokenInfo.deployedAddress).grantRole(
+                ERC20Mintable(tokenInfo.deployedAddress).MINTER_ROLE(),
+                address(yieldVault)
+            );
+            yieldVault.setRatePerSecond(tokenInfo.initialSupply / 315360000);
+
             PrizeVaultMintRate prizeVault = new PrizeVaultMintRate(
                 string.concat("Prize ", tokenInfo.name),
                 string.concat("p", tokenInfo.symbol),
@@ -122,7 +156,21 @@ contract DeployTestnet is DeployPrizePool {
                 0,
                 msg.sender
             );
+
+            ERC20Mintable(tokenInfo.deployedAddress).mint(address(prizeVault), prizeVault.yieldBuffer());
+            prizeVaults[tokenInfo.symbol] = prizeVault;
             yieldVault.grantRole(yieldVault.MINTER_ROLE(), address(prizeVault));
+
+            TpdaLiquidationPair lp = liquidationPairFactory.createPair(
+                prizeVault,
+                address(prizePool.prizeToken()),
+                address(prizeVault),
+                prizePool.drawPeriodSeconds() / 2,
+                0.001e18, // 1 thousandth of an ETH
+                0.95e18 // 95% smoothing
+            );
+            prizeVault.setLiquidationPair(address(lp));
+
             new TwabDelegator(
                 string.concat("Staked Prize ", tokenInfo.name),
                 string.concat("stkp", tokenInfo.symbol),
