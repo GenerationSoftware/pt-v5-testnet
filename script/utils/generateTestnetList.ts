@@ -2,7 +2,21 @@ import {
   writeFiles
 } from "../helpers/generateContractList";
 
-writeFiles(11155420, "optimismSepolia");
-writeFiles(420, "optimismGoerli");
-writeFiles(11155111, "sepolia");
-writeFiles(31337, "local");
+export function getDeploymentPaths(chainId: number): string[] {
+  const rootFolder = `${__dirname}/../..`;
+  return [
+    `${rootFolder}/broadcast/DeployTestnet.s.sol/${chainId}`
+  ];
+}
+
+export const rootFolder = `${__dirname}/../..`;
+
+const remap = new Map<string, string>();
+remap["PrizeVaultMintRate"] = "PrizeVault";
+remap["TpdaLiquidationPairFactory_instance"] = "TpdaLiquidationPair";
+remap["ClaimerFactory_instance"] = "Claimer";
+
+writeFiles(rootFolder, getDeploymentPaths(11155420), "optimismSepolia", remap);
+writeFiles(rootFolder, getDeploymentPaths(420), "optimismGoerli", remap);
+writeFiles(rootFolder, getDeploymentPaths(11155111), "sepolia", remap);
+writeFiles(rootFolder, getDeploymentPaths(31337), "local", remap);

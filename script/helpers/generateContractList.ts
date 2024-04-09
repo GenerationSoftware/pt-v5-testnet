@@ -12,20 +12,7 @@ const PACKAGE_VERSION: Version = {
   patch: Number(patchSplit[0]),
 };
 
-export const rootFolder = `${__dirname}/../..`;
-
-const renameType = (type: string) => {
-  switch (type) {
-    case "YieldVaultMintRate":
-      return "YieldVault";
-    case "PrizeVaultMintRate":
-      return "PrizeVault";
-    default:
-      return type;
-  }
-};
-
-const getAbi = (type: string) =>
+const getAbi = (rootFolder: string, type: string) =>
   JSON.parse(
     fs.readFileSync(`${rootFolder}/out/${type}.sol/${type}.json`, "utf8")
   ).abi;
@@ -34,13 +21,18 @@ const getBlob = (path: string) =>
   JSON.parse(fs.readFileSync(`${path}/run-latest.json`, "utf8"));
 
 const formatContract = (
+  rootFolder: string,
   chainId: number,
   name: string,
   address: `0x${string}`,
+  contractNameRemappings: Map<string, string>
 ): Contract => {
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
-  const type = name.split(regex)[0];
+  const splitName = name.split(regex)[0];
+  // console.log("splitname", splitName);
+  // console.log("mapping: ", contractNameRemappings[splitName]);
+  const type = contractNameRemappings[splitName] ? contractNameRemappings[splitName] : splitName;
 
   const defaultContract = {
     chainId,
@@ -50,15 +42,17 @@ const formatContract = (
       minor: Number(version[1]) || 0,
       patch: Number(version[2]) || 0,
     },
-    type: renameType(type),
-    abi: getAbi(type),
+    type: type,
+    abi: getAbi(rootFolder, type),
   };
 
   return defaultContract;
 };
 
 export const generateContractList = (
-  deploymentPaths: string[]
+  rootFolder: string,
+  deploymentPaths: string[],
+  contractNameRemappings: Map<string, string>
 ): ContractList => {
   const contractList: ContractList = {
     name: "Hyperstructure Testnet",
@@ -112,19 +106,19 @@ export const generateContractList = (
           // Set contract info to the created contract
           transactionType = "CREATE";
           contractAddress = createdContract.address;
-          if (contractName.endsWith("TpdaLiquidationPairFactory")) {
-            contractName = "TpdaLiquidationPair";
-          } else if (contractName.endsWith("ClaimerFactory")) {
-            contractName = "Claimer";
-          }
+          console.log(contractName);
+
+          contractName = contractName.split(".sol:")[1] + "_instance";
         }
 
         if (transactionType === "CREATE") {
           contractList.contracts.push(
             formatContract(
+              rootFolder,
               chainId,
               contractName,
-              contractAddress
+              contractAddress,
+              contractNameRemappings
             )
           );
         }
@@ -214,6 +208,7 @@ export const generateVaultList = (
 };
 
 export const writeList = (
+  rootFolder: string,
   list: ContractList | VaultList,
   folderName: string,
   fileName: string
@@ -234,29 +229,29 @@ function stripQuotes(str) {
 }
 
 
-export function getDeploymentPaths(chainId: number) {
-  return [
-    `${rootFolder}/broadcast/DeployTestnet.s.sol/${chainId}`
-  ];
-}
-
-export function writeFiles(chainId: number, chainName: string) {
-  const deploymentPaths = getDeploymentPaths(chainId);
+export function writeFiles(
+  rootFolder: string,
+  deploymentPaths: string[],
+  chainName: string,
+  contractNameRemappings: Map<string, string> = new Map()
+) {
 
   if (!fs.existsSync(deploymentPaths[0])) {
-    console.error(`No files for chainId ${chainId} and chainName ${chainName}`)
+    console.error(`No files for chainName ${chainName}`)
     return;
   }
 
-  const contractList = generateContractList(deploymentPaths);
+  const contractList = generateContractList(rootFolder, deploymentPaths, contractNameRemappings);
 
   writeList(
+    rootFolder,
     contractList,
     `deployments/${chainName}`,
     `contracts`
   );
   
   writeList(
+    rootFolder,
     generateVaultList(
       deploymentPaths,
       contractList
