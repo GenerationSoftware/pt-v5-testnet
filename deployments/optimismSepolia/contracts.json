@@ -5,11 +5,11 @@
     "minor": 0,
     "patch": 0
   },
-  "timestamp": "2024-04-08T23:27:30.223Z",
+  "timestamp": "2024-04-10T00:53:10.997Z",
   "contracts": [
     {
       "chainId": 11155420,
-      "address": "0x3f592F85D4C7779814D43EB01f47375bDfe1a8B3",
+      "address": "0x202bD969fF51647F1d09d2C426010b4366265a77",
       "version": {
         "major": 1,
         "minor": 0,
@@ -330,7 +330,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x516bA8f77785913A7223d5145a8D1896c045E388",
+      "address": "0x9A0472F1B38d22dA48c53cD167DC772C3E26A4d3",
       "version": {
         "major": 1,
         "minor": 0,
@@ -355,7 +355,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x3749e4DA7558BeD9b0819dE7f8C7eFc271Db004e",
+      "address": "0x28Dae98474c0EeDF4Ee74Da5300Dd89dE5466E62",
       "version": {
         "major": 1,
         "minor": 0,
@@ -945,7 +945,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xC923144BB5403c16f05c4D6372bc733d2BD9F9D3",
+      "address": "0x29B652F2998Cc5C0867D281D22524864030E1B4a",
       "version": {
         "major": 1,
         "minor": 0,
@@ -1535,7 +1535,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x22572B83c1618207788dbeab6a121662D2732226",
+      "address": "0x84154f223e766aCDE7943421e634ded30F3552Ee",
       "version": {
         "major": 1,
         "minor": 0,
@@ -2125,7 +2125,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x541B588d1EDc43078931C20Fb62983344F808e8e",
+      "address": "0xCBFFB3495579013859F38555f88990B7ADf66bD6",
       "version": {
         "major": 1,
         "minor": 0,
@@ -2715,7 +2715,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x47233238c2fdB781DCD9e6730c6ca141446207a9",
+      "address": "0xFF00e5a53fD908C0AF52602E58B534a34324210A",
       "version": {
         "major": 1,
         "minor": 0,
@@ -3305,7 +3305,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x221A6Ad60e30C08ae54A993F32c7671AB0cD911b",
+      "address": "0xE9B777aBF1da7Cd028B2Ae6db8722e13f5889234",
       "version": {
         "major": 1,
         "minor": 0,
@@ -3895,7 +3895,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xd4755870194A7CF42143d01cFE37c63d35B65Ee8",
+      "address": "0xA027351Ea5F9A100467fb5142846fd48528103c6",
       "version": {
         "major": 1,
         "minor": 0,
@@ -4485,7 +4485,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x13b2545CD5ED5AE317613330975A31F79b48d8f1",
+      "address": "0x8377A135E970F731076C4418aA705D57eFf24bc3",
       "version": {
         "major": 1,
         "minor": 0,
@@ -5654,7 +5654,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xbaD6266e5293e92a50294Cb17e5558a0Ca859b60",
+      "address": "0x18fC8BB03c41Df6b9B200f1634F0FF94aF386831",
       "version": {
         "major": 1,
         "minor": 0,
@@ -6341,7 +6341,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xb93955267534B5BA4d8cf863a0C15c4D25AdFD6e",
+      "address": "0x12D782074a6c82265A4859A64d67C09eF17ABE73",
       "version": {
         "major": 1,
         "minor": 0,
@@ -6497,7 +6497,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x9522fB3554E114CB5C76F79039661B47534B9dE8",
+      "address": "0x35d1FC753E4bdDf53560F2D9fd6448412b401dAD",
       "version": {
         "major": 1,
         "minor": 0,
@@ -6687,7 +6687,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xd75B2034E9E929B7fD3d643649c5e8f16d8557E4",
+      "address": "0xe0BC7704e4445Fae48CA37e52B1c67Ea255DAB64",
       "version": {
         "major": 1,
         "minor": 0,
@@ -6873,7 +6873,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x23Fc16532B025d2EBF73614b730793715aF56ec7",
+      "address": "0x46151C11e176425864ab85363e3aF69b21EA2cf4",
       "version": {
         "major": 1,
         "minor": 0,
@@ -8853,7 +8853,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xF657e073E9EAd337D2Ba7daBD2952435b78762Da",
+      "address": "0xad20Bd01164397352fe2686063c7Fa00bE40C3C7",
       "version": {
         "major": 1,
         "minor": 0,
@@ -8976,7 +8976,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xF330f18E8B041CA89A94E6C0BE2967611E460903",
+      "address": "0xe0B5C59301e3181Ef2EC5bFC24a085016174186b",
       "version": {
         "major": 1,
         "minor": 0,
@@ -9363,7 +9363,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xEF538b4ca1DbbD034c1aAaF4AA4063cF2E207687",
+      "address": "0x9C27C7208dEF4B0cec517D9ddEFA0100d45259Aa",
       "version": {
         "major": 1,
         "minor": 0,
@@ -10216,7 +10216,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x798A13b071a8AAC2D55109A53a2Ba4230444619d",
+      "address": "0xC1f6251c8b8Ca9Ea535DD297CB9cBFE49EFA6bB0",
       "version": {
         "major": 1,
         "minor": 0,
@@ -12254,7 +12254,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xAc2079496445bcdE8C5bfD33021715aa37CC9A99",
+      "address": "0xB6936CD59824a36303747a08af4E7D51b7528C9d",
       "version": {
         "major": 1,
         "minor": 0,
@@ -12878,13 +12878,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4Db21A0C80e8f2DB86a3A3991386dB432fE9f01b",
+      "address": "0x598eB382d7783785429718A32e7a3f904A4baC45",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "YieldVault",
+      "type": "YieldVaultMintRate",
       "abi": [
         {
           "type": "constructor",
@@ -13839,7 +13839,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5905549D4AC352dd9B3950ca0e0277Ed1284Af73",
+      "address": "0x31e389B46408fF64102741cC59071740c45E6728",
       "version": {
         "major": 1,
         "minor": 0,
@@ -13851,42 +13851,47 @@
           "type": "constructor",
           "inputs": [
             {
-              "name": "_name",
+              "name": "name_",
               "type": "string",
               "internalType": "string"
             },
             {
-              "name": "_symbol",
+              "name": "symbol_",
               "type": "string",
               "internalType": "string"
             },
             {
               "name": "yieldVault_",
               "type": "address",
-              "internalType": "contract YieldVaultMintRate"
+              "internalType": "contract IERC4626"
             },
             {
-              "name": "_prizePool",
+              "name": "prizePool_",
               "type": "address",
               "internalType": "contract PrizePool"
             },
             {
-              "name": "_claimer",
+              "name": "claimer_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeeRecipient",
+              "name": "yieldFeeRecipient_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeePercentage",
+              "name": "yieldFeePercentage_",
               "type": "uint32",
               "internalType": "uint32"
             },
             {
-              "name": "_owner",
+              "name": "yieldBuffer_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "owner_",
               "type": "address",
               "internalType": "address"
             }
@@ -15872,7 +15877,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xc25c4De2A4EbBe8F93e56C8C4a2514901bdBFB2d",
+      "address": "0x109dc98294568bc4b8b675e5e575D30857D3Aa82",
       "version": {
         "major": 1,
         "minor": 0,
@@ -16183,7 +16188,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x5Ba13F1Cbe55CCDf6d7e69964330043F84Ba84BE",
+      "address": "0x682b3145f31E37D2affDaF65a918B2f02C93f627",
       "version": {
         "major": 1,
         "minor": 0,
@@ -17236,13 +17241,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x94Af72970ca8a2F6f5F39135DB53A9e0e2463f90",
+      "address": "0xf7511F2B7aA9991FcCeaD1AFf3619ed3d7B49ecb",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "YieldVault",
+      "type": "YieldVaultMintRate",
       "abi": [
         {
           "type": "constructor",
@@ -18197,7 +18202,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xA18D434e584B24b364B506Cf2B5cc0cEF6bE5d5c",
+      "address": "0xE0462dC45922Ca4D8d50748504B1D383349A25dF",
       "version": {
         "major": 1,
         "minor": 0,
@@ -18209,42 +18214,47 @@
           "type": "constructor",
           "inputs": [
             {
-              "name": "_name",
+              "name": "name_",
               "type": "string",
               "internalType": "string"
             },
             {
-              "name": "_symbol",
+              "name": "symbol_",
               "type": "string",
               "internalType": "string"
             },
             {
               "name": "yieldVault_",
               "type": "address",
-              "internalType": "contract YieldVaultMintRate"
+              "internalType": "contract IERC4626"
             },
             {
-              "name": "_prizePool",
+              "name": "prizePool_",
               "type": "address",
               "internalType": "contract PrizePool"
             },
             {
-              "name": "_claimer",
+              "name": "claimer_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeeRecipient",
+              "name": "yieldFeeRecipient_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeePercentage",
+              "name": "yieldFeePercentage_",
               "type": "uint32",
               "internalType": "uint32"
             },
             {
-              "name": "_owner",
+              "name": "yieldBuffer_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "owner_",
               "type": "address",
               "internalType": "address"
             }
@@ -20230,7 +20240,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x13cC69C44298fb67Acd3Db7b1351eb0f1cF8C739",
+      "address": "0x3d664123e3997A64A4273464EE021AC202C64a1e",
       "version": {
         "major": 1,
         "minor": 0,
@@ -20541,7 +20551,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x62C774Cc487C4387d18c382b9A5B5597e3812e8c",
+      "address": "0x6e4424EB445B08644017C2C248690a2c184c32Ec",
       "version": {
         "major": 1,
         "minor": 0,
@@ -21594,13 +21604,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xD03331c959d81228cFb317Fe02C33183d40F6C19",
+      "address": "0xa36de52eea22B5E340B9Be125870d7fF42Ed3a4f",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "YieldVault",
+      "type": "YieldVaultMintRate",
       "abi": [
         {
           "type": "constructor",
@@ -22555,7 +22565,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x75CA27Bb45d689c18f350592e036EE4E10a68D06",
+      "address": "0x887DB83c6b90B8C6D3a0729e1299C6153220649E",
       "version": {
         "major": 1,
         "minor": 0,
@@ -22567,42 +22577,47 @@
           "type": "constructor",
           "inputs": [
             {
-              "name": "_name",
+              "name": "name_",
               "type": "string",
               "internalType": "string"
             },
             {
-              "name": "_symbol",
+              "name": "symbol_",
               "type": "string",
               "internalType": "string"
             },
             {
               "name": "yieldVault_",
               "type": "address",
-              "internalType": "contract YieldVaultMintRate"
+              "internalType": "contract IERC4626"
             },
             {
-              "name": "_prizePool",
+              "name": "prizePool_",
               "type": "address",
               "internalType": "contract PrizePool"
             },
             {
-              "name": "_claimer",
+              "name": "claimer_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeeRecipient",
+              "name": "yieldFeeRecipient_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeePercentage",
+              "name": "yieldFeePercentage_",
               "type": "uint32",
               "internalType": "uint32"
             },
             {
-              "name": "_owner",
+              "name": "yieldBuffer_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "owner_",
               "type": "address",
               "internalType": "address"
             }
@@ -24588,7 +24603,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x3Da633c7ceA51fEC18B25f63419fD849dd962F92",
+      "address": "0xbA8c88C1db18521022b2523189b6841274547549",
       "version": {
         "major": 1,
         "minor": 0,
@@ -24899,7 +24914,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xE4E26434648629b2ae786cd11c959609C07798ed",
+      "address": "0x5f2bAc73345f59B9534CCAE5d195bdE3F12EEC59",
       "version": {
         "major": 1,
         "minor": 0,
@@ -25952,13 +25967,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xE22824a901d726eC8A2b05878F9fE1a0eFeb3CdC",
+      "address": "0xc0a63E4A0178E211092b37e6c178C5a6D175C96b",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "YieldVault",
+      "type": "YieldVaultMintRate",
       "abi": [
         {
           "type": "constructor",
@@ -26913,7 +26928,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4885D0BEfF59dA38aa8F3d9CC87d18166EBABeCF",
+      "address": "0xF63F5961D9000fD020d02F7DC10d0005dc367C63",
       "version": {
         "major": 1,
         "minor": 0,
@@ -26925,42 +26940,47 @@
           "type": "constructor",
           "inputs": [
             {
-              "name": "_name",
+              "name": "name_",
               "type": "string",
               "internalType": "string"
             },
             {
-              "name": "_symbol",
+              "name": "symbol_",
               "type": "string",
               "internalType": "string"
             },
             {
               "name": "yieldVault_",
               "type": "address",
-              "internalType": "contract YieldVaultMintRate"
+              "internalType": "contract IERC4626"
             },
             {
-              "name": "_prizePool",
+              "name": "prizePool_",
               "type": "address",
               "internalType": "contract PrizePool"
             },
             {
-              "name": "_claimer",
+              "name": "claimer_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeeRecipient",
+              "name": "yieldFeeRecipient_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeePercentage",
+              "name": "yieldFeePercentage_",
               "type": "uint32",
               "internalType": "uint32"
             },
             {
-              "name": "_owner",
+              "name": "yieldBuffer_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "owner_",
               "type": "address",
               "internalType": "address"
             }
@@ -28946,7 +28966,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x23Dc4e84E65D666D91092d1A7D693AE0268C93e5",
+      "address": "0xa7e3fF807680aA8f58B5914e05aab8FC477e5480",
       "version": {
         "major": 1,
         "minor": 0,
@@ -29257,7 +29277,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x4B425fF8c824F9fBD121d20aa4C20534A6780E40",
+      "address": "0xB9Ca8E8CBA19daE96ff556A7ec3e4aB60604A2ca",
       "version": {
         "major": 1,
         "minor": 0,
@@ -30310,13 +30330,13 @@
     },
     {
       "chainId": 11155420,
-      "address": "0xD18cbfB9f71B50410C2494F57576722C194f94Ac",
+      "address": "0xC3Eb614D296960648EC977B031089DD10d8705fa",
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0
       },
-      "type": "YieldVault",
+      "type": "YieldVaultMintRate",
       "abi": [
         {
           "type": "constructor",
@@ -31271,7 +31291,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x21249545298bEfD0064E8e9420b4f8FD8ECB5B6a",
+      "address": "0xa38D7D8Ae70673fBa65142A283b0C3d7De97e783",
       "version": {
         "major": 1,
         "minor": 0,
@@ -31283,42 +31303,47 @@
           "type": "constructor",
           "inputs": [
             {
-              "name": "_name",
+              "name": "name_",
               "type": "string",
               "internalType": "string"
             },
             {
-              "name": "_symbol",
+              "name": "symbol_",
               "type": "string",
               "internalType": "string"
             },
             {
               "name": "yieldVault_",
               "type": "address",
-              "internalType": "contract YieldVaultMintRate"
+              "internalType": "contract IERC4626"
             },
             {
-              "name": "_prizePool",
+              "name": "prizePool_",
               "type": "address",
               "internalType": "contract PrizePool"
             },
             {
-              "name": "_claimer",
+              "name": "claimer_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeeRecipient",
+              "name": "yieldFeeRecipient_",
               "type": "address",
               "internalType": "address"
             },
             {
-              "name": "_yieldFeePercentage",
+              "name": "yieldFeePercentage_",
               "type": "uint32",
               "internalType": "uint32"
             },
             {
-              "name": "_owner",
+              "name": "yieldBuffer_",
+              "type": "uint256",
+              "internalType": "uint256"
+            },
+            {
+              "name": "owner_",
               "type": "address",
               "internalType": "address"
             }
@@ -33304,7 +33329,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x3B269e85AE8834c270F0e09E65A460467b6900dF",
+      "address": "0x2693838A20c1143FD878b7160dB808417d414Ce7",
       "version": {
         "major": 1,
         "minor": 0,
@@ -33615,7 +33640,7 @@
     },
     {
       "chainId": 11155420,
-      "address": "0x981f06895e548330D6d38F3A2F9C0154926de39A",
+      "address": "0xd2b0Db1448096B9F5056Eb95f8Fc58Bd4322f956",
       "version": {
         "major": 1,
         "minor": 0,
