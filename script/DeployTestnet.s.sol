@@ -144,8 +144,8 @@ contract DeployTestnet is DeployPrizePool {
 
             YieldVaultMintRate yieldVault = new YieldVaultMintRate(
                 ERC20Mintable(tokenInfo.deployedAddress),
-                string.concat(vaultInfo.symbol, " Yield Vault"),
-                string.concat("yv", vaultInfo.symbol),
+                string.concat(tokenInfo.symbol, " Yield Vault"),
+                string.concat("yv", tokenInfo.symbol),
                 msg.sender
             );
             ERC20Mintable(tokenInfo.deployedAddress).grantRole(
@@ -155,7 +155,7 @@ contract DeployTestnet is DeployPrizePool {
             yieldVault.setRatePerSecond(vaultInfo.ratePerYear / 365 days);
 
             PrizeVaultMintRate prizeVault = new PrizeVaultMintRate(
-                string.concat("Prize ", vaultInfo.symbol),
+                string.concat("Prize ", tokenInfo.symbol),
                 vaultInfo.symbol,
                 yieldVault,
                 prizePool,
