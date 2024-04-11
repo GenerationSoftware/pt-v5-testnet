@@ -14,7 +14,7 @@
     "clean": "forge clean",
     "compile": "forge compile",
     "----------DEPLOYMENT-SCRIPTS----------": "",
-    "deploy:full": "forge script -vvv script/DeployTestnet.s.sol:DeployTestnet --rpc-url $SCRIPT_RPC_URL --private-key $SCRIPT_PRIVATE_KEY --sender $SCRIPT_SENDER --broadcast $SCRIPT_VERIFY $SCRIPT_ETHERSCAN --priority-gas-price $SCRIPT_PRIORITY_GAS_PRICE && npm run test:deployment",
+    "deploy:full": "forge script -vvv --broadcast script/DeployTestnet.s.sol:DeployTestnet --rpc-url $SCRIPT_RPC_URL --private-key $SCRIPT_PRIVATE_KEY --sender $SCRIPT_SENDER $SCRIPT_VERIFY $SCRIPT_ETHERSCAN --priority-gas-price $SCRIPT_PRIORITY_GAS_PRICE && npm run test:deployment",
     "----------CHAIN-COMMANDS----------": "",
     "deploy:local": "CONFIG=config/localhost.json SCRIPT_RPC_URL=http://localhost:8545 SCRIPT_PRIVATE_KEY=$LOCAL_PRIVATE_KEY SCRIPT_SENDER=$LOCAL_SENDER SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "deploy:localfork": "CONFIG=config/optimismSepolia.json SCRIPT_RPC_URL=http://localhost:8545 SCRIPT_PRIVATE_KEY=$LOCAL_PRIVATE_KEY SCRIPT_SENDER=$LOCAL_SENDER SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
@@ -23,8 +23,7 @@
     "----------ARTIFACT-COMMANDS----------": "",
     "gen:deployments": "ts-node ./script/utils/generateTestnetList.ts",
     "----------TESTING-SCRIPTS-(runs after deployment)----------": "",
-    "test:deployment": "forge test -vvv",
-    "test:local": "SCRIPT_RPC_URL=http://localhost:8545 npm run test:deployment"
+    "test:deployment": "forge test -vvv"
   },
   "devDependencies": {
     "ts-node": "10.9.1"

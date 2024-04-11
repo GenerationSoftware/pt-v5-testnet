@@ -30,8 +30,6 @@ const formatContract = (
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
   const splitName = name.split(regex)[0];
-  // console.log("splitname", splitName);
-  // console.log("mapping: ", contractNameRemappings[splitName]);
   const type = contractNameRemappings[splitName] ? contractNameRemappings[splitName] : splitName;
 
   const defaultContract = {
@@ -106,7 +104,6 @@ export const generateContractList = (
           // Set contract info to the created contract
           transactionType = "CREATE";
           contractAddress = createdContract.address;
-          console.log(contractName);
 
           contractName = contractName.split(".sol:")[1] + "_instance";
         }
