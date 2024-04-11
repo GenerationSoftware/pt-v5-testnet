@@ -191,6 +191,7 @@ contract LocalForkTest is Test {
         addressBook.drawManager.startDraw(address(this), 11);
 
         vm.warp(block.timestamp + addressBook.drawManager.auctionTargetTime());
+        vm.roll(block.number + 1);
         mock_requestedAtBlock(12, block.number);
         addressBook.drawManager.startDraw(address(this), 12);
 

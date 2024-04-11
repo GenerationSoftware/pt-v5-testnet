@@ -23,7 +23,7 @@
     "----------ARTIFACT-COMMANDS----------": "",
     "gen:deployments": "ts-node ./script/utils/generateTestnetList.ts",
     "----------TESTING-SCRIPTS-(runs after deployment)----------": "",
-    "test:deployment": "forge test -vvv --mt test_rngFailure",
+    "test:deployment": "forge test -vvv",
     "test:local": "SCRIPT_RPC_URL=http://localhost:8545 npm run test:deployment"
   },
   "devDependencies": {
