@@ -1,8 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
+import { console2 } from "forge-std/console2.sol";
+
 import { Test } from "forge-std/Test.sol";
 import { TestnetAddressBook, ERC20Mintable, PrizeVaultMintRate, PrizePool } from "../script/DeployTestnet.s.sol";
+import { IERC20 } from "pt-v5-prize-pool/PrizePool.sol";
+import {
+    AlreadyStartedDraw,
+    StaleRngRequest
+} from "pt-v5-draw-manager/DrawManager.sol";
+
 import { ILiquidationPair } from "pt-v5-liquidator-interfaces/ILiquidationPair.sol";
 
 /// @notice Runs some basic fork tests against a deployment
@@ -148,6 +156,86 @@ contract LocalForkTest is Test {
             prizeIndices,
             address(this),
             0
+        );
+    }
+
+    function test_rngFailure() public {
+        // console2.log("1 pendingReserveContributions() ", addressBook.prizePool.pendingReserveContributions());
+        // console2.log("1 reserve() ", addressBook.prizePool.reserve());
+        // console2.log("1 getTotalContributedBetween(1, 1) ", addressBook.prizePool.getTotalContributedBetween(1, 1));
+        // console2.log("1 getTotalContributedBetween(2, 2) ", addressBook.prizePool.getTotalContributedBetween(2, 2));
+
+        IERC20 prizeToken = addressBook.prizePool.prizeToken();
+        deal(address(prizeToken), address(this), 100e18);
+        prizeToken.transfer(address(addressBook.prizePool), 100e18);
+        addressBook.prizePool.contributePrizeTokens(address(addressBook.stakingPrizeVault), 100e18);
+
+        // console2.log("2 pendingReserveContributions() ", addressBook.prizePool.pendingReserveContributions());
+        // console2.log("2 reserve() ", addressBook.prizePool.reserve());
+        // console2.log("2 getTotalContributedBetween(1, 1) ", addressBook.prizePool.getTotalContributedBetween(1, 1));
+        // console2.log("2 getTotalContributedBetween(2, 2) ", addressBook.prizePool.getTotalContributedBetween(2, 2));
+
+        vm.warp(addressBook.prizePool.drawClosesAt(1));
+        assertTrue(addressBook.drawManager.canStartDraw(), "can start draw");
+        
+        vm.warp(block.timestamp + addressBook.drawManager.auctionTargetTime());
+        mock_requestedAtBlock(11, block.number);
+        addressBook.drawManager.startDraw(address(this), 11);
+
+        mock_isRequestFailed(11, false);
+        vm.expectRevert(abi.encodeWithSelector(AlreadyStartedDraw.selector));
+        addressBook.drawManager.startDraw(address(this), 11);
+
+        mock_isRequestFailed(11, true);
+        vm.expectRevert(abi.encodeWithSelector(StaleRngRequest.selector));
+        addressBook.drawManager.startDraw(address(this), 11);
+
+        vm.warp(block.timestamp + addressBook.drawManager.auctionTargetTime());
+        mock_requestedAtBlock(12, block.number);
+        addressBook.drawManager.startDraw(address(this), 12);
+
+        vm.warp(block.timestamp + addressBook.drawManager.auctionTargetTime());
+        mock_isRequestComplete(12, true);
+        mock_randomNumber(12, 12345);
+        addressBook.drawManager.finishDraw(address(this));
+
+        // console2.log("3 pendingReserveContributions() ", addressBook.prizePool.pendingReserveContributions());
+        // console2.log("3 reserve() ", addressBook.prizePool.reserve());
+        // console2.log("3 getTotalContributedBetween(1, 1) ", addressBook.prizePool.getTotalContributedBetween(1, 1));
+        // console2.log("3 getTotalContributedBetween(2, 2) ", addressBook.prizePool.getTotalContributedBetween(2, 2));
+
+
+    }
+
+    function mock_requestedAtBlock(uint32 requestId, uint256 blockNumber) internal {
+        vm.mockCall(
+            address(addressBook.rng),
+            abi.encodeWithSelector(addressBook.rng.requestedAtBlock.selector, requestId),
+            abi.encode(blockNumber)
+        );
+    }
+
+    function mock_isRequestFailed(uint32 requestId, bool failed) internal {
+        vm.mockCall(
+            address(addressBook.rng),
+            abi.encodeWithSelector(addressBook.rng.isRequestFailed.selector, requestId),
+            abi.encode(failed)
+        );
+    }
+
+    function mock_isRequestComplete(uint32 requestId, bool complete) internal {
+        vm.mockCall(
+            address(addressBook.rng),
+            abi.encodeWithSelector(addressBook.rng.isRequestComplete.selector, requestId),
+            abi.encode(complete)
+        );
+    }
+
+    function mock_randomNumber(uint32 requestId, uint256 randomNumber) internal {
+        vm.mockCall(
+            address(addressBook.rng),
+            abi.encodeWithSelector(addressBook.rng.randomNumber.selector, requestId),
+            abi.encode(randomNumber)
         );
     }
 
