@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import "forge-std/console2.sol";
-import { DeployPrizePool, TpdaLiquidationPair, PrizePool } from "../lib/pt-v5-mainnet/script/DeployPrizePool.s.sol";
+import { DeployPrizePool, TpdaLiquidationPair, PrizePool, DrawManager } from "../lib/pt-v5-mainnet/script/DeployPrizePool.s.sol";
 
 // RNG
 import { IRng } from "pt-v5-draw-manager/interfaces/IRng.sol";
@@ -14,7 +14,7 @@ import { ERC20Mintable } from "../src/ERC20Mintable.sol";
 import { TokenFaucet } from "../src/TokenFaucet.sol";
 
 // Vaults
-import { YieldVaultMintRate, PrizeVaultMintRate } from "../src/PrizeVaultMintRate.sol";
+import { YieldVaultMintRate, PrizeVaultMintRate, PrizeVault } from "../src/PrizeVaultMintRate.sol";
 import { TwabDelegator } from "pt-v5-twab-delegator/TwabDelegator.sol";
 import { Claimer } from "pt-v5-claimer/Claimer.sol";
 
@@ -51,7 +51,10 @@ struct TestnetConfig {
 struct TestnetAddressBook {
     PrizePool prizePool;
     PrizeVaultMintRate prizeVault;
+    PrizeVault stakingPrizeVault;
     Claimer claimer;
+    IRng rng;
+    DrawManager drawManager;
     address minter;
 }
 
@@ -91,7 +94,10 @@ contract DeployTestnet is DeployPrizePool {
                     TestnetAddressBook({
                         prizePool: prizePool,
                         prizeVault: prizeVaults["USDC"], // assuming we'll always deploy a USDC test vault
+                        stakingPrizeVault: stakingPrizeVault,
                         claimer: Claimer(claimer),
+                        rng: standardizedRng,
+                        drawManager: drawManager,
                         minter: msg.sender // should be able to mint any assets
                     })
                 )
