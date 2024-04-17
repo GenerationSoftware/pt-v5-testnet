@@ -3,8 +3,8 @@ src = 'src'
 out = 'out'
 test = 'test'
 libs = ['lib']
-solc = "0.8.19"
-fs_permissions = [{ access = "read", path = "./broadcast"}]
+solc = "0.8.24"
+fs_permissions = [{ access = "read", path = "./broadcast"},{ access = "read-write", path = "./config" }]
 gas_reports = ["*"]
 optimizer = true
 via_ir = false

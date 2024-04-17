@@ -12,7 +12,11 @@ deployments/local/*
 
 .DS_Store
 .envrc
+.env
 node_modules
 
 # VS Code history
 .history
+
+# Deployment address dump
+config/runs/*

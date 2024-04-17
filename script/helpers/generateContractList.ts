@@ -12,20 +12,7 @@ const PACKAGE_VERSION: Version = {
   patch: Number(patchSplit[0]),
 };
 
-export const rootFolder = `${__dirname}/../..`;
-
-const renameType = (type: string) => {
-  switch (type) {
-    case "YieldVaultMintRate":
-      return "YieldVault";
-    case "VaultMintRate":
-      return "Vault";
-    default:
-      return type;
-  }
-};
-
-const getAbi = (type: string) =>
+const getAbi = (rootFolder: string, type: string) =>
   JSON.parse(
     fs.readFileSync(`${rootFolder}/out/${type}.sol/${type}.json`, "utf8")
   ).abi;
@@ -33,61 +20,17 @@ const getAbi = (type: string) =>
 const getBlob = (path: string) =>
   JSON.parse(fs.readFileSync(`${path}/run-latest.json`, "utf8"));
 
-const getUnderlyingAsset = (
-  transactions: any,
-  underlyingAssetAddress: string
-) => {
-  const deployArguments = transactions.find(
-    (transaction: { contractAddress: string }) =>
-      transaction.contractAddress === underlyingAssetAddress
-  ).arguments;
-
-  return {
-    name: deployArguments[0],
-    symbol: deployArguments[1],
-    decimals: Number(deployArguments[2]),
-  };
-};
-
-const generateVaultInfo = (
-  transactions: any,
-  chainId: number,
-  address: `0x${string}`,
-  deployArguments: string[]
-): VaultInfo => {
-  const name = deployArguments[1];
-  const underlyingAssetAddress = deployArguments[0] as `0x${string}`;
-  const underlyingAsset = getUnderlyingAsset(
-    transactions,
-    underlyingAssetAddress
-  );
-
-  return {
-    chainId,
-    address,
-    name,
-    decimals: underlyingAsset.decimals,
-    symbol: deployArguments[2],
-    extensions: {
-      underlyingAsset: {
-        address: underlyingAssetAddress,
-        symbol: underlyingAsset.symbol,
-        name: underlyingAsset.name,
-      },
-    },
-  };
-};
-
 const formatContract = (
-  tokenTransactions: any,
+  rootFolder: string,
   chainId: number,
   name: string,
   address: `0x${string}`,
-  deployArguments: string[]
+  contractNameRemappings: Map<string, string>
 ): Contract => {
   const regex = /V[1-9+]((.{0,2}[0-9+]){0,2})$/g;
   const version = name.match(regex)?.[0]?.slice(1).split(".") || [1, 0, 0];
-  const type = name.split(regex)[0];
+  const splitName = name.split(regex)[0];
+  const type = contractNameRemappings[splitName] ? contractNameRemappings[splitName] : splitName;
 
   const defaultContract = {
     chainId,
@@ -97,24 +40,17 @@ const formatContract = (
       minor: Number(version[1]) || 0,
       patch: Number(version[2]) || 0,
     },
-    type: renameType(type),
-    abi: getAbi(type),
+    type: type,
+    abi: getAbi(rootFolder, type),
   };
 
-  if (type === "VaultMintRate") {
-    return {
-      ...defaultContract,
-      tokens: [
-        generateVaultInfo(tokenTransactions, chainId, address, deployArguments),
-      ],
-    };
-  } else {
-    return defaultContract;
-  }
+  return defaultContract;
 };
 
 export const generateContractList = (
-  deploymentPaths: string[]
+  rootFolder: string,
+  deploymentPaths: string[],
+  contractNameRemappings: Map<string, string>
 ): ContractList => {
   const contractList: ContractList = {
     name: "Hyperstructure Testnet",
@@ -168,21 +104,18 @@ export const generateContractList = (
           // Set contract info to the created contract
           transactionType = "CREATE";
           contractAddress = createdContract.address;
-          if (contractName === "LiquidationPairFactory") {
-            contractName = "LiquidationPair";
-          } else if (contractName === "ClaimerFactory") {
-            contractName = "Claimer";
-          }
+
+          contractName = contractName.split(".sol:")[1] + "_instance";
         }
 
         if (transactionType === "CREATE") {
           contractList.contracts.push(
             formatContract(
-              tokenTransactions,
+              rootFolder,
               chainId,
               contractName,
               contractAddress,
-              deployArguments
+              contractNameRemappings
             )
           );
         }
@@ -193,9 +126,46 @@ export const generateContractList = (
   return contractList;
 };
 
+export const findConstructorArguments = (deploymentPaths: string[], targetContractAddress: string): string[] => {
+  let result: string[];
+
+  for (let d = 0; d < deploymentPaths.length; d++) {
+    const deploymentPath = deploymentPaths[d];
+    const deploymentBlob = getBlob(deploymentPath);
+    const transactions = deploymentBlob.transactions;
+
+    for (let i = 0; i < transactions.length; i++) {
+      const {
+        transactionType,
+        contractAddress,
+        arguments: deployArguments,
+        additionalContracts,
+      } = transactions[i];
+
+      if (
+        transactionType === "CREATE" &&
+        contractAddress === targetContractAddress
+      ) {
+        result = deployArguments;
+        break;
+      }
+      if (
+        transactionType == "CALL" &&
+        additionalContracts.length > 0 &&
+        additionalContracts[0].address === targetContractAddress
+      ) {
+        result = deployArguments;
+        break;
+      }
+    }
+  }
+
+  return result;
+};
+
 export const generateVaultList = (
-  vaultDeploymentPath: string,
-  tokenDeploymentPaths: string[]
+  deploymentPaths: string[],
+  contractList: ContractList
 ): VaultList => {
   const vaultList: VaultList = {
     name: "PoolTogether Testnet Vault List",
@@ -205,41 +175,37 @@ export const generateVaultList = (
     tokens: [],
   };
 
-  const { transactions: stableTokenTransactions } = getBlob(
-    tokenDeploymentPaths[0]
-  );
-  let { transactions: tokenTransactions } = getBlob(tokenDeploymentPaths[1]);
-
-  tokenTransactions = stableTokenTransactions.concat(tokenTransactions);
-
-  const vaultDeploymentBlob = getBlob(vaultDeploymentPath);
-  const chainId = vaultDeploymentBlob.chain;
-  const vaultTransactions = vaultDeploymentBlob.transactions;
-
-  vaultTransactions.forEach(
-    ({
-      transactionType,
-      contractName,
-      contractAddress,
-      arguments: deployArguments,
-    }) => {
-      if (transactionType === "CREATE" && contractName === "VaultMintRate") {
-        vaultList.tokens.push(
-          generateVaultInfo(
-            tokenTransactions,
-            chainId,
-            contractAddress,
-            deployArguments
-          )
-        );
-      }
+  contractList.contracts.filter((contract) => contract.type === "PrizeVault").forEach((contract) => {
+    const args = findConstructorArguments(deploymentPaths, contract.address);
+    const yieldVaultAddress = args[2];
+    const yieldVaultArgs = findConstructorArguments(deploymentPaths, yieldVaultAddress);
+    let assetAddress = yieldVaultArgs[0];
+    if (yieldVaultArgs.length == 3) {
+      // staking vault
+      assetAddress = yieldVaultArgs[2];
     }
-  );
+    const assetArguments = findConstructorArguments(deploymentPaths, assetAddress);
+    vaultList.tokens.push({
+      chainId: contract.chainId,
+      address: contract.address,
+      name: stripQuotes(args[0]),
+      decimals: parseInt(assetArguments[2]),
+      symbol: stripQuotes(args[1]),
+      extensions: {
+        underlyingAsset: {
+          address: assetAddress,
+          symbol: stripQuotes(assetArguments[1]),
+          name: stripQuotes(assetArguments[0])
+        }
+      }
+    });
+  })
 
   return vaultList;
 };
 
 export const writeList = (
+  rootFolder: string,
   list: ContractList | VaultList,
   folderName: string,
   fileName: string
@@ -247,10 +213,47 @@ export const writeList = (
   const dirpath = `${rootFolder}/${folderName}`;
 
   fs.mkdirSync(dirpath, { recursive: true });
-  fs.writeFile(`${dirpath}/${fileName}.json`, JSON.stringify(list), (err) => {
+  fs.writeFile(`${dirpath}/${fileName}.json`, JSON.stringify(list, null, 2), (err) => {
     if (err) {
       console.error(err);
       return;
     }
   });
 };
+
+function stripQuotes(str) {
+  return str.replace(/['"]+/g, '');
+}
+
+
+export function writeFiles(
+  rootFolder: string,
+  deploymentPaths: string[],
+  chainName: string,
+  contractNameRemappings: Map<string, string> = new Map()
+) {
+
+  if (!fs.existsSync(deploymentPaths[0])) {
+    console.error(`No files for chainName ${chainName}`)
+    return;
+  }
+
+  const contractList = generateContractList(rootFolder, deploymentPaths, contractNameRemappings);
+
+  writeList(
+    rootFolder,
+    contractList,
+    `deployments/${chainName}`,
+    `contracts`
+  );
+  
+  writeList(
+    rootFolder,
+    generateVaultList(
+      deploymentPaths,
+      contractList
+    ),
+    `deployments/${chainName}`,
+    `vaults`
+  );
+}
