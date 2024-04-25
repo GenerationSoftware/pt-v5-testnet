@@ -20,6 +20,7 @@
     "deploy:localfork": "CONFIG=config/optimismSepolia.json SCRIPT_RPC_URL=http://localhost:8545 SCRIPT_PRIVATE_KEY=$LOCAL_PRIVATE_KEY SCRIPT_SENDER=$LOCAL_SENDER SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "deploy:arbitrumSepolia": "CONFIG=config/arbitrumSepolia.json SCRIPT_RPC_URL=$ARBITRUM_GOERLI_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--etherscan-api-key $ARBITRUM_ETHERSCAN_API_KEY\" SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "deploy:optimismSepolia": "CONFIG=config/optimismSepolia.json SCRIPT_RPC_URL=$OPTIMISM_SEPOLIA_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--etherscan-api-key $OPTIMISM_ETHERSCAN_API_KEY\" SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
+    "deploy:baseSepolia": "CONFIG=config/baseSepolia.json SCRIPT_RPC_URL=$BASE_SEPOLIA_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--etherscan-api-key $BASE_ETHERSCAN_API_KEY\" SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "----------ARTIFACT-COMMANDS----------": "",
     "gen:deployments": "ts-node ./script/utils/generateTestnetList.ts",
     "----------TESTING-SCRIPTS-(runs after deployment)----------": "",
