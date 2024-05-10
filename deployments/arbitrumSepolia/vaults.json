@@ -1,0 +1,70 @@
+{
+  "name": "PoolTogether Testnet Vault List",
+  "keywords": [
+    "pooltogether"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "timestamp": "2024-05-10T00:45:43.025Z",
+  "tokens": [
+    {
+      "chainId": 421614,
+      "address": "0xaab8f5125451c7cc6f9e2d4bd381415e8e38fa29",
+      "name": "Prize POOL",
+      "decimals": 18,
+      "symbol": "pPOOL",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xE02919b18388C666297D24d56CB794C440d33245",
+          "symbol": "POOL",
+          "name": "PoolTogether"
+        }
+      }
+    },
+    {
+      "chainId": 421614,
+      "address": "0xaa7b1d6a8aaf3ec564c071a9ed9f0d4bcb96a797",
+      "name": "Prize DAI",
+      "decimals": 18,
+      "symbol": "pDAI",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x837F6ec55793c49B2994BA703a3D2331649B09EA",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 421614,
+      "address": "0x748c49421687017b9159e32f14d439cd38a156f7",
+      "name": "Prize USDC",
+      "decimals": 6,
+      "symbol": "pUSDC",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x45B32D0C3Cf487e11C3b80AF564878bea83cCe67",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 421614,
+      "address": "0x6528c06563fa390ec67ac13973cd10089aa1d58f",
+      "name": "Prize WETH",
+      "decimals": 18,
+      "symbol": "pWETH",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x1A586a874f7C6ca5C3220C434fb5096dDe2ec3f0",
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
+        }
+      }
+    }
+  ]
+}
