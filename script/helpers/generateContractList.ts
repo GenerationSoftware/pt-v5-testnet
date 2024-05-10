@@ -105,7 +105,7 @@ export const generateContractList = (
           transactionType = "CREATE";
           contractAddress = createdContract.address;
 
-          contractName = contractName.split(".sol:")[1] + "_instance";
+          contractName = contractName + "_instance";
         }
 
         if (transactionType === "CREATE") {
@@ -144,7 +144,7 @@ export const findConstructorArguments = (deploymentPaths: string[], targetContra
 
       if (
         transactionType === "CREATE" &&
-        contractAddress === targetContractAddress
+        contractAddress === targetContractAddress.toLowerCase()
       ) {
         result = deployArguments;
         break;
@@ -152,7 +152,7 @@ export const findConstructorArguments = (deploymentPaths: string[], targetContra
       if (
         transactionType == "CALL" &&
         additionalContracts.length > 0 &&
-        additionalContracts[0].address === targetContractAddress
+        additionalContracts[0].address === targetContractAddress.toLowerCase()
       ) {
         result = deployArguments;
         break;
@@ -174,7 +174,6 @@ export const generateVaultList = (
     timestamp: new Date().toISOString(),
     tokens: [],
   };
-
   contractList.contracts.filter((contract) => contract.type === "PrizeVault").forEach((contract) => {
     const args = findConstructorArguments(deploymentPaths, contract.address);
     const yieldVaultAddress = args[2];
