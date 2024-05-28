@@ -2,13 +2,13 @@
     "prize_pool": {
         "tier_liquidity_utilization_rate": "500000000000000000",
         "draw_period_seconds": "14400",
-        "first_draw_starts_at": "1714082400",
+        "first_draw_starts_at": "1716926400",
         "grand_prize_period_draws": "91",
         "number_of_tiers": "4",
         "tier_shares": "100",
         "canary_shares": "4",
         "reserve_shares": "30",
-        "draw_timeout": "60",
+        "draw_timeout": "91",
         "prize_token": "0x0000000000000000000000000000000000000000"
     },
 
@@ -94,14 +94,6 @@
             "pWETH": {
                 "asset_symbol": "WETH",
                 "rate_per_year": "15000000000000000"
-            },
-            "pGUSD": {
-                "asset_symbol": "GUSD",
-                "rate_per_year": "22000000000000000"
-            },
-            "pWBTC": {
-                "asset_symbol": "WBTC",
-                "rate_per_year": "12000000000000000"
             }
         },
         "minters": []
