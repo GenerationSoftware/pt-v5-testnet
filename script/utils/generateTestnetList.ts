@@ -21,4 +21,5 @@ writeFiles(rootFolder, getDeploymentPaths(84532), "baseSepolia", remap);
 writeFiles(rootFolder, getDeploymentPaths(421614), "arbitrumSepolia", remap);
 writeFiles(rootFolder, getDeploymentPaths(11155111), "sepolia", remap);
 writeFiles(rootFolder, getDeploymentPaths(534351), "scrollSepolia", remap);
+writeFiles(rootFolder, getDeploymentPaths(10200), "gnosisChiado", remap);
 writeFiles(rootFolder, getDeploymentPaths(31337), "local", remap);

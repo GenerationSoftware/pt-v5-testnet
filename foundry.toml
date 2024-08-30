@@ -31,6 +31,7 @@ optimism-sepolia = "${OPTIMISM_SEPOLIA_RPC_URL}"
 base-sepolia = "${BASE_SEPOLIA_RPC_URL}"
 polygon-mumbai = "${POLYGON_MUMBAI_RPC_URL}"
 scroll-sepolia = "${SCROLL_SEPOLIA_RPC_URL}"
+gnosis-chiado = "${GNOSIS_CHIADO_RPC_URL}"
 
 [etherscan]
 mainnet = { key = "${ETHERSCAN_API_KEY}", url = "https://api.etherscan.io/api" }
