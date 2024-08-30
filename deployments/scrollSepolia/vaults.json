@@ -1,0 +1,56 @@
+{
+  "name": "PoolTogether Testnet Vault List",
+  "keywords": [
+    "pooltogether"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "timestamp": "2024-08-30T16:40:01.983Z",
+  "tokens": [
+    {
+      "chainId": 534351,
+      "address": "0xccaac4ee88ac1939aebc8b5c64b25550361ff5dd",
+      "name": "Prize DAI",
+      "decimals": 18,
+      "symbol": "pDAI",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0xc024E95Cf6BB2eFC424C9035Db4647A12d8dCAC9",
+          "symbol": "DAI",
+          "name": "Dai Stablecoin"
+        }
+      }
+    },
+    {
+      "chainId": 534351,
+      "address": "0xed7497bb13f527f3a7306c4b5c721993b98e386c",
+      "name": "Prize USDC",
+      "decimals": 6,
+      "symbol": "pUSDC",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x6F720053319f89c9670234989A5BD807A37d1792",
+          "symbol": "USDC",
+          "name": "USD Coin"
+        }
+      }
+    },
+    {
+      "chainId": 534351,
+      "address": "0x6f36db785ae66c6072883015a375d76341e36d11",
+      "name": "Prize WETH",
+      "decimals": 18,
+      "symbol": "pWETH",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x6B0877bcB4720f094bc13187F5e16bdbf730693a",
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
+        }
+      }
+    }
+  ]
+}

@@ -30,6 +30,7 @@ arbitrum-sepolia = "${ARBITRUM_SEPOLIA_RPC_URL}"
 optimism-sepolia = "${OPTIMISM_SEPOLIA_RPC_URL}"
 base-sepolia = "${BASE_SEPOLIA_RPC_URL}"
 polygon-mumbai = "${POLYGON_MUMBAI_RPC_URL}"
+scroll-sepolia = "${SCROLL_SEPOLIA_RPC_URL}"
 
 [etherscan]
 mainnet = { key = "${ETHERSCAN_API_KEY}", url = "https://api.etherscan.io/api" }
@@ -40,5 +41,6 @@ sepolia = { key = "${ETHERSCAN_API_KEY}", url = "https://api-sepolia.etherscan.i
 arbitrum-sepolia = { key = "${ARBITRUM_ETHERSCAN_API_KEY}", url = "https://api-sepolia.arbiscan.io/api" }
 optimism-sepolia = { key = "${OPTIMISM_ETHERSCAN_API_KEY}", url = "https://api-sepolia-optimistic.etherscan.io/api" }
 base-sepolia = { key = "${BASE_ETHERSCAN_API_KEY}", url = "https://api-sepolia.basescan.org/api" }
+scroll-sepolia = { key = "${SCROLL_ETHERSCAN_API_KEY}", url = "https://api-sepolia.scrollscan.com/api" }
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
