@@ -1,0 +1,42 @@
+{
+  "name": "PoolTogether Testnet Vault List",
+  "keywords": [
+    "pooltogether"
+  ],
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "timestamp": "2024-10-02T15:11:24.121Z",
+  "tokens": [
+    {
+      "chainId": 4801,
+      "address": "0xaaf954c54fae10877bf0a0ba9f5ca6129e13e450",
+      "name": "Prize WLD",
+      "decimals": 18,
+      "symbol": "pWLD",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x8803e47fD253915F9c860837f391Aa71B3e03c5A",
+          "symbol": "WLD",
+          "name": "Worldcoin"
+        }
+      }
+    },
+    {
+      "chainId": 4801,
+      "address": "0xd262c57b43b9198e5375dd28fb6bcfe86557b4e6",
+      "name": "Prize WETH",
+      "decimals": 18,
+      "symbol": "pWETH",
+      "extensions": {
+        "underlyingAsset": {
+          "address": "0x211Db8FbDc34982654e39b1B3a8Ca3EF5c7826EA",
+          "symbol": "WETH",
+          "name": "Wrapped Ether"
+        }
+      }
+    }
+  ]
+}
