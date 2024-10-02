@@ -23,6 +23,7 @@
     "deploy:baseSepolia": "CONFIG=config/baseSepolia.json SCRIPT_RPC_URL=$BASE_SEPOLIA_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--etherscan-api-key $BASE_ETHERSCAN_API_KEY\" SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "deploy:scrollSepolia": "CONFIG=config/scrollSepolia.json SCRIPT_RPC_URL=$SCROLL_SEPOLIA_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--etherscan-api-key $SCROLL_ETHERSCAN_API_KEY\" SCRIPT_PRIORITY_GAS_PRICE=100000 npm run deploy:full",
     "deploy:gnosisChiado": "CONFIG=config/gnosisChiado.json SCRIPT_RPC_URL=$GNOSIS_CHIADO_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_PRIORITY_GAS_PRICE=100 npm run deploy:full",
+    "deploy:worldSepolia": "CONFIG=config/worldSepolia.json SCRIPT_RPC_URL=$WORLD_SEPOLIA_RPC_URL SCRIPT_PRIVATE_KEY=$PRIVATE_KEY SCRIPT_SENDER=$SENDER SCRIPT_VERIFY=--verify SCRIPT_ETHERSCAN=\"--verifier blockscout --verifier-url https://worldchain-sepolia.explorer.alchemy.com/api?\" SCRIPT_PRIORITY_GAS_PRICE=100 npm run deploy:full",
     "----------ARTIFACT-COMMANDS----------": "",
     "gen:deployments": "ts-node ./script/utils/generateTestnetList.ts",
     "----------TESTING-SCRIPTS-(runs after deployment)----------": "",
