@@ -1,8 +1,8 @@
 {
     "prize_pool": {
         "tier_liquidity_utilization_rate": "500000000000000000",
-        "draw_period_seconds": "14400",
-        "first_draw_starts_at": "1713391200",
+        "draw_period_seconds": "86400",
+        "first_draw_starts_at": "1737583200",
         "grand_prize_period_draws": "91",
         "number_of_tiers": "4",
         "tier_shares": "100",
@@ -30,15 +30,15 @@
     },
 
     "draw_manager": {
-        "draw_auction_duration": "3600",
-        "draw_auction_target_sale_time": "1800",
-        "draw_auction_target_first_sale_fraction": "10000000000000000",
-        "draw_auction_max_reward": "10000000000000000",
+        "draw_auction_duration": "10800",
+        "draw_auction_target_sale_time": "3600",
+        "draw_auction_target_first_sale_fraction": "250000000000000000",
+        "draw_auction_max_reward": "33000000000000000",
         "draw_auction_max_retries": "2"
     },
 
     "claimer": {
-        "time_to_reach_max_fee": "3600",
+        "time_to_reach_max_fee": "21600",
         "max_fee_percent": "100000000000000000"
     },
 
@@ -75,11 +75,6 @@
                 "name": "Wrapped Bitcoin",
                 "decimals": 8,
                 "supply": "100000"
-            },
-            "rETH": {
-                "name": "Rocket Pool ETH",
-                "decimals": 18,
-                "supply": "1000000"
             }
         },
         "vaults": {
