@@ -67,6 +67,7 @@ contract DeployTestnet is DeployPrizePool {
 
     constructor() {
         loadTestnetConfig(vm.envString("CONFIG"));
+        config.firstDrawStartsAt = uint48(config.firstDrawStartsAt + block.timestamp);
     }
 
     function run() public override {
